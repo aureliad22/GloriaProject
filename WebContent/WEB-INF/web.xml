@@ -1,42 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
-  <display-name>GloriaProject</display-name>
+  <display-name>GloriaQCM</display-name>
   <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
     <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  
-    <resource-ref>
+  <resource-ref>
     <description>Pool de connexion</description>
     <res-ref-name>jdbc/DSGloria</res-ref-name>
     <res-type>javax.sql.DataSource</res-type>
     <res-auth>Container</res-auth>
     <res-sharing-scope>Shareable</res-sharing-scope>
   </resource-ref>
-  
   <servlet>
     <description>Servlet pour l'authentification d'un utilisateur</description>
-    <display-name>AuthentificationServlet</display-name>
-    <servlet-name>AuthentificationServlet</servlet-name>
-    <servlet-class>fr.eni.gloria.servlets.AuthentificationServlet</servlet-class>
+    <display-name>LoginServlet</display-name>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.LoginServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>AuthentificationServlet</servlet-name>
-    <url-pattern>/AuthentificationServlet</url-pattern>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/Login</url-pattern>
   </servlet-mapping>
-  
-  <filter>
-    <display-name>CandidateFilter</display-name>
-    <filter-name>CandidateFilter</filter-name>
-    <filter-class>fr.eni.gloria.filters.CandidateFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>CandidateFilter</filter-name>
-    <url-pattern>/CandidateFilter</url-pattern>
-  </filter-mapping>
-  
+  <servlet>
+    <description>Servlet en charge de la gestion de l'accueil des candidats.</description>
+    <display-name>CandidateHomeServlet</display-name>
+    <servlet-name>CandidateHomeServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.CandidateHomeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CandidateHomeServlet</servlet-name>
+    <url-pattern>/Home</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>En charge d'afficher les résultats pour un test donné</description>
+    <display-name>ResultatsServlet</display-name>
+    <servlet-name>ResultatsServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.ResultatsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ResultatsServlet</servlet-name>
+    <url-pattern>/Resultats</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>En charge de fournir la liste des tests auquel le candidat est inscrit</description>
+    <display-name>TestsServlet</display-name>
+    <servlet-name>TestsServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.TestsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestsServlet</servlet-name>
+    <url-pattern>/Tests</url-pattern>
+  </servlet-mapping>
 </web-app>
