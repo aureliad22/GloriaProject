@@ -9,4 +9,23 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description>Servlet pour l'authentification d'un utilisateur</description>
+    <display-name>AuthentificationServlet</display-name>
+    <servlet-name>AuthentificationServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.AuthentificationServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AuthentificationServlet</servlet-name>
+    <url-pattern>/AuthentificationServlet</url-pattern>
+  </servlet-mapping>
+  <filter>
+    <display-name>CandidateFilter</display-name>
+    <filter-name>CandidateFilter</filter-name>
+    <filter-class>fr.eni.gloria.filters.CandidateFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>CandidateFilter</filter-name>
+    <url-pattern>/CandidateFilter</url-pattern>
+  </filter-mapping>
 </web-app>
