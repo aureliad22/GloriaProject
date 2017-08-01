@@ -1,0 +1,12 @@
+CREATE PROCEDURE LIST_CANDIDATE
+
+AS
+
+
+BEGIN
+
+    SELECT * from stagiaires
+	
+	
+END;
+

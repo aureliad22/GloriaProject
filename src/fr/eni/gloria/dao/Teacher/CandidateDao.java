@@ -5,6 +5,7 @@
  */
 package fr.eni.gloria.dao.Teacher;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import fr.eni.gloria.beans.Candidate;
+import fr.eni.gloria.beans.Promotion;
+import fr.eni.gloria.utils.AccessBase;
 
 
  /**
@@ -26,15 +29,35 @@ public class CandidateDao {
 	 */
 	public static void ajouter(Candidate candidat) throws Exception{
 		Connection cnx=null;
-		PreparedStatement rqt=null;
+		CallableStatement rqt=null;
+		Promotion promotion = new Promotion();
 
 		try{
 			cnx=AccessBase.getConnection();
-			rqt=cnx.prepareStatement("insert into formations(libelle, debut, fin, description) values (?,?,?,?)");
-			rqt.setString(1, formation.getLibelle());
-			rqt.setDate(2, new java.sql.Date(formation.getDateDebut().getTime()));
-			rqt.setDate(3, new java.sql.Date(formation.getDateFin().getTime()));
-			rqt.setString(4, formation.getDescription());
+			rqt=cnx.prepareCall("{ADD_CANDIDATE()}");
+			rqt.setString(1, candidat.getFirstName());
+			rqt.setString(2, candidat.getLastName());
+			rqt.setString(3, candidat.getEmail());
+			rqt.setString(4, candidat.getLogin());
+			rqt.setString(5, candidat.getPassword());
+			
+			rqt.executeQuery();
+		}finally{
+			if (rqt!=null) rqt.close();
+			if (cnx!=null) cnx.close();
+		}
+	}
+	
+	/**
+	 * Méthode qui permet de supprimer un candidat dans la BD.
+	 */
+	public static void supprimer(Candidate candidat) throws Exception{
+		Connection cnx=null;
+		CallableStatement rqt=null;
+		try{
+			cnx=AccessBase.getConnection();
+			rqt=cnx.prepareCall("{DELETE_CANDIDATE()}");
+			rqt.setInt(1, candidat.getId());
 			rqt.executeUpdate();
 		}finally{
 			if (rqt!=null) rqt.close();
@@ -43,66 +66,47 @@ public class CandidateDao {
 	}
 	
 	/**
-	 * Méthode qui permet de supprimer une formation dans la BD.
-	 * @param formation Bean formation à supprimer.
-	 * @throws SQLException Exception de type SQL.
+	 * Méthode qui permet de modifier un candidat dans la BD.
 	 */
-	public static void supprimer(Formation formation) throws Exception{
+	public static void modifier(Candidate candidat) throws Exception{
 		Connection cnx=null;
-		PreparedStatement rqt=null;
+		CallableStatement rqt=null;
 		try{
-			cnx=AccesBase.getConnection();
-			rqt=cnx.prepareStatement("delete from formations where id = ?");
-			rqt.setInt(1, formation.getId());
-			rqt.executeUpdate();
-		}finally{
-			if (rqt!=null) rqt.close();
-			if (cnx!=null) cnx.close();
-		}
-	}
-	
-	/**
-	 * Méthode qui permet de modifier une formation dans la BD.
-	 * @param formation Bean formation à modifer.
-	 * @throws SQLException Exception de type SQL.
-	 */
-	public static void modifier(Formation formation) throws Exception{
-		Connection cnx=null;
-		PreparedStatement rqt=null;
-		try{
-			cnx=AccesBase.getConnection();
-			rqt=cnx.prepareStatement("update formations set libelle = ?, debut = ?, fin = ?, description = ? where id = ?");
-			rqt.setString(1, formation.getLibelle());
-			rqt.setDate(2, new java.sql.Date(formation.getDateDebut().getTime()));
-			rqt.setDate(3, new java.sql.Date(formation.getDateFin().getTime()));
-			rqt.setString(4,formation.getDescription());
-			rqt.setInt(5, formation.getId());
+			cnx=AccessBase.getConnection();
+			rqt=cnx.prepareCall("{call MODIFY_CANDIDATE()}");
+			rqt.setString(1, candidat.getFirstName());
+			rqt.setString(2, candidat.getLastName());
+			rqt.setString(3, candidat.getEmail());
+			rqt.setString(4, candidat.getPassword());
+			rqt.setString(5, candidat.getLogin());
+			
 
-			rqt.executeUpdate();
+			rqt.executeQuery();
 		}finally{
 			if (rqt!=null) rqt.close();
 			if (cnx!=null) cnx.close();
 		}
 	}
 	/**
-	 * Méthode qui permet de rechercher une formation dans la BD.
-	 * @param formation Bean formation à rechercher.
-	 * @throws SQLException Exception de type SQL.
+	 * Méthode qui permet de rechercher un candidat dans la BD.
 	 */
-	public static Formation rechercher(Formation formation) throws Exception{
+	public static Candidate rechercher(Candidate candidat) throws Exception{
 		Connection cnx=null;
-		PreparedStatement rqt=null;
+		CallableStatement rqt=null;
 		ResultSet rs=null;
 		try{
-			cnx=AccesBase.getConnection();
-			rqt=cnx.prepareStatement("select * from formations where id = ?");
-			rqt.setInt(1, formation.getId());
+			cnx=AccessBase.getConnection();
+			rqt=cnx.prepareCall("{call RESEARCH_CANDIDATE()}");
+			rqt.setString(1, candidat.getFirstName());
+			rqt.setString(2, candidat.getLastName());
+			rqt.setString(3, candidat.getEmail());
+			
 			rs=rqt.executeQuery();
 			while (rs.next()){
-				formation.setLibelle(rs.getString("libelle"));				
-				formation.setDateDebut(rs.getDate("debut"));
-				formation.setDateFin(rs.getDate("fin"));
-				formation.setDescription(rs.getString("description"));
+				candidat.setFirstName(rs.getString("nom"));		
+				candidat.setFirstName(rs.getString("prenom"));	
+				candidat.setFirstName(rs.getString("email"));	
+				
 			}
 		}finally{
 			if (rs!=null) rs.close();
@@ -110,33 +114,33 @@ public class CandidateDao {
 			if (cnx!=null) cnx.close();
 		}
 		
-		return formation;
+		return candidat;
 	}
 	
 	/**
-	 * Retourne la liste des formations présente dans la BD.
-	 * @return La liste peut être vide mais jamais <code>null</code>
-	 * @throws SQLException Exception de type SQL.
+	 * Retourne la liste de candidats dans la BD.
+	
 	 */
-	public static ArrayList<Formation> lister() throws Exception{
+	public static ArrayList<Candidate> lister() throws Exception{
 		Connection cnx=null;
-		Statement rqt=null;
+		CallableStatement rqt=null;
 		ResultSet rs=null;
-		ArrayList<Formation> listeFormations = new ArrayList<Formation>();
+		ArrayList<Candidate> listeCandidats = new ArrayList<Candidate>();
 		try{
-			cnx=AccesBase.getConnection();
-			rqt=cnx.createStatement();			
-			rs=rqt.executeQuery("select * from formations");
-			Formation formation;
+			
+			cnx=AccessBase.getConnection();
+			rqt=cnx.prepareCall("{call LIST_CANDIDATE()}");
+			rs=rqt.executeQuery();
+			
+			Candidate candidat = new Candidate();;
 			while (rs.next()){
-				formation = new Formation(
-									rs.getInt("id"),
-									rs.getString("libelle"),
-									rs.getDate("debut"),
-									rs.getDate("fin"),
-									rs.getString("description")
-						);
-				listeFormations.add(formation);				
+				
+									candidat.setFirstName(rs.getString("firstName"));
+									candidat.setLastName(rs.getString("lastName"));
+									candidat.setLogin(rs.getString("login"));
+									candidat.setPassword(rs.getString("password"));
+					
+				listeCandidats.add(candidat);				
 			}
 		}finally{
 			if (rs!=null) rs.close();
@@ -144,7 +148,7 @@ public class CandidateDao {
 			if (cnx!=null) cnx.close();
 		}
 		
-		return listeFormations;
+		return listeCandidats;
 	}
 
 }

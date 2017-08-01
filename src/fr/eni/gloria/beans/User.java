@@ -37,6 +37,26 @@ public class User implements Serializable {
 	 */
 	private String password;
 	/**
+	 * Mot de passe.
+	 */
+	private String login;
+	/**
+	 * Getter pour login.
+	 * @return the login
+	 */
+	public String getLogin() {
+		return login;
+	}
+
+	/**
+	 *Setter pour login
+	 * @param login the login to set
+	 */
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	/**
 	 * Email.
 	 */
 	private String email;
@@ -171,6 +191,8 @@ public class User implements Serializable {
 		builder.append(lastName);
 		builder.append(", password=");
 		builder.append(password);
+		builder.append(", login=");
+		builder.append(login);
 		builder.append(", email=");
 		builder.append(email);
 		builder.append(", phone=");
@@ -180,6 +202,8 @@ public class User implements Serializable {
 		builder.append("]");
 		return builder.toString();
 	}
+
+	
 	
 	
 	
