@@ -7,10 +7,9 @@ package fr.eni.gloria.dao.Teacher;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
+
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
 import java.util.ArrayList;
 
 import fr.eni.gloria.beans.Candidate;
@@ -24,7 +23,7 @@ import fr.eni.gloria.utils.AccessBase;
  * @version GloriaProject V1.0
  */
 public class CandidateDao {
-<<<<<<< HEAD
+
 	/**
 	 * Méthode qui permet d'ajouter un candidat dans la BD.
 	 */
@@ -41,6 +40,7 @@ public class CandidateDao {
 			rqt.setString(3, candidat.getEmail());
 			rqt.setString(4, candidat.getLogin());
 			rqt.setString(5, candidat.getPassword());
+			rqt.setInt(6, promotion.getId());
 			
 			rqt.executeQuery();
 		}finally{
@@ -133,7 +133,7 @@ public class CandidateDao {
 			rqt=cnx.prepareCall("{call LIST_CANDIDATE()}");
 			rs=rqt.executeQuery();
 			
-			Candidate candidat = new Candidate();;
+			Candidate candidat = new Candidate();
 			while (rs.next()){
 				
 									candidat.setFirstName(rs.getString("firstName"));
@@ -151,8 +151,5 @@ public class CandidateDao {
 		
 		return listeCandidats;
 	}
-=======
-	
->>>>>>> 4ea10139daa360239a2fcaadd5bb50e77f81b3bd
 
 }
