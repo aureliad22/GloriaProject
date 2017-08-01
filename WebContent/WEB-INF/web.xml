@@ -51,4 +51,23 @@
     <servlet-name>TestsServlet</servlet-name>
     <url-pattern>/Tests</url-pattern>
   </servlet-mapping>
+  <filter>
+    <display-name>CandidateFilter</display-name>
+    <filter-name>CandidateFilter</filter-name>
+    <filter-class>fr.eni.gloria.filters.CandidateFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>CandidateFilter</filter-name>
+    <url-pattern>/CandidateFilter</url-pattern>
+  </filter-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CandidateServlet</display-name>
+    <servlet-name>CandidateServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.CandidateServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CandidateServlet</servlet-name>
+    <url-pattern>/CandidateServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
