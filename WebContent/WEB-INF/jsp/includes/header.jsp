@@ -3,8 +3,10 @@
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/styles/style.css" >
 	   <title>GloriaQCM</title>
 	</head>
 	
     <body>
-
+        <header><h1>Tete de Gloria !</h1></header>
+        <div class="container">

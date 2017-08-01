@@ -1,0 +1,19 @@
+@CHARSET "UTF-8";
+
+header{
+	display: inline-block;
+	width : 100% ; 
+	background-color: teal ;
+	min-height: 50px ;
+}
+
+.container{
+	min-height: 500px;
+}
+
+footer{
+	   display: inline-block;
+    width : 100% ; 
+    background-color: teal ;
+    min-height: 50px ;
+}
