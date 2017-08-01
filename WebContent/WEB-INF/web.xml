@@ -1,23 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
-  <display-name>GloriaProject</display-name>
+  <display-name>GloriaQCM</display-name>
   <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>template.jsp</welcome-file>
   </welcome-file-list>
-  
-    <resource-ref>
+  <resource-ref>
     <description>Pool de connexion</description>
     <res-ref-name>jdbc/DSGloria</res-ref-name>
     <res-type>javax.sql.DataSource</res-type>
     <res-auth>Container</res-auth>
     <res-sharing-scope>Shareable</res-sharing-scope>
   </resource-ref>
-  
   <servlet>
     <description>Servlet pour l'authentification d'un utilisateur</description>
     <display-name>AuthentificationServlet</display-name>
@@ -28,7 +21,6 @@
     <servlet-name>AuthentificationServlet</servlet-name>
     <url-pattern>/AuthentificationServlet</url-pattern>
   </servlet-mapping>
-  
   <filter>
     <display-name>CandidateFilter</display-name>
     <filter-name>CandidateFilter</filter-name>
@@ -38,5 +30,13 @@
     <filter-name>CandidateFilter</filter-name>
     <url-pattern>/CandidateFilter</url-pattern>
   </filter-mapping>
-  
+  <filter>
+    <display-name>HomeFilter</display-name>
+    <filter-name>HomeFilter</filter-name>
+    <filter-class>fr.eni.gloria.filters.HomeFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>HomeFilter</filter-name>
+    <url-pattern>/accueil</url-pattern>
+  </filter-mapping>
 </web-app>
