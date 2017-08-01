@@ -24,6 +24,7 @@ import fr.eni.gloria.utils.AccessBase;
  * @version GloriaProject V1.0
  */
 public class CandidateDao {
+<<<<<<< HEAD
 	/**
 	 * Méthode qui permet d'ajouter un candidat dans la BD.
 	 */
@@ -150,5 +151,8 @@ public class CandidateDao {
 		
 		return listeCandidats;
 	}
+=======
+	
+>>>>>>> 4ea10139daa360239a2fcaadd5bb50e77f81b3bd
 
 }
