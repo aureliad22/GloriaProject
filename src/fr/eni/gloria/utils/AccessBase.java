@@ -29,7 +29,7 @@ public class AccessBase {
 		Connection cnx=null;
 		try {
 			Context jndi = new InitialContext();
-			DataSource ds = (DataSource) jndi.lookup("java:comp/env/jdbc/DSTGloria");
+			DataSource ds = (DataSource) jndi.lookup("java:comp/env/jdbc/DSGloria");
 			cnx = ds.getConnection();
 		} catch (NamingException e) {
 			e.printStackTrace();
