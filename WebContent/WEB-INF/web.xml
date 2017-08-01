@@ -9,6 +9,15 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+    <resource-ref>
+    <description>Pool de connexion</description>
+    <res-ref-name>jdbc/DSGloria</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+    <res-sharing-scope>Shareable</res-sharing-scope>
+  </resource-ref>
+  
   <servlet>
     <description>Servlet pour l'authentification d'un utilisateur</description>
     <display-name>AuthentificationServlet</display-name>
@@ -19,6 +28,7 @@
     <servlet-name>AuthentificationServlet</servlet-name>
     <url-pattern>/AuthentificationServlet</url-pattern>
   </servlet-mapping>
+  
   <filter>
     <display-name>CandidateFilter</display-name>
     <filter-name>CandidateFilter</filter-name>
@@ -28,4 +38,5 @@
     <filter-name>CandidateFilter</filter-name>
     <url-pattern>/CandidateFilter</url-pattern>
   </filter-mapping>
+  
 </web-app>

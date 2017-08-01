@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+    <Resource name="jdbc/DSGloria" 
+        auth="Container" 
+        type="javax.sql.DataSource" 
+        driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" 
+        url="jdbc:sqlserver://10.44.101.19:1433;databasename=GloriaProject;user=sa;password=Pa$$w0rd"
+        maxActive="20" 
+        maxIdle="10"
+        initialSize="5"
+        minIdle="5"
+        maxWait="2000"
+        removeAbandoned="true"
+        removeAbandonedTimeout="5"
+    />
+</Context>
