@@ -21,3 +21,4 @@ public interface IService<T> {
 	public List<T> getAll() throws GloriaException;
 	public T getById(int id) throws GloriaException;
 }
+
