@@ -2,9 +2,8 @@ package fr.eni.gloria.servlets;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,14 +12,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.gloria.beans.Candidate;
+import fr.eni.gloria.dao.PromotionDAO;
 import fr.eni.gloria.services.CandidateService;
+import fr.eni.gloria.utils.GloriaException;
+import fr.eni.gloria.utils.GloriaLogger;
 
 
 /**
- * Servlet implementation class CandidateServlet
+ * Servlet ayant pour but de fournir les options de CRUD standard 
+ * pour les objets Candidate. 
+ * Cette fonctionnalité est reservée aux formateurs.
  */
 public class CandidateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	Logger logger = GloriaLogger.getLogger(this.getClass().getName());
 	private CandidateService candidateService; 
        
     /**
@@ -36,7 +41,11 @@ public class CandidateServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("UTF-8");
-		listerCandidats(request, response);
+		try {
+			listCandidates(request, response);
+		} catch (GloriaException e) {
+			request.setAttribute("error",e.getMessage());
+		}
 	}
 
 	/**
@@ -45,15 +54,27 @@ public class CandidateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("supprimer")!=null)
 		{
-			supprimerCandidat(request,response);
+			try {
+				supprimerCandidat(request,response);
+			} catch (GloriaException e) {
+				request.setAttribute("error",e.getMessage());
+			}
 		}
 		else if(request.getParameter("modifier")!=null)
 		{
-			afficherModificationCandidat(request,response);
+			try {
+				afficherModificationCandidat(request,response);
+			} catch (GloriaException e) {
+				request.setAttribute("error",e.getMessage());
+			}
 		}
 		else if(request.getParameter("validerModification")!=null)
 		{
-			validerModificationCandidat(request,response);
+			try {
+				validerModificationCandidat(request,response);
+			} catch (GloriaException e) {
+				request.setAttribute("error",e.getMessage());
+			}
 		}
 	}
 	
@@ -63,10 +84,10 @@ public class CandidateServlet extends HttpServlet {
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
+	 * @throws GloriaException 
 	 */
-	private void listerCandidats(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		List<Candidate> liste = this.candidateService.lister();
+	private void listCandidates(HttpServletRequest request,	HttpServletResponse response) throws ServletException, IOException, GloriaException {
+		List<Candidate> liste = this.candidateService.getAll();
 		if(liste!=null)
 		{
 			request.setAttribute("listeCandidats", liste);
@@ -86,18 +107,22 @@ public class CandidateServlet extends HttpServlet {
 	 * @param response
 	 * @throws IOException 
 	 * @throws ServletException 
+	 * @throws GloriaException 
 	 */
-	private void supprimerCandidat(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		int identifiant = Integer.parseInt(request.getParameter("id"));
+	private void supprimerCandidat(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, GloriaException {
+		
 		try {
-			this.candidateService.supprimer(identifiant);
+			int identifiant = Integer.parseInt(request.getParameter("id"));
+			//TODO appel de la DAO pour remonter le candidat à partir de l'identifiant...
+			Candidate candidate = new CandidateService().getById(identifiant);
+			this.candidateService.remove(candidate);
 			request.setAttribute("message", "La suppression s'est déroulée avec succès.");
 		} catch (Exception e) {
 			request.setAttribute("erreur", "La suppression a échoué.");
 			e.printStackTrace();
 		}
-		this.listerCandidats(request, response);
+		//Rappel de la méthode affichant la liste pour actualisation.
+		this.listCandidates(request, response);
 		
 	}
 	
@@ -107,18 +132,20 @@ public class CandidateServlet extends HttpServlet {
 	 * @param response
 	 * @throws IOException 
 	 * @throws ServletException 
+	 * @throws GloriaException 
 	 */
 	private void afficherModificationCandidat(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response) throws ServletException, IOException, GloriaException {
 		int identifiant = Integer.parseInt(request.getParameter("id"));
 		try {
-			Candidate candidatAModifier = this.candidateService.selectionner(identifiant);
+			Candidate candidatAModifier = this.candidateService.getById(identifiant);
 			request.setAttribute("candidatAModifier", candidatAModifier);
 		} catch (Exception e) {
 			request.setAttribute("erreur", "La demande de modification a échoué.");
 			e.printStackTrace();
 		}
-		this.listerCandidats(request, response);
+		
+		this.listCandidates(request, response);
 	}
 	
 	/**
@@ -127,21 +154,20 @@ public class CandidateServlet extends HttpServlet {
 	 * @param response
 	 * @throws IOException 
 	 * @throws ServletException 
+	 * @throws GloriaException 
 	 */
 	private void validerModificationCandidat(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response) throws ServletException, IOException, GloriaException {
 		try {
+			Candidate candidate = new Candidate();
+			candidate.setFirstName(request.getParameter("firstName"));
+			candidate.setLastName(request.getParameter("lastName"));
+			candidate.setEmail(request.getParameter("email"));
+			candidate.setLogin(request.getParameter("login"));
+			candidate.setPassword(request.getParameter("password"));
+			candidate.setPromotion(new PromotionDAO().selectById(Integer.parseInt(request.getParameter("idPromotion"))));
 			
-			String nom =  request.getParameter("firstName");
-			String prenom =  request.getParameter("lastName");
-			String email =  request.getParameter("email");
-			String login =  request.getParameter("login");
-			String password =  request.getParameter("password");
-			int idPromotion = Integer.parseInt(request.getParameter("idPromotion"));
-			
-			
-			
-			this.candidateService.modifier(nom, prenom, email, login, password, idPromotion);
+			this.candidateService.modify(candidate);
 			request.setAttribute("message", "La modification s'est déroulée avec succès.");
 			
 		} 
@@ -153,7 +179,7 @@ public class CandidateServlet extends HttpServlet {
 			request.setAttribute("erreur", "La modification a échoué.");
 			e.printStackTrace();
 		}
-		this.listerCandidats(request, response);
+		this.listCandidates(request, response);
 	}
 
 }

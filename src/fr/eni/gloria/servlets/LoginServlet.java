@@ -38,6 +38,7 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.entering(this.getClass().getName(), "doPost");
 		//Récupération des paramètres login et mot de passe
 		String login = request.getParameter("login");
 		String password = request.getParameter("password");
@@ -58,6 +59,8 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("error", "Login et/ou mot de passe incorrect(s)");
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
 		}
+		
+		
 		
 	}
 
