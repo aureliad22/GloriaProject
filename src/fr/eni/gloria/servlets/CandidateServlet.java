@@ -1,7 +1,6 @@
 package fr.eni.gloria.servlets;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Logger;
 
