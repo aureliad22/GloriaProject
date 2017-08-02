@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.util.List;
 
 import fr.eni.gloria.beans.Test;
+import fr.eni.gloria.utils.GloriaException;
 
 /**
  * @author lvanhove2017
@@ -22,7 +23,7 @@ public class TestDAO implements ICrud<Test>{
 	 * @see fr.eni.gloria.dao.ICrud#insert(java.lang.Object)
 	 */
 	@Override
-	public boolean insert(Test data) throws Exception {
+	public boolean insert(Test data) throws GloriaException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -32,7 +33,7 @@ public class TestDAO implements ICrud<Test>{
 	 * @see fr.eni.gloria.dao.ICrud#update(java.lang.Object)
 	 */
 	@Override
-	public boolean update(Test data) throws Exception {
+	public boolean update(Test data) throws GloriaException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -42,7 +43,7 @@ public class TestDAO implements ICrud<Test>{
 	 * @see fr.eni.gloria.dao.ICrud#delete(java.lang.Object)
 	 */
 	@Override
-	public boolean delete(Test data) throws Exception {
+	public boolean delete(Test data) throws GloriaException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -52,7 +53,7 @@ public class TestDAO implements ICrud<Test>{
 	 * @see fr.eni.gloria.dao.ICrud#selectById(int)
 	 */
 	@Override
-	public Test selectById(int id) throws Exception {
+	public Test selectById(int id) throws GloriaException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -62,7 +63,7 @@ public class TestDAO implements ICrud<Test>{
 	 * @see fr.eni.gloria.dao.ICrud#selectAll()
 	 */
 	@Override
-	public List<Test> selectAll() throws Exception {
+	public List<Test> selectAll() throws GloriaException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -72,9 +73,10 @@ public class TestDAO implements ICrud<Test>{
 	 * @see fr.eni.gloria.dao.ICrud#itemBuilder(java.sql.ResultSet)
 	 */
 	@Override
-	public Test itemBuilder(ResultSet rs) throws Exception {
+	public Test itemBuilder(ResultSet rs) throws GloriaException {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }
