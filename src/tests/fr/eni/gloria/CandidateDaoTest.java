@@ -13,12 +13,16 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import fr.eni.gloria.beans.Candidate;
+import fr.eni.gloria.dao.CandidateDao;
+import fr.eni.gloria.utils.GloriaException;
+
 /**
  * @author adelaune2017
  * @date 2 août 2017
  * @version GloriaProject V1.0
  */
-public class LoginDAOTest {
+public class CandidateDaoTest {
 
 	/**
 	 * Méthode en charge de 
@@ -53,7 +57,24 @@ public class LoginDAOTest {
 	}
 
 	@Test
-	public void testLogin(){
+	public void testAuthenticate() {
 		
+	}
+	
+	@Test
+	public void testInsert() throws GloriaException {
+		CandidateDao daoC = new CandidateDao();
+		Candidate expected = new Candidate();
+		expected.setLastName("Wololo");
+		expected.setFirstName("Toto");
+		expected.setLogin("wololo");
+		expected.setEmail("wololo@sonmail.fr");
+		expected.setPassword("password");
+		daoC.insert(expected);
+		
+		Candidate actual = daoC.selectById(expected.getId());
+		
+		assertEquals(expected.getLastName().trim(), actual.getLastName());
+		assertEquals(expected.getFirstName().trim(), actual.getFirstName());
 	}
 }
