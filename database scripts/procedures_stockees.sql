@@ -5,26 +5,25 @@
 -- whose login (or email) and password match the given parameters
 -- =============================================
 CREATE PROCEDURE AUTHENTICATE_CANDIDATE 
-    @mail nvarchar,
-    @login nvarchar,
-    @password nvarchar
-    
+	@login nvarchar,
+	@password nvarchar
+	
 AS
 BEGIN
-    SELECT 
-        id, 
-        nom, 
-        prenom, 
-        email, 
-        login, 
-        idPromotion
-    FROM
-        stagiaires
-    WHERE
-        (email = @mail AND password = @password)
-        OR
-        (login = @login AND password = @password)
-    RETURN
+	SELECT 
+		id, 
+		nom, 
+		prenom, 
+		email, 
+		login, 
+		idPromotion
+	FROM
+		stagiaires
+	WHERE
+		(email = @login AND password = @password)
+		OR
+		(login = @login AND password = @password)
+	RETURN
 END
 
 -- =============================================
@@ -172,3 +171,46 @@ BEGIN
 	WHERE id = @id
 
 END;
+
+-- =============================================
+-- Author:		GloriaProject
+-- Create date: 02/08/2017
+-- Description:	Stocked procedure that return the candidate
+-- with the given id.
+-- =============================================
+CREATE PROCEDURE FIND_BY_ID_CANDIDATE
+	@id int
+AS
+BEGIN
+	
+	SELECT 
+		id, 
+		nom, 
+		prenom, 
+		email, 
+		login, 
+		idPromotion
+	FROM 
+		stagiaires
+	WHERE 
+		id = @id
+END
+
+-- =============================================
+-- Author:		GloriaProject
+-- Create date: 02/08/2017
+-- Description:	Stocked procedure that return the question
+-- with the given id.
+-- =============================================
+CREATE PROCEDURE FIND_BY_ID_QUESTION 
+	@id int
+AS
+BEGIN
+	
+	SELECT 
+		id, enonce, imageUri, poids
+	FROM 
+		questions
+	WHERE 
+		id = @id
+END
