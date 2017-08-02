@@ -6,6 +6,11 @@
 package fr.eni.gloria.dao;
 
 import java.sql.CallableStatement;
+/**
+ * @author lvanhove2017
+ * @date 2 août 2017
+ * @version GloriaProject V1.0
+ */
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,9 +32,11 @@ public class PromotionDAO implements ICrud<Promotion>{
 	Logger logger = GloriaLogger.getLogger(this.getClass().getName());
 	
 	/**
-	 * {@inheritDoc}
-	 * @throws GloriaException 
-	 * @see fr.eni.gloria.dao.ICrud#insert(java.lang.Object)
+	 * Méthode permettant d'insérer une promotion
+	 * dans la base de données.
+	 * 
+	 * @param data Promotion à insérer dans la base.
+	 * @return True si l'insertion s'est correctement effectuée, False sinon.
 	 */
 	@Override
 	public boolean insert(Promotion data) throws GloriaException {
@@ -43,18 +50,21 @@ public class PromotionDAO implements ICrud<Promotion>{
 			data.setId(rqt.getInt(1));
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#insert : "+e.getMessage());
-			throw new GloriaException("Erreur liée à la base de données.");
+			throw new GloriaException("Erreur lors de l'insertion de la promotion dans la base de données.");
 		}
 		
 		return result;
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @see fr.eni.gloria.dao.ICrud#update(java.lang.Object)
+	 * Méthode permettant de mettre à jour une promotion
+	 * dans la base de données.
+	 * 
+	 * @param data Promotion ayant les attributs modifiés.
+	 * @return True si la modification s'est correctement effectuée, False sinon.
 	 */
 	@Override
-	public boolean update(Promotion data) throws Exception {
+	public boolean update(Promotion data) throws GloriaException {
 		boolean result = false;
 		
 		try(Connection cnx = AccessBase.getConnection()){
@@ -63,19 +73,23 @@ public class PromotionDAO implements ICrud<Promotion>{
 			rqt.setString(2, data.getTitle());
 			
 			result = rqt.executeUpdate() <1;
-		}catch (Exception e) {
-			// TODO: handle exception
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#update : "+e.getMessage());
+			throw new GloriaException("Erreur lors de la mise à jour de la promotion.");
 		}
 		
 		return result;
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @see fr.eni.gloria.dao.ICrud#delete(java.lang.Object)
+	 * Méthode permettant de supprimer une promotion 
+	 * de la base de donnée.
+	 * 
+	 * @param Promotion à supprimer.
+	 * @return True si suppression effectuée correctement, False sinon.
 	 */
 	@Override
-	public boolean delete(Promotion data) throws Exception {
+	public boolean delete(Promotion data) throws GloriaException {
 		boolean result = false;
 		
 		try(Connection cnx = AccessBase.getConnection()){
@@ -83,18 +97,22 @@ public class PromotionDAO implements ICrud<Promotion>{
 			stm.setInt(1, data.getId());
 			result = stm.executeUpdate() < 1;
 		}catch (Exception e) {
-			// TODO: handle exception
+			logger.severe(this.getClass().getName()+"#delete : "+e.getMessage());
+			throw new GloriaException("Erreur lors de la suppression de la promotion.");
 		}
 		
 		return result;
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @see fr.eni.gloria.dao.ICrud#selectById(int)
+	 * Méthode permettant de récupérer une promotion
+	 * d'après son identifiant en base de données.
+	 * 
+	 * @param id Identifiant de la promotion à retrouver.
+	 * @return La promotion correspondant à l'id donné, null si l'id ne correspond à rien.
 	 */
 	@Override
-	public Promotion selectById(int id) throws Exception {
+	public Promotion selectById(int id) throws GloriaException {
 		Promotion promotion = null;
 		
 		try(Connection cnx = AccessBase.getConnection()){
@@ -105,18 +123,22 @@ public class PromotionDAO implements ICrud<Promotion>{
 			if(rs.next()){
 				promotion = itemBuilder(rs);
 			}
-		}catch (Exception e) {
-			// TODO: handle exception
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#selectById : "+e.getMessage());
+			throw new GloriaException("Erreur lors de la récupération de la promotion.");
 		}
 		return promotion;
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @see fr.eni.gloria.dao.ICrud#selectAll()
+	 * Méthode permettant de récupérer la liste de
+	 * l'ensemble des promotions disponibles dans la
+	 * base de données.
+	 * 
+	 * @return La liste des promotion disponibles dans la base de données.
 	 */
 	@Override
-	public List<Promotion> selectAll() throws Exception {
+	public List<Promotion> selectAll() throws GloriaException {
 		List<Promotion> listePromotions = new ArrayList<Promotion>();
 		
 		try(Connection cnx = AccessBase.getConnection()){
@@ -126,21 +148,30 @@ public class PromotionDAO implements ICrud<Promotion>{
 			while(rs.next()){
 				listePromotions.add(itemBuilder(rs));
 			}
-		}catch (Exception e) {
-			// TODO: handle exception
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#selectAll : "+e.getMessage());
+			throw new GloriaException("Erreur lors de la récupération de la liste des promotions.");
 		}
 		return listePromotions;
 	}
+	
 	/**
-	 * {@inheritDoc}
-	 * @see fr.eni.gloria.dao.ICrud#itemBuilder(java.sql.ResultSet)
+	 * Méthode permettant de construire un objet Promotion à partir
+	 * de la ligne courante du ResultSet passé en paramètre.
+	 * 
+	 * @param ResultSet à lire 
+	 * @return Objet promotion correspondant aux valeurs du ResultSet
 	 */
 	@Override
-	public Promotion itemBuilder(ResultSet rs) throws Exception {
+	public Promotion itemBuilder(ResultSet rs) throws GloriaException {
 		Promotion promotion = new Promotion();
-		promotion.setId(rs.getInt("id"));
-		promotion.setTitle(rs.getString("libelle"));
+		try {
+			promotion.setId(rs.getInt("id"));
+			promotion.setTitle(rs.getString("libelle"));
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#itemBuilder : "+e.getMessage());
+			throw new GloriaException("Erreur lors de la construction de la promotion.");
+		}
 		return promotion;
 	}
-
 }

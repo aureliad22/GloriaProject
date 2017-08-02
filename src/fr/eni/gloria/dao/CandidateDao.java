@@ -1,8 +1,3 @@
-/**
- * @author Administrateur
- * @date 1 août 2017
- * @version GloriaProject V1.0
- */
 package fr.eni.gloria.dao;
 
 import java.sql.CallableStatement;
@@ -18,6 +13,7 @@ import fr.eni.gloria.beans.Promotion;
 import fr.eni.gloria.utils.AccessBase;
 import fr.eni.gloria.utils.GloriaException;
 import fr.eni.gloria.utils.GloriaLogger;
+
 
 
  /**
@@ -241,5 +237,6 @@ public class CandidateDao implements ICrud<Candidate>{
 		}
 		return result;
 	}
+
 
 }

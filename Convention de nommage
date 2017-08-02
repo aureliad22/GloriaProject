@@ -1,0 +1,32 @@
+Convention de nommage
+
+Application:
+méthodes, attributs, classes: en anglais, lowerCamelCase.
+
+beans: serializable, getters/setters, constructeur vide, javadoc !!
+dao: implements ICrud
+service: implements IService
+
+méthodes: les variables de retour prennent toujours le nom "result".
+fonctions: on les externalise.
+
+dès la création d'une classe, on crée le logger !
+	Logger logger = GloriaLogger.getLogger(this.getClass().getName());
+	
+	...
+	}catch(Exception e){
+	logger.severe(this.getClass().getName() + "nom de la méthode" + e.getMessage());}
+
+
+
+
+
+
+
+
+
+
+
+
+BdD:
+tables: noms en francais, au pluriel, lowerCamelCase
