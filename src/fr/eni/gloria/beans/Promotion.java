@@ -7,6 +7,7 @@ package fr.eni.gloria.beans;
 
 import java.io.Serializable;
 
+
  /**
  * @author Administrateur
  * @date 1 août 2017
@@ -75,3 +76,4 @@ public class Promotion implements Serializable{
 	
 	
 }
+

@@ -6,6 +6,7 @@
 package fr.eni.gloria.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author lvanhove2017
@@ -24,6 +25,7 @@ public class Test implements Serializable{
 	private String semiSuccessTreshold ;
 	private int duration ;
 	private Teacher creator ;
+	private List<Question> questions ;
 	/**
 	 * Constructeur.
 	 */

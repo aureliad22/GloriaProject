@@ -156,8 +156,7 @@ public class CandidateServlet extends HttpServlet {
 	 * @throws ServletException 
 	 * @throws GloriaException 
 	 */
-	private void validerModificationCandidat(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException, GloriaException {
+	private void validerModificationCandidat(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, GloriaException {
 		try {
 			Candidate candidate = new Candidate();
 			candidate.setFirstName(request.getParameter("firstName"));
@@ -170,16 +169,12 @@ public class CandidateServlet extends HttpServlet {
 			this.candidateService.modify(candidate);
 			request.setAttribute("message", "La modification s'est déroulée avec succès.");
 			
-		} 
-		catch (ParseException e1) {
-			request.setAttribute("erreur", "veuillez vérifier vos saisies avant de valider de nouveau");
-			e1.printStackTrace();
+		}finally{
+			//TODO Pourquoi ???? 
 		}
-		catch (Exception e) {
-			request.setAttribute("erreur", "La modification a échoué.");
-			e.printStackTrace();
-		}
+		
 		this.listCandidates(request, response);
 	}
 
 }
+
