@@ -2,7 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
   <display-name>GloriaQCM</display-name>
   <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>/WEB-INF/jsp/welcome.jsp</welcome-file>
   </welcome-file-list>
   <resource-ref>
     <description>Pool de connexion</description>
@@ -13,13 +13,13 @@
   </resource-ref>
   <servlet>
     <description>Servlet pour l'authentification d'un utilisateur</description>
-    <display-name>LoginServlet</display-name>
-    <servlet-name>LoginServlet</servlet-name>
-    <servlet-class>fr.eni.gloria.servlets.LoginServlet</servlet-class>
+    <display-name>CandidateLoginServlet</display-name>
+    <servlet-name>CandidateLoginServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.CandidateLoginServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>LoginServlet</servlet-name>
-    <url-pattern>/Login</url-pattern>
+    <servlet-name>CandidateLoginServlet</servlet-name>
+    <url-pattern>/LoginCandidate</url-pattern>
   </servlet-mapping>
   <servlet>
     <description>Servlet en charge de la gestion de l'accueil des candidats.</description>
@@ -29,29 +29,28 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>CandidateHomeServlet</servlet-name>
-    <url-pattern>/Home</url-pattern>
+    <url-pattern>/Candidate</url-pattern>
   </servlet-mapping>
   <servlet>
     <description>En charge d'afficher les résultats pour un test donné</description>
-    <display-name>ResultatsServlet</display-name>
-    <servlet-name>ResultatsServlet</servlet-name>
-    <servlet-class>fr.eni.gloria.servlets.ResultatsServlet</servlet-class>
+    <display-name>CandidateResultsServlet</display-name>
+    <servlet-name>CandidateResultsServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.CandidateResultsServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ResultatsServlet</servlet-name>
-    <url-pattern>/Resultats</url-pattern>
+    <servlet-name>CandidateResultsServlet</servlet-name>
+    <url-pattern>/Candidate/Results</url-pattern>
   </servlet-mapping>
   <servlet>
     <description>En charge de fournir la liste des tests auquel le candidat est inscrit</description>
-    <display-name>TestsServlet</display-name>
-    <servlet-name>TestsServlet</servlet-name>
-    <servlet-class>fr.eni.gloria.servlets.TestsServlet</servlet-class>
+    <display-name>CandidateTestsServlet</display-name>
+    <servlet-name>CandidateTestsServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.CandidateTestsServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>TestsServlet</servlet-name>
-    <url-pattern>/Tests</url-pattern>
+    <servlet-name>CandidateTestsServlet</servlet-name>
+    <url-pattern>/Candidate/Tests</url-pattern>
   </servlet-mapping>
-
   <servlet>
     <description></description>
     <display-name>CandidateServlet</display-name>
@@ -61,5 +60,28 @@
   <servlet-mapping>
     <servlet-name>CandidateServlet</servlet-name>
     <url-pattern>/CandidateServlet</url-pattern>
+  </servlet-mapping>
+  <filter>
+    <display-name>CandidateFilter</display-name>
+    <filter-name>CandidateFilter</filter-name>
+    <filter-class>fr.eni.gloria.filters.CandidateFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>CandidateFilter</filter-name>
+    <url-pattern>/Candidate/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+  </filter-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CandidateTakeTestServlet</display-name>
+    <servlet-name>CandidateTakeTestServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.CandidateTakeTestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CandidateTakeTestServlet</servlet-name>
+    <url-pattern>/CandidateTakeTestServlet</url-pattern>
   </servlet-mapping>
 </web-app>

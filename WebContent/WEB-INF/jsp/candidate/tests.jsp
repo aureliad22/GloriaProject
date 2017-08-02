@@ -5,7 +5,11 @@
 <h1>Tests disponibles : </h1>
 <c:forEach items="${tests}" var="test">
     <div class="ligne_tests">
-        ${test}
+        <form action="/Candidate/TakeTest" method="POST">
+            <label>${test.title}</label>
+            <input type="hidden" value="${test.id}"/>
+            <input type="submit" name="startTest" value="Commencer">
+        </form>
     </div>
 </c:forEach>
 

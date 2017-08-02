@@ -13,15 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 import fr.eni.gloria.utils.GloriaLogger;
 
 /**
- * Servlet implementation class TestsServlet
+ * Servlet implementation class ResultatsServlet
  */
-public class TestsServlet extends HttpServlet {
+public class CandidateResultsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Logger logger = GloriaLogger.getLogger(this.getClass().getName());  
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TestsServlet() {
+    public CandidateResultsServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,16 +37,16 @@ public class TestsServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Récupérer la liste des tests disponibles pour ce candidate
+		//Récupérer la liste des tests complétés
 		
 		//BOUCHON
-		List<String> tests = new ArrayList<String>();
-		tests.add(" test 1");
-		tests.add(" test 2");
+		List<String> resultats = new ArrayList<String>();
+		resultats.add("resultats test 1");
+		resultats.add("resultats test 2");
 		
-		//Affichage de la liste dans la jsp tests.jsp
-		request.setAttribute("tests", tests);
-		request.getRequestDispatcher("/WEB-INF/jsp/candidate/tests.jsp").forward(request, response);
+		//Envoi de la liste à la jsp en charge de les afficher
+		request.setAttribute("resultats", resultats);
+		request.getRequestDispatcher("/WEB-INF/jsp/candidate/resultats.jsp").forward(request, response);
 	}
 
 }

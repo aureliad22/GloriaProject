@@ -19,12 +19,12 @@ public class GloriaLogger {
    **/
   public static Logger getLogger(String className) {
     Logger monLogger = Logger.getLogger(className);
-    monLogger.setLevel(Level.WARNING);
+    monLogger.setLevel(Level.ALL);
     monLogger.setUseParentHandlers(false);
 
     if (ch == null) {
       ch = new ConsoleHandler();
-      ch.setLevel(Level.WARNING);
+      ch.setLevel(Level.ALL);
     }
 
     if (fh == null) {
@@ -35,7 +35,7 @@ public class GloriaLogger {
       } catch (IOException e) {
         e.printStackTrace();
       }
-      fh.setLevel(Level.WARNING);
+      fh.setLevel(Level.ALL);
       fh.setFormatter(new SimpleFormatter());
     }
 
