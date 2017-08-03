@@ -41,7 +41,6 @@ public class CandidateLoginServlet extends HttpServlet {
 		//Récupération des paramètres login et mot de passe
 		String login = request.getParameter("login");
 		String password = request.getParameter("password");
-		System.out.println(login+" "+password);
 		HttpSession session = request.getSession(true);
 		//Appel de la Service pour checker l'identification :
 		
@@ -49,22 +48,14 @@ public class CandidateLoginServlet extends HttpServlet {
 		//Code bouchon !! A SUPPRIMER
 		if ("gloria".equals(login) && "gloria".equals(password)) {
 			//Login ok ! 
-			System.out.println("login ok");
 			Candidate user = new Candidate();
 			user.setFirstName("Gloria");
 			user.setLastName("Gloria");
 			session.setAttribute("user", user);
 			request.getRequestDispatcher("/Candidate").forward(request, response);
 		}else{
-			System.out.println("login nok");
 			request.setAttribute("error", "Login et/ou mot de passe incorrect(s)");
 			request.getRequestDispatcher("/WEB-INF/jsp/candidate/login.jsp").forward(request, response);
 		}
-		
-		
-		
 	}
-
-
-	
 }
