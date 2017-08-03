@@ -123,7 +123,7 @@ public class CandidateTestsServlet extends HttpServlet {
 		tests.add(test1);
 		tests.add(test2);
 		
-		//Affichage de la liste dans la jsp tests.jsp
+		//Affichage de la liste dans la jsp tests.jsp 
 		session.setAttribute("tests", tests);
 		request.getRequestDispatcher("/WEB-INF/jsp/candidate/tests.jsp").forward(request, response);
 		logger.exiting(this.getClass().getName(), "doPost");
