@@ -71,7 +71,7 @@ public class CandidateServlet extends HttpServlet {
 		if(liste!=null)
 		{
 			request.setAttribute("listeCandidats", liste);
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/teacher/modifcandidat.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/teacher/gestionCandidat.jsp");
 			rd.forward(request, response);
 		}
 		else

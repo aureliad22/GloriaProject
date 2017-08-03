@@ -23,29 +23,49 @@
 				alert("${erreur}");			
 			</script>
 		</c:if>
+		${Arrayliste}
 	
 		<c:if test="${empty listeCandidats}">
 			Pas de candidats
 		</c:if>
 		
+		<table>
+					   <tr>
+					      <td>Nom</td>
+					      <td>Prénom</td>
+					      <td>Email</td>
+					      <td>Login</td>
+					      <td>Mot de passe</td>
+					   </tr>
 		<c:if test="${!empty listeCandidats}">
 		<c:forEach items="${listeCandidats}" var="candidat">
 		
 			<form action="${pageContext.request.contextPath}/CandidateServlet" method="GET">
-				<div class="bloc_candidat">            
-			 		<h2>${candidat.firstName}
-			 		    ${candidat.lastName}
-			 			<input type="submit" name="supprimer" value="Supprimer"/>
-			 			<input type="submit" name="modifier" value="Modifier"/>
-			 		</h2>
-					
+				<div class="bloc_candidat"> 
+				
+				
+					   <tr>
+					      <td>${candidat.firstName}</td>
+					      <td>${candidat.lastName}</td>
+					      <td>${candidat.email}</td>
+					      <td>${candidat.login}</td>
+					      <td> ${candidat.password}</td>
+					   </tr>
+
 			   	</div> 
 	   		</form>
 		   
 		   	
 		</c:forEach>
         </c:if>
-        <a href="<%=request.getContextPath()%>/Welcome">Retour Menu Teacher</a>
+        </table>  
+                        <input type="submit" name="supprimer" value="Créer"/>
+			 			<input type="submit" name="modifier" value="Modifier"/>
+			 			<input type="submit" name="supprimer" value="Supprimer"/>
+			 			<input type="submit" name="modifier" value="Inscrire"/>
+			 			<input type="submit" name="supprimer" value="Quitter"/> </br>
+			 			
+        <a href="<%=request.getContextPath()%>/Welcome">Retour Menu Teacher</a> 
  	</div>
  	
 </div>
