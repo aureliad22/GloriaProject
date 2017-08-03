@@ -7,6 +7,7 @@ package fr.eni.gloria.utils;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -19,12 +20,16 @@ import javax.sql.DataSource;
  * @version GloriaProject V1.0
  */
 public class AccessBase {
+	
+	
+	
 	/**
 	 * Méthode qui permet de récupérer une connection à la BD.
 	 * @return Connection
+	 * @throws GloriaException 
 	 * @throws SQLException Exception de type SQL.
 	 */
-	public static Connection getConnection() throws Exception{
+	public static Connection getConnection() throws GloriaException {
 		
 		Connection cnx=null;
 		try {
@@ -32,8 +37,9 @@ public class AccessBase {
 			DataSource ds = (DataSource) jndi.lookup("java:comp/env/jdbc/DSGloria");
 			cnx = ds.getConnection();
 		} catch (NamingException e) {
-			e.printStackTrace();
-			throw new Exception("L'accès à la base de données est impossible pour le moment");
+			throw new GloriaException("Problème dans la configuration du pool de connexions.");
+		} catch (SQLException e) {
+			throw new GloriaException("L'accès à la base de données est impossible pour le moment");
 		}
 		return cnx;
 	}

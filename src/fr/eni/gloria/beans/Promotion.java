@@ -7,6 +7,7 @@ package fr.eni.gloria.beans;
 
 import java.io.Serializable;
 
+
  /**
  * @author Administrateur
  * @date 1 août 2017
@@ -19,7 +20,7 @@ public class Promotion implements Serializable{
 	 */
 	private static final long serialVersionUID = -6474796814244571626L;
 	private int id;
-	private String libelle;
+	private String title;
 	
 	
 	/**
@@ -46,15 +47,15 @@ public class Promotion implements Serializable{
 	 * Getter pour libelle.
 	 * @return the libelle
 	 */
-	public String getLibelle() {
-		return libelle;
+	public String getTitle() {
+		return title;
 	}
 	/**
 	 *Setter pour libelle
 	 * @param libelle the libelle to set
 	 */
-	public void setLibelle(String libelle) {
-		this.libelle = libelle;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	/* (non-Javadoc)
 	 * {@inheritedoc}
@@ -65,8 +66,8 @@ public class Promotion implements Serializable{
 		StringBuilder builder = new StringBuilder();
 		builder.append("Promotion [id=");
 		builder.append(id);
-		builder.append(", libelle=");
-		builder.append(libelle);
+		builder.append(", title=");
+		builder.append(title);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -75,3 +76,4 @@ public class Promotion implements Serializable{
 	
 	
 }
+

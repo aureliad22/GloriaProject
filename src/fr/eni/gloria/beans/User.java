@@ -6,7 +6,6 @@
 package fr.eni.gloria.beans;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author lvanhove2017
@@ -15,70 +14,19 @@ import java.util.Date;
  */
 public class User implements Serializable {
 
-	/**
-	 * numero de série de la classe
-	 */
 	private static final long serialVersionUID = 3604016087739802322L;
-	
-	/**
-	 * Identifiant d'un utilisateur.
-	 */
 	private int id;
-	/**
-	 * Nom.
-	 */
 	private String firstName;
-	/**
-	 * Prénom.
-	 */
 	private String lastName;
-	/**
-	 * Mot de passe.
-	 */
+	private String email;
+	private String login;
 	private String password;
 	/**
-	 * Mot de passe.
-	 */
-	private String login;
-	/**
-	 * Getter pour login.
-	 * @return the login
-	 */
-	public String getLogin() {
-		return login;
-	}
-
-	/**
-	 *Setter pour login
-	 * @param login the login to set
-	 */
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	/**
-	 * Email.
-	 */
-	private String email;
-	
-	/**
-	 * numéro de téléphone
-	 */
-	private String phone;
-	/**
-	 * date de naissance
-	 */
-	private Date birthdate;
-	
-	/**
-	 * 
-	 * Constructeur par défaut
+	 * Constructeur.
 	 */
 	public User() {
 		super();
-		
-	}	
-	
+	}
 	/**
 	 * Getter pour id.
 	 * @return the id
@@ -87,7 +35,7 @@ public class User implements Serializable {
 		return id;
 	}
 	/**
-	 *Setter pour id
+	 * Setter pour id.
 	 * @param id the id to set
 	 */
 	public void setId(int id) {
@@ -101,7 +49,7 @@ public class User implements Serializable {
 		return firstName;
 	}
 	/**
-	 *Setter pour firstName
+	 * Setter pour firstName.
 	 * @param firstName the firstName to set
 	 */
 	public void setFirstName(String firstName) {
@@ -115,25 +63,11 @@ public class User implements Serializable {
 		return lastName;
 	}
 	/**
-	 *Setter pour lastName
+	 * Setter pour lastName.
 	 * @param lastName the lastName to set
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-	/**
-	 * Getter pour password.
-	 * @return the password
-	 */
-	public String getPassword() {
-		return password;
-	}
-	/**
-	 *Setter pour password
-	 * @param password the password to set
-	 */
-	public void setPassword(String password) {
-		this.password = password;
 	}
 	/**
 	 * Getter pour email.
@@ -143,65 +77,63 @@ public class User implements Serializable {
 		return email;
 	}
 	/**
-	 *Setter pour email
+	 * Setter pour email.
 	 * @param email the email to set
 	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
 	/**
-	 * Getter pour phone.
-	 * @return the phone
+	 * Getter pour login.
+	 * @return the login
 	 */
-	public String getPhone() {
-		return phone;
+	public String getLogin() {
+		return login;
 	}
 	/**
-	 *Setter pour phone
-	 * @param phone the phone to set
+	 * Setter pour login.
+	 * @param login the login to set
 	 */
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setLogin(String login) {
+		this.login = login;
 	}
 	/**
-	 * Getter pour birthdate.
-	 * @return the birthdate
+	 * Getter pour password.
+	 * @return the password
 	 */
-	public Date getBirthdate() {
-		return birthdate;
+	public String getPassword() {
+		return password;
 	}
 	/**
-	 *Setter pour birthdate
-	 * @param birthdate the birthdate to set
+	 * Setter pour password.
+	 * @param password the password to set
 	 */
-	public void setBirthdate(Date birthdate) {
-		this.birthdate = birthdate;
+	public void setPassword(String password) {
+		this.password = password;
 	}
-
-	/* (non-Javadoc)
-	 * {@inheritedoc}
+	/**
+	 * Getter pour serialversionuid.
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	/**
+	 * {@inheritDoc}
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("User [firstName=");
-		builder.append(firstName);
-		builder.append(", lastName=");
-		builder.append(lastName);
-		builder.append(", password=");
-		builder.append(password);
-		builder.append(", login=");
-		builder.append(login);
-		builder.append(", email=");
-		builder.append(email);
-		builder.append(", phone=");
-		builder.append(phone);
-		builder.append(", birthdate=");
-		builder.append(birthdate);
-		builder.append("]");
+		builder.append("User [id=").append(id).append(", firstName=")
+				.append(firstName).append(", lastName=").append(lastName)
+				.append(", email=").append(email).append(", login=")
+				.append(login).append(", password=").append(password)
+				.append("]");
 		return builder.toString();
 	}
+	
+	
 
 	
 	
