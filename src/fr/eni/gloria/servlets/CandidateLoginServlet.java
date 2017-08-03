@@ -15,13 +15,13 @@ import fr.eni.gloria.utils.GloriaLogger;
 /**
  * Servlet implementation class AuthentificationServlet
  */
-public class LoginServlet extends HttpServlet {
+public class CandidateLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Logger logger = GloriaLogger.getLogger(this.getClass().getName());
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public CandidateLoginServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,8 +30,7 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
+		request.getRequestDispatcher("/WEB-INF/jsp/candidate/login.jsp").forward(request, response);
 	}
 
 	/**
@@ -42,6 +41,7 @@ public class LoginServlet extends HttpServlet {
 		//Récupération des paramètres login et mot de passe
 		String login = request.getParameter("login");
 		String password = request.getParameter("password");
+		System.out.println(login+" "+password);
 		HttpSession session = request.getSession(true);
 		//Appel de la Service pour checker l'identification :
 		
@@ -49,15 +49,16 @@ public class LoginServlet extends HttpServlet {
 		//Code bouchon !! A SUPPRIMER
 		if ("gloria".equals(login) && "gloria".equals(password)) {
 			//Login ok ! 
+			System.out.println("login ok");
 			Candidate user = new Candidate();
 			user.setFirstName("Gloria");
 			user.setLastName("Gloria");
 			session.setAttribute("user", user);
-			request.getRequestDispatcher("/Home").forward(request, response);
+			request.getRequestDispatcher("/Candidate").forward(request, response);
 		}else{
-			System.out.println("login erroné");
+			System.out.println("login nok");
 			request.setAttribute("error", "Login et/ou mot de passe incorrect(s)");
-			request.getRequestDispatcher("/index.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/jsp/candidate/login.jsp").forward(request, response);
 		}
 		
 		
