@@ -12,6 +12,16 @@ header{
 	min-height: 600px;
 }
 
+.bloc-error{
+	border : 1px solid red ;
+	background-color: #f9acac;
+	color : red ;
+	font-weight: bold;
+	margin-top : 5px ; 
+	margin-bottom : 5px ;
+	padding : 10px ;
+}
+
 footer{
 	   display: inline-block;
     width : 100% ; 

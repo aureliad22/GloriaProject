@@ -84,7 +84,7 @@
   </servlet>
   <servlet-mapping>
 	<servlet-name>CandidateTakeTestServlet</servlet-name>
-	<url-pattern>/TakeTest</url-pattern>
+	<url-pattern>/Candidate/TakeTest</url-pattern>
    </servlet-mapping>
 
 
