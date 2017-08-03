@@ -7,6 +7,8 @@ package tests.fr.eni.gloria;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -57,8 +59,33 @@ public class CandidateDaoTest {
 	}
 
 	@Test
-	public void testAuthenticate() {
+	public void testAuthenticate() throws GloriaException {
+		CandidateDao daoC = new CandidateDao();		
+		Candidate expected = daoC.authenticate("aurelia.delaune", "password");
+
+		assertEquals(expected.getFirstName().trim(), "Aurélia");
+	}
+	
+	@Test
+	public void testSelectAll() throws GloriaException {
+		CandidateDao daoC = new CandidateDao();
+		List<Candidate> listCandidates = null;
+		listCandidates = daoC.selectAll();
 		
+		int expected = 5;
+		int actual = listCandidates.size();
+		
+		assertEquals(expected, actual);
+	}	
+	
+	@Test
+	public void testSelectById() throws GloriaException{
+		CandidateDao daoC = new CandidateDao();
+		Candidate expected = daoC.selectById(1);
+		
+		assertEquals(expected.getLastName().trim(), "Delauné");
+		assertEquals(expected.getPassword().trim(), "password");
+
 	}
 	
 	@Test
@@ -71,10 +98,10 @@ public class CandidateDaoTest {
 		expected.setEmail("wololo@sonmail.fr");
 		expected.setPassword("password");
 		daoC.insert(expected);
-		
+				
 		Candidate actual = daoC.selectById(expected.getId());
-		
-		assertEquals(expected.getLastName().trim(), actual.getLastName());
-		assertEquals(expected.getFirstName().trim(), actual.getFirstName());
+		assertEquals(expected.getLastName().trim(), actual.getLastName().trim());
+		assertEquals(expected.getFirstName().trim(), actual.getFirstName().trim());
 	}
+
 }

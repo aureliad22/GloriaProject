@@ -226,8 +226,8 @@ public class CandidateDao implements ICrud<Candidate>{
 		Candidate result = new Candidate();
 		try {
 			result.setId(rs.getInt("id"));
-			result.setFirstName(rs.getString("firstName"));
-			result.setLastName(rs.getString("lastName"));
+			result.setFirstName(rs.getString("prenom"));
+			result.setLastName(rs.getString("nom"));
 			result.setEmail(rs.getString("email"));
 			result.setLogin(rs.getString("login"));
 			result.setPassword(rs.getString("password"));

@@ -1,10 +1,10 @@
 CREATE PROCEDURE ADD_CANDIDATE
 
-@nom nvarchar,
-@prenom nvarchar,
-@email nvarchar,
-@login nvarchar,
-@password nvarchar,
+@nom nvarchar(200),
+@prenom nvarchar(200),
+@email nvarchar(250),
+@login nvarchar(100),
+@password nvarchar(100),
 @idPromotion int
 AS
 

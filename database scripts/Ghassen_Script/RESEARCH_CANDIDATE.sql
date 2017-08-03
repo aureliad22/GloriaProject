@@ -8,9 +8,9 @@ GO
 ALTER PROCEDURE [dbo].[RESEARCH_CANDIDATE]
 
 
-@nom nvarchar,
-@prenom nvarchar,
-@email nvarchar
+@nom nvarchar(200),
+@prenom nvarchar(200),
+@email nvarchar(250)
 
 
 AS
@@ -21,9 +21,9 @@ BEGIN
     SELECT * from stagiaires
 
 where
-	nom = @nom AND
-	prenom = @prenom AND
-	email = @email
-	
-	
+    nom = @nom OR
+    prenom = @prenom OR
+    email = @email
+    
+    
 END;
