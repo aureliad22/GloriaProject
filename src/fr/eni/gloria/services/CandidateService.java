@@ -71,4 +71,16 @@ public class CandidateService implements IService<Candidate> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	/**
+	 * Méthode en charge de 
+	 * @param login
+	 * @param password
+	 * @return
+	 * @throws GloriaException 
+	 */
+	public Candidate authenticate(String login, String password) throws GloriaException {
+		// TODO Auto-generated method stub
+		return new CandidateDAO().authenticate(login, password);
+	}
 }

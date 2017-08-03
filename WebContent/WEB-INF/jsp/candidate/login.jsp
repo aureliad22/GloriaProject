@@ -3,13 +3,18 @@
 
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp"/>
 
-<c:if test="${error != null}">
-<jsp:include page="/WEB-INF/jsp/includes/error.jsp"/>
-</c:if>
 
-<form method="POST" action="<%=request.getContextPath()%>/LoginCandidate">
-    Login : <input type="text" name="login" id="login" placeholder="Adresse mail ou identifiant"/>
-    Password : <input type="password" name="password" id="password"/> 
-    <input type="submit" name="connexion" value="Connexion"/>
-</form>
+
+
+    <div class="loginmodal-container">
+        <h1>Identifiez-vous</h1><br>
+	    <form method="POST" action="<%=request.getContextPath()%>/LoginCandidate">
+	      <input type="text" name="login" id="login" placeholder="Adresse mail ou identifiant"/>
+	      <input type="password" name="password" id="password" placeholder="Mot de passe"/> 
+	      <c:if test="${error != null}">
+            <jsp:include page="/WEB-INF/jsp/includes/error.jsp"/>
+            </c:if>
+	      <input type="submit" name="connexion" class="login loginmodal-submit" value="Connexion">
+	    </form>
+    </div>
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp"/>

@@ -223,7 +223,7 @@ public class CandidateDAO implements ICrud<Candidate>{
 	@Override
 	public Candidate itemBuilder(ResultSet rs) throws GloriaException {
 		Candidate result = new Candidate();
-		CopyPromotionDAO daoP = new CopyPromotionDAO();
+		PromotionDAO daoP = new PromotionDAO();
 		try {
 			result.setId(rs.getInt("id"));
 			result.setFirstName(rs.getString("prenom"));
