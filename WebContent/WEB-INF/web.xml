@@ -57,10 +57,11 @@
     <servlet-name>CandidateServlet</servlet-name>
     <servlet-class>fr.eni.gloria.servlets.CandidateServlet</servlet-class>
   </servlet>
-  <servlet-mapping>
+<servlet-mapping>
     <servlet-name>CandidateServlet</servlet-name>
-    <url-pattern>/CandidateServlet</url-pattern>
+    <url-pattern>/Teacher/CandidateGestion</url-pattern>
   </servlet-mapping>
+
   <filter>
     <display-name>CandidateFilter</display-name>
     <filter-name>CandidateFilter</filter-name>
@@ -74,6 +75,7 @@
     <dispatcher>INCLUDE</dispatcher>
     <dispatcher>ERROR</dispatcher>
   </filter-mapping>
+
   <servlet>
     <description></description>
     <display-name>CandidateTakeTestServlet</display-name>
@@ -81,7 +83,21 @@
     <servlet-class>fr.eni.gloria.servlets.CandidateTakeTestServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>CandidateTakeTestServlet</servlet-name>
-    <url-pattern>/TakeTest</url-pattern>
+	<servlet-name>CandidateTakeTestServlet</servlet-name>
+	<url-pattern>/TakeTest</url-pattern>
+   </servlet-mapping>
+
+
+  
+  <servlet>
+    <description></description>
+    <display-name>TeacherHomeServlet</display-name>
+    <servlet-name>TeacherHomeServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.TeacherHomeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TeacherHomeServlet</servlet-name>
+    <url-pattern>/Teacher</url-pattern>
   </servlet-mapping>
+
 </web-app>

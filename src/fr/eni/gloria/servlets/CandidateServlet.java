@@ -24,8 +24,10 @@ import fr.eni.gloria.utils.GloriaLogger;
  */
 public class CandidateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
 	Logger logger = GloriaLogger.getLogger(this.getClass().getName());
 	private CandidateService candidateService; 
+
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -85,12 +87,14 @@ public class CandidateServlet extends HttpServlet {
 	 * @throws IOException
 	 * @throws GloriaException 
 	 */
+
 	private void listCandidates(HttpServletRequest request,	HttpServletResponse response) throws ServletException, IOException, GloriaException {
 		List<Candidate> liste = this.candidateService.getAll();
+
 		if(liste!=null)
 		{
 			request.setAttribute("listeCandidats", liste);
-			RequestDispatcher rd = request.getRequestDispatcher("/candidats.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/teacher/gestionCandidat.jsp");
 			rd.forward(request, response);
 		}
 		else
@@ -111,6 +115,7 @@ public class CandidateServlet extends HttpServlet {
 	private void supprimerCandidat(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, GloriaException {
 		
 		try {
+
 			int identifiant = Integer.parseInt(request.getParameter("id"));
 			//TODO appel de la DAO pour remonter le candidat à partir de l'identifiant...
 			Candidate candidate = new CandidateService().getById(identifiant);
@@ -120,6 +125,7 @@ public class CandidateServlet extends HttpServlet {
 			request.setAttribute("erreur", "La suppression a échoué.");
 			e.printStackTrace();
 		}
+
 		//Rappel de la méthode affichant la liste pour actualisation.
 		this.listCandidates(request, response);
 		
@@ -164,7 +170,6 @@ public class CandidateServlet extends HttpServlet {
 			candidate.setLogin(request.getParameter("login"));
 			candidate.setPassword(request.getParameter("password"));
 			candidate.setPromotion(new PromotionDAO().selectById(Integer.parseInt(request.getParameter("idPromotion"))));
-			
 			this.candidateService.modify(candidate);
 			request.setAttribute("message", "La modification s'est déroulée avec succès.");
 			

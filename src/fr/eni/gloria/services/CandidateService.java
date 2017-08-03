@@ -26,6 +26,7 @@ public class CandidateService implements IService<Candidate> {
 	 * {@inheritDoc}
 	 * @see fr.eni.gloria.services.IService#add(java.lang.Object)
 	 */
+
 	@Override
 	public void add(Candidate data) throws GloriaException {
 		// TODO Auto-generated method stub
@@ -49,7 +50,6 @@ public class CandidateService implements IService<Candidate> {
 	@Override
 	public void remove(Candidate data) throws GloriaException {
 		// TODO Auto-generated method stub
-		
 	}
 
 	/**
