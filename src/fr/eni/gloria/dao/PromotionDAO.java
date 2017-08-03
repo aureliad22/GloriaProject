@@ -14,6 +14,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -43,10 +44,11 @@ public class PromotionDAO implements ICrud<Promotion>{
 		boolean result = false;
 		
 		try(Connection cnx = AccessBase.getConnection()){
-			CallableStatement rqt = cnx.prepareCall("{call ADD_PROMOTION(?)}");
-			rqt.setString(1, data.getTitle());
+			CallableStatement rqt = cnx.prepareCall("{?=CALL ADD_PROMOTION(?)}");
+			rqt.registerOutParameter(1, Types.INTEGER);			
+			rqt.setString(2, data.getTitle());
 			
-			result = rqt.execute();
+			result = rqt.executeUpdate() == 1;
 			data.setId(rqt.getInt(1));
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#insert : "+e.getMessage());
@@ -68,11 +70,11 @@ public class PromotionDAO implements ICrud<Promotion>{
 		boolean result = false;
 		
 		try(Connection cnx = AccessBase.getConnection()){
-			CallableStatement rqt = cnx.prepareCall("{call MODIFY_PROMOTION(?, ?)}");
+			CallableStatement rqt = cnx.prepareCall("{CALL MODIFY_PROMOTION(?, ?)}");
 			rqt.setInt(1, data.getId());
 			rqt.setString(2, data.getTitle());
 			
-			result = rqt.executeUpdate() <1;
+			result = rqt.executeUpdate() ==1;
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#update : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la mise à jour de la promotion.");
@@ -93,9 +95,9 @@ public class PromotionDAO implements ICrud<Promotion>{
 		boolean result = false;
 		
 		try(Connection cnx = AccessBase.getConnection()){
-			CallableStatement stm = cnx.prepareCall("{call DELETE_PROMOTION(?)}");
+			CallableStatement stm = cnx.prepareCall("{CALL DELETE_PROMOTION(?)}");
 			stm.setInt(1, data.getId());
-			result = stm.executeUpdate() < 1;
+			result = stm.executeUpdate() == 1;
 		}catch (Exception e) {
 			logger.severe(this.getClass().getName()+"#delete : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la suppression de la promotion.");
@@ -116,7 +118,7 @@ public class PromotionDAO implements ICrud<Promotion>{
 		Promotion promotion = null;
 		
 		try(Connection cnx = AccessBase.getConnection()){
-			CallableStatement rqt = cnx.prepareCall("{call FIND_BY_ID_PROMOTION(?)}");
+			CallableStatement rqt = cnx.prepareCall("{CALL FIND_BY_ID_PROMOTION(?)}");
 			rqt.setInt(1, id);
 			ResultSet rs = rqt.executeQuery();
 			
@@ -142,7 +144,7 @@ public class PromotionDAO implements ICrud<Promotion>{
 		List<Promotion> listePromotions = new ArrayList<Promotion>();
 		
 		try(Connection cnx = AccessBase.getConnection()){
-			CallableStatement rqt = cnx.prepareCall("{call LIST_PROMOTIONS()}");
+			CallableStatement rqt = cnx.prepareCall("{CALL LIST_PROMOTIONS()}");
 			
 			ResultSet rs = rqt.executeQuery();
 			while(rs.next()){

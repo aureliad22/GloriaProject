@@ -4,12 +4,12 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import fr.eni.gloria.beans.Candidate;
-import fr.eni.gloria.beans.Promotion;
 import fr.eni.gloria.utils.GloriaException;
 import fr.eni.gloria.utils.GloriaLogger;
 
@@ -38,7 +38,7 @@ public class CopyCandidateDao implements ICrud<Candidate>{
 	public Candidate authenticate(String login, String password) throws GloriaException{
 		Candidate result = null ;
 		try(Connection cnx = DBConnection.getConnection()){
-			CallableStatement rqt = cnx.prepareCall("{call AUTHENTICATE_CANDIDATE(?, ?)}");
+			CallableStatement rqt = cnx.prepareCall("{CALL AUTHENTICATE_CANDIDATE(?, ?)}");
 			rqt.setString(1, login);
 			rqt.setString(2, password);
 			ResultSet rs= rqt.executeQuery();
@@ -48,8 +48,7 @@ public class CopyCandidateDao implements ICrud<Candidate>{
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#authenticate : "+e.getMessage());
 			throw new GloriaException("Erreur lors de l'authentification du candidat.");
-		}
-			
+		}			
 		return result;
 	}
 	
@@ -65,7 +64,7 @@ public class CopyCandidateDao implements ICrud<Candidate>{
 	public Candidate search(String lastName, String firstName, String email) throws GloriaException{
 		Candidate result = null;
 		try(Connection cnx=DBConnection.getConnection()){
-			CallableStatement rqt = cnx.prepareCall("{call RESEARCH_CANDIDATE(?,?,?)}");
+			CallableStatement rqt = cnx.prepareCall("{CALL RESEARCH_CANDIDATE(?,?,?)}");
 			rqt.setString(1, lastName);
 			rqt.setString(2, firstName);
 			rqt.setString(3, email);
@@ -93,21 +92,20 @@ public class CopyCandidateDao implements ICrud<Candidate>{
 	 */
 	@Override
 	public boolean insert(Candidate data) throws GloriaException {
-
 		CallableStatement rqt=null;
-		Promotion promotion = new Promotion();
 		boolean result = false ;
 		try(Connection cnx=DBConnection.getConnection()){
 			
-			rqt=cnx.prepareCall("{call ADD_CANDIDATE(?,?,?,?,?,?)}");
-			rqt.setString(1, data.getFirstName());
+			rqt=cnx.prepareCall("{?=CALL ADD_CANDIDATE(?,?,?,?,?,?)}");
+			rqt.registerOutParameter(1, Types.INTEGER);
 			rqt.setString(2, data.getLastName());
-			rqt.setString(3, data.getEmail());
-			rqt.setString(4, data.getLogin());
-			rqt.setString(5, data.getPassword());
-			rqt.setInt(6, promotion.getId());
+			rqt.setString(3, data.getFirstName());
+			rqt.setString(4, data.getEmail());
+			rqt.setString(5, data.getLogin());
+			rqt.setString(6, data.getPassword());
+			rqt.setInt(7, data.getPromotion().getId());	
 			
-			result = rqt.executeUpdate()<1;
+			result = (rqt.executeUpdate()==1);
 			data.setId(rqt.getInt(1));
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#insert : "+e.getMessage());
@@ -125,18 +123,18 @@ public class CopyCandidateDao implements ICrud<Candidate>{
 	@Override
 	public boolean update(Candidate data) throws GloriaException {
 		boolean result = false ;
-		Promotion promotion = new Promotion();
 
 		try(Connection cnx=DBConnection.getConnection()){
-			CallableStatement rqt=cnx.prepareCall("{call MODIFY_CANDIDATE(?,?,?,?,?,?)}");
-			rqt.setString(1, data.getFirstName());
-			rqt.setString(2, data.getLastName());
-			rqt.setString(3, data.getEmail());
-			rqt.setString(4, data.getPassword());
-			rqt.setString(5, data.getLogin());
-			rqt.setInt(6, promotion.getId());
+			CallableStatement rqt=cnx.prepareCall("{CALL MODIFY_CANDIDATE(?,?,?,?,?,?,?)}");
+			rqt.setInt(1,  data.getId());
+			rqt.setString(2, data.getFirstName());
+			rqt.setString(3, data.getLastName());
+			rqt.setString(4, data.getEmail());
+			rqt.setString(5, data.getPassword());
+			rqt.setString(6, data.getLogin());
+			rqt.setInt(7, data.getPromotion().getId());
 
-			result = rqt.executeUpdate() <1;
+			result = (rqt.executeUpdate() == 1);
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#update : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la mise à jour du candidat dans la base de données.");
@@ -156,9 +154,9 @@ public class CopyCandidateDao implements ICrud<Candidate>{
 		boolean result = false ;
 		try(Connection cnx=DBConnection.getConnection()){
 			
-			CallableStatement rqt=cnx.prepareCall("{call DELETE_CANDIDATE(?)}");
+			CallableStatement rqt=cnx.prepareCall("{CALL DELETE_CANDIDATE(?)}");
 			rqt.setInt(1, data.getId());
-			result = rqt.executeUpdate() <1 ;
+			result = rqt.executeUpdate() == 1 ;
 			
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#update : "+e.getMessage());
@@ -177,7 +175,7 @@ public class CopyCandidateDao implements ICrud<Candidate>{
 	public Candidate selectById(int id) throws GloriaException {
 		Candidate result = null ;
 		try(Connection cnx = DBConnection.getConnection()){
-			CallableStatement rqt = cnx.prepareCall("{call FIND_BY_ID_CANDIDATE(?)}");
+			CallableStatement rqt = cnx.prepareCall("{CALL FIND_BY_ID_CANDIDATE(?)}");
 			rqt.setInt(1, id);
 			ResultSet rs=rqt.executeQuery();
 			if (rs.next()){
@@ -201,7 +199,7 @@ public class CopyCandidateDao implements ICrud<Candidate>{
 	public List<Candidate> selectAll() throws GloriaException {
 		List<Candidate> result = new ArrayList<Candidate>();
 		try(Connection cnx=DBConnection.getConnection()){
-			CallableStatement rqt=cnx.prepareCall("{call LIST_CANDIDATES()}");
+			CallableStatement rqt=cnx.prepareCall("LIST_CANDIDATES");
 			ResultSet rs=rqt.executeQuery();
 			
 			while (rs.next()){
@@ -210,8 +208,7 @@ public class CopyCandidateDao implements ICrud<Candidate>{
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#selectAll : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la récupération de la liste des candidats.");
-		} 
-		
+		} 		
 		return result;
 	}
 
@@ -225,7 +222,7 @@ public class CopyCandidateDao implements ICrud<Candidate>{
 	@Override
 	public Candidate itemBuilder(ResultSet rs) throws GloriaException {
 		Candidate result = new Candidate();
-		//PromotionDAO daoP = new PromotionDAO();
+		CopyPromotionDAO daoP = new CopyPromotionDAO();
 		try {
 			result.setId(rs.getInt("id"));
 			result.setFirstName(rs.getString("prenom"));
@@ -233,7 +230,7 @@ public class CopyCandidateDao implements ICrud<Candidate>{
 			result.setEmail(rs.getString("email"));
 			result.setLogin(rs.getString("login"));
 			result.setPassword(rs.getString("password"));
-			//result.setPromotion(daoP.selectById(rs.getInt("idPromotion")));
+			result.setPromotion(daoP.selectById(rs.getInt("idPromotion")));
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#itemBuilder : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la construction du candidat depuis la base de données.");
