@@ -5,8 +5,8 @@
 -- whose login (or email) and password match the given parameters
 -- =============================================
 CREATE PROCEDURE AUTHENTICATE_CANDIDATE 
-	@login nvarchar,
-	@password nvarchar
+	@login nvarchar(250),
+	@password nvarchar(100)
 	
 AS
 BEGIN
