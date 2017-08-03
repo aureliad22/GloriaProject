@@ -21,7 +21,8 @@ import fr.eni.gloria.services.CandidateService;
  */
 public class CandidateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private CandidateService candidateService; 
+	CandidateService candidateService;
+
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -66,11 +67,11 @@ public class CandidateServlet extends HttpServlet {
 	 */
 	private void listerCandidats(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		List<Candidate> liste = this.candidateService.lister();
+		List<Candidate> liste = candidateService.lister();
 		if(liste!=null)
 		{
 			request.setAttribute("listeCandidats", liste);
-			RequestDispatcher rd = request.getRequestDispatcher("/candidats.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/teacher/modifcandidat.jsp");
 			rd.forward(request, response);
 		}
 		else
@@ -91,13 +92,13 @@ public class CandidateServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		int identifiant = Integer.parseInt(request.getParameter("id"));
 		try {
-			this.candidateService.supprimer(identifiant);
+			candidateService.supprimer(identifiant);
 			request.setAttribute("message", "La suppression s'est déroulée avec succès.");
 		} catch (Exception e) {
 			request.setAttribute("erreur", "La suppression a échoué.");
 			e.printStackTrace();
 		}
-		this.listerCandidats(request, response);
+		listerCandidats(request, response);
 		
 	}
 	
@@ -112,13 +113,13 @@ public class CandidateServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		int identifiant = Integer.parseInt(request.getParameter("id"));
 		try {
-			Candidate candidatAModifier = this.candidateService.selectionner(identifiant);
+			Candidate candidatAModifier = candidateService.selectionner(identifiant);
 			request.setAttribute("candidatAModifier", candidatAModifier);
 		} catch (Exception e) {
 			request.setAttribute("erreur", "La demande de modification a échoué.");
 			e.printStackTrace();
 		}
-		this.listerCandidats(request, response);
+		listerCandidats(request, response);
 	}
 	
 	/**
@@ -141,7 +142,7 @@ public class CandidateServlet extends HttpServlet {
 			
 			
 			
-			this.candidateService.modifier(nom, prenom, email, login, password, idPromotion);
+			candidateService.modifier(nom, prenom, email, login, password, idPromotion);
 			request.setAttribute("message", "La modification s'est déroulée avec succès.");
 			
 		} 
@@ -153,7 +154,7 @@ public class CandidateServlet extends HttpServlet {
 			request.setAttribute("erreur", "La modification a échoué.");
 			e.printStackTrace();
 		}
-		this.listerCandidats(request, response);
+		listerCandidats(request, response);
 	}
 
 }

@@ -22,7 +22,7 @@ public class CandidateService {
 	 * Méthode en charge de 
 	 * @return une liste de formations (vide ou pas) ou null si la base est inaccessible
 	 */
-	public List<Candidate> lister() {
+	public static List<Candidate> lister() {
 		List<Candidate> liste=null;
 		try {
 			liste = CandidateDao.lister();
@@ -37,7 +37,7 @@ public class CandidateService {
 	 * @param identifiant
 	 * @throws Exception 
 	 */
-	public void supprimer(int identifiant) throws Exception {
+	public static void supprimer(int identifiant) throws Exception {
 		Candidate c = new Candidate();
 		c.setId(identifiant);
 		CandidateDao.supprimer(c);
@@ -50,7 +50,7 @@ public class CandidateService {
 	 * @return
 	 * @throws Exception 
 	 */
-	public Candidate selectionner(int identifiant) throws Exception {
+	public static Candidate selectionner(int identifiant) throws Exception {
 		Candidate c = new Candidate();
 		c.setId(identifiant);
 		return CandidateDao.rechercher(c);
@@ -65,7 +65,7 @@ public class CandidateService {
 	 * @param fin
 	 * @throws Exception 
 	 */
-	public void modifier(String nom, String prenom,String email, String login, String password, int idPromotion
+	public static void modifier(String nom, String prenom,String email, String login, String password, int idPromotion
 			) throws Exception {
 		Candidate candidat = new Candidate();
 		Promotion promotion = new Promotion();

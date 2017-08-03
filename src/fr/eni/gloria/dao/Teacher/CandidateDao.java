@@ -130,14 +130,16 @@ public class CandidateDao {
 		try{
 			
 			cnx=AccessBase.getConnection();
-			rqt=cnx.prepareCall("{call LIST_CANDIDATE()}");
+			rqt=cnx.prepareCall("{call LIST_CANDIDATES()}");
 			rs=rqt.executeQuery();
 			
-			Candidate candidat = new Candidate();
+			
 			while (rs.next()){
+				Candidate candidat = new Candidate();
 				
-									candidat.setFirstName(rs.getString("firstName"));
-									candidat.setLastName(rs.getString("lastName"));
+									candidat.setFirstName(rs.getString("nom"));
+									candidat.setLastName(rs.getString("prenom"));
+									candidat.setEmail(rs.getString("email"));
 									candidat.setLogin(rs.getString("login"));
 									candidat.setPassword(rs.getString("password"));
 					
