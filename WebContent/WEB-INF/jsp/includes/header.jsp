@@ -11,13 +11,10 @@
 	</head>
 	
     <body>
-        <header><h1>GloriaProject</h1></header>
+        <header><h1>GloriaProject</h1>
+        <c:if test="${user != null}">
+            <a href="<%=request.getContextPath()%>/Deconnexion">Deconnexion</a>
+        </c:if></header>
         <div class="container">
-        <c:if test="${user} instanceof Candidate">
-        <ul id=menu>
-			<li><a href="#">Accueil</a>
-			<li><a href="#">Tests</a>
-			<li><a href="#">Resutats</a>
-		</ul>
-		</c:if>
+        
             <div class="col-sm-10 col-sm-push-1">

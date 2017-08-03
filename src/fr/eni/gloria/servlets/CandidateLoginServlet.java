@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import fr.eni.gloria.beans.Candidate;
+import fr.eni.gloria.services.CandidateService;
+import fr.eni.gloria.utils.GloriaException;
 import fr.eni.gloria.utils.GloriaLogger;
 
 /**
@@ -43,14 +45,15 @@ public class CandidateLoginServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		HttpSession session = request.getSession(true);
 		//Appel de la Service pour checker l'identification :
-		
-		
-		//Code bouchon !! A SUPPRIMER
-		if ("gloria".equals(login) && "gloria".equals(password)) {
-			//Login ok ! 
-			Candidate user = new Candidate();
-			user.setFirstName("Gloria");
-			user.setLastName("Gloria");
+		Candidate user = null;
+		try {
+			user = new CandidateService().authenticate(login, password);
+		} catch (GloriaException e) {
+			request.setAttribute("error", e.getMessage());
+			request.getRequestDispatcher("/WEB-INF/jsp/candidate/login.jsp").forward(request, response);;
+		}
+
+		if ( user != null) {
 			session.setAttribute("user", user);
 			request.getRequestDispatcher("/Candidate").forward(request, response);
 		}else{
