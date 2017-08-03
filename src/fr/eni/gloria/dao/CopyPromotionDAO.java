@@ -28,7 +28,7 @@ import fr.eni.gloria.utils.GloriaLogger;
  * @date 2 août 2017
  * @version GloriaProject V1.0
  */
-public class PromotionDAO implements ICrud<Promotion>{
+public class CopyPromotionDAO implements ICrud<Promotion>{
 	Logger logger = GloriaLogger.getLogger(this.getClass().getName());
 	
 	/**
@@ -42,7 +42,7 @@ public class PromotionDAO implements ICrud<Promotion>{
 	public boolean insert(Promotion data) throws GloriaException {
 		boolean result = false;
 		
-		try(Connection cnx = AccessBase.getConnection()){
+		try(Connection cnx = DBConnection.getConnection()){
 			CallableStatement rqt = cnx.prepareCall("{call ADD_PROMOTION(?)}");
 			rqt.setString(1, data.getTitle());
 			
@@ -67,7 +67,7 @@ public class PromotionDAO implements ICrud<Promotion>{
 	public boolean update(Promotion data) throws GloriaException {
 		boolean result = false;
 		
-		try(Connection cnx = AccessBase.getConnection()){
+		try(Connection cnx = DBConnection.getConnection()){
 			CallableStatement rqt = cnx.prepareCall("{call MODIFY_PROMOTION(?, ?)}");
 			rqt.setInt(1, data.getId());
 			rqt.setString(2, data.getTitle());
@@ -92,7 +92,7 @@ public class PromotionDAO implements ICrud<Promotion>{
 	public boolean delete(Promotion data) throws GloriaException {
 		boolean result = false;
 		
-		try(Connection cnx = AccessBase.getConnection()){
+		try(Connection cnx = DBConnection.getConnection()){
 			CallableStatement stm = cnx.prepareCall("{call DELETE_PROMOTION(?)}");
 			stm.setInt(1, data.getId());
 			result = stm.executeUpdate() < 1;
@@ -115,7 +115,7 @@ public class PromotionDAO implements ICrud<Promotion>{
 	public Promotion selectById(int id) throws GloriaException {
 		Promotion promotion = null;
 		
-		try(Connection cnx = AccessBase.getConnection()){
+		try(Connection cnx = DBConnection.getConnection()){
 			CallableStatement rqt = cnx.prepareCall("{call FIND_BY_ID_PROMOTION(?)}");
 			rqt.setInt(1, id);
 			ResultSet rs = rqt.executeQuery();
@@ -141,7 +141,7 @@ public class PromotionDAO implements ICrud<Promotion>{
 	public List<Promotion> selectAll() throws GloriaException {
 		List<Promotion> listePromotions = new ArrayList<Promotion>();
 		
-		try(Connection cnx = AccessBase.getConnection()){
+		try(Connection cnx = DBConnection.getConnection()){
 			CallableStatement rqt = cnx.prepareCall("{call LIST_PROMOTIONS()}");
 			
 			ResultSet rs = rqt.executeQuery();

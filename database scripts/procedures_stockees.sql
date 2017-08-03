@@ -16,6 +16,7 @@ BEGIN
 		prenom, 
 		email, 
 		login, 
+		password,
 		idPromotion
 	FROM
 		stagiaires
@@ -188,7 +189,8 @@ BEGIN
 		nom, 
 		prenom, 
 		email, 
-		login, 
+		login,
+		password,
 		idPromotion
 	FROM 
 		stagiaires

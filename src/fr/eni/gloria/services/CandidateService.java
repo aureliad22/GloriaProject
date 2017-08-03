@@ -71,7 +71,4 @@ public class CandidateService implements IService<Candidate> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-
 }
