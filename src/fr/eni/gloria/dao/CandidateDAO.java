@@ -160,7 +160,7 @@ public class CandidateDAO implements ICrud<Candidate>{
 			result = rqt.executeUpdate() ==1 ;
 			
 		} catch (SQLException e) {
-			logger.severe(this.getClass().getName()+"#update : "+e.getMessage());
+			logger.severe(this.getClass().getName()+"#delete : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la suppression du candidat dans la base de données.");
 		}
 		return result ;

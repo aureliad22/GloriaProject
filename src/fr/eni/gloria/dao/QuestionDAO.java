@@ -5,11 +5,20 @@
  */
 package fr.eni.gloria.dao;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
+import fr.eni.gloria.beans.Candidate;
 import fr.eni.gloria.beans.Question;
+import fr.eni.gloria.utils.AccessBase;
 import fr.eni.gloria.utils.GloriaException;
+import fr.eni.gloria.utils.GloriaLogger;
 
 /**
  * @author lvanhove2017
@@ -17,65 +26,147 @@ import fr.eni.gloria.utils.GloriaException;
  * @version GloriaProject V1.0
  */
 public class QuestionDAO implements ICrud<Question>{
+	Logger logger = GloriaLogger.getLogger(this.getClass().getName());
 
 	/**
-	 * {@inheritDoc}
-	 * @see fr.eni.gloria.dao.ICrud#insert(java.lang.Object)
+	 *  Méthode permettant d'insérer une nouvelle question dans la BdD.
+	 * L'id de la question sera mis à jour avec l'id autogénéré par la BdD.
+	 * 
+	 * @param Question à insérer
+	 * @return Vrai si l'insertion s'est correctement effectuée.
 	 */
 	@Override
 	public boolean insert(Question data) throws GloriaException {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		
+		try(Connection cnx = AccessBase.getConnection()){
+			CallableStatement rqt = cnx.prepareCall("{?=CALL ADD_QUESTION(?,?,?)}");			
+			rqt.registerOutParameter(1, Types.INTEGER);
+			rqt.setString(2, data.getQuestion());
+			rqt.setString(3, data.getImageURI());
+			// TODO gestion liste de reponses et des nullables
+			result = rqt.executeUpdate()==1;
+			data.setId(rqt.getInt(1));
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#insert : "+e.getMessage());
+			throw new GloriaException("Erreur lors de l'insertion de la question dans la base de données.");
+		}
+		return result;
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @see fr.eni.gloria.dao.ICrud#update(java.lang.Object)
+	 * Méthode permettant de mettre à jour une question dans la BdD
+	 * @param Question à mettre à jour
+	 * @return Vrai si la mise à jour a fonctionné.
 	 */
 	@Override
 	public boolean update(Question data) throws GloriaException {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		
+		try(Connection cnx = AccessBase.getConnection()){
+			CallableStatement rqt = cnx.prepareCall("{CALL MODIFY_QUESTION(?,?,?,?)}");			
+			rqt.setInt(1, data.getId());
+			rqt.setString(2, data.getQuestion());
+			rqt.setString(3, data.getImageURI());
+			// TODO gestion liste de reponses et des nullables
+			result = rqt.executeUpdate()==1;
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#update : "+e.getMessage());
+			throw new GloriaException("Erreur lors de la modification de la question dans la base de données.");
+		}
+		return result;
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @see fr.eni.gloria.dao.ICrud#delete(java.lang.Object)
+	 * Méthode permettant de supprimer de la base de données la 
+	 * question donnée en paramètre.
+	 * 
+	 * @param Question à supprimer.
+	 * @return Vrai si la suppression a réussi, faux sinon.
 	 */
 	@Override
 	public boolean delete(Question data) throws GloriaException {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		
+		try(Connection cnx = AccessBase.getConnection()){
+			CallableStatement rqt = cnx.prepareCall("{CALL DELETE_QUESTION(?)}");			
+			rqt.setInt(1, data.getId());
+
+			result = rqt.executeUpdate()==1;
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#delete : "+e.getMessage());
+			throw new GloriaException("Erreur lors de la suppression de la question dans la base de données.");
+		}
+		return result;
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @see fr.eni.gloria.dao.ICrud#selectById(int)
+	 * Méthode permettant de retourner une question d'après son identifiant
+	 * 
+	 * @param id Identifiant de la question
+	 * @return Question ayant l'identifiant id
 	 */
 	@Override
 	public Question selectById(int id) throws GloriaException {
-		// TODO Auto-generated method stub
-		return null;
+		Question result = null ;
+		try(Connection cnx = AccessBase.getConnection()){
+			CallableStatement rqt = cnx.prepareCall("{CALL FIND_BY_ID_QUESTION(?)}");
+			rqt.setInt(1, id);
+			ResultSet rs=rqt.executeQuery();
+			if (rs.next()){
+				result = itemBuilder(rs);
+			}
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#findById : "+e.getMessage());
+			throw new GloriaException("Erreur lors de la recherche de la question dans la base de données.");
+		}
+			
+		return result;
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @see fr.eni.gloria.dao.ICrud#selectAll()
+	 * Méthode en charge de construire la liste des questions 
+	 * depuis la base de données.
+	 * 
+	 * @return Liste des questions existentielles.
 	 */
 	@Override
 	public List<Question> selectAll() throws GloriaException {
-		// TODO Auto-generated method stub
-		return null;
+		List<Question> result = new ArrayList<Question>();
+		try(Connection cnx = AccessBase.getConnection()){
+			CallableStatement rqt = cnx.prepareCall("LIST_QUESTIONS");
+			ResultSet rs = rqt.executeQuery();
+			
+			while (rs.next()){
+				result.add(itemBuilder(rs));				
+			}
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#selectAll : "+e.getMessage());
+			throw new GloriaException("Erreur lors de la récupération de la liste des questions.");
+		} 		
+		return result;
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @see fr.eni.gloria.dao.ICrud#itemBuilder(java.sql.ResultSet)
+	 * Méthode en charge de construire un object Question 
+	 * depuis la ligne courante du ResultSet donné en paramètre.
+	 * @param rs ResultSet à lire
+	 * @return result Question construit à partir de rs.
 	 */
 	@Override
 	public Question itemBuilder(ResultSet rs) throws GloriaException {
-		// TODO Auto-generated method stub
-		return null;
+		Question result = new Question();
+		try {
+			result.setId(rs.getInt("id"));
+			result.setQuestion(rs.getString("enonce"));
+			result.setImageURI(rs.getString("imageUri"));
+			// TODO liste de reponses
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#itemBuilder : "+e.getMessage());
+			throw new GloriaException("Erreur lors de la construction de la question depuis la base de données.");
+		}
+		
+		return result;
 	}
 
 
