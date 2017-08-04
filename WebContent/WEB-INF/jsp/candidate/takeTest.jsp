@@ -6,22 +6,7 @@
     <p>Temps alloué : ${requestedTest.duration} minutes.</p>
 </div>
 
-<c:forEach items="${requestedTest.questions}" var="q">
-    <div class="bloc_question">
-        ${q.question}
-    </div>
-    <div class="bloc_reponses">
-    
-        <c:forEach items="${q.answers}" var="a">
-        <div class="bloc_reponse">
-           <input type="checkbox" id="reponse" name="${a.id}"/><label>${a.answer}</label> 
-        </div>
-        </c:forEach>
-        
-        <input type="submit" name="chosenAnswer" value="Valider"/>
-    </div>
-
-</c:forEach>
+Coder ici le traitement de la question
 
 
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp"/>

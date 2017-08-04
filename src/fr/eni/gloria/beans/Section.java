@@ -6,6 +6,7 @@
 package fr.eni.gloria.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author lvanhove2017
@@ -19,6 +20,7 @@ public class Section implements Serializable{
 	private static final long serialVersionUID = 5921483930386877071L;
 	private int id;
 	private String libelle;
+	private List<Question> questions ;
 	/**
 	 * Constructeur.
 	 */
@@ -52,6 +54,20 @@ public class Section implements Serializable{
 	 */
 	public void setLibelle(String libelle) {
 		this.libelle = libelle;
+	}
+	/**
+	 * Getter pour questions.
+	 * @return the questions
+	 */
+	public List<Question> getQuestions() {
+		return questions;
+	}
+	/**
+	 * Setter pour questions.
+	 * @param questions the questions to set
+	 */
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
 	}
 	/**
 	 * {@inheritDoc}

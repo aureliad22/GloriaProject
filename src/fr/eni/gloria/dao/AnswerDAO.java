@@ -16,7 +16,7 @@ import fr.eni.gloria.utils.GloriaException;
  * @date 2 août 2017
  * @version GloriaProject V1.0
  */
-public class AnwserDAO implements ICrud<Answer>{
+public class AnswerDAO implements ICrud<Answer>{
 
 	/**
 	 * {@inheritDoc}
@@ -75,6 +75,16 @@ public class AnwserDAO implements ICrud<Answer>{
 	@Override
 	public Answer itemBuilder(ResultSet rs) throws GloriaException {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * Méthode en charge de 
+	 * @param id
+	 * @return
+	 */
+	public List<Answer> getAllByQuestionId(int id) {
+		// TODO Coder la récupération de la liste des réponses correspondant à une question
 		return null;
 	}
 
