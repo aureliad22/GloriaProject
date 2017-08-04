@@ -20,7 +20,7 @@ import fr.eni.gloria.utils.GloriaLogger;
  * @date 1 août 2017
  * @version GloriaProject V1.0
  */
-public class CopyCandidateDao implements ICrud<Candidate>{
+public class CopyCandidateDAO implements ICrud<Candidate>{
 	Logger logger = GloriaLogger.getLogger(this.getClass().getName());
 	
 	/**

@@ -160,7 +160,7 @@ public class QuestionDAO implements ICrud<Question>{
 			result.setId(rs.getInt("id"));
 			result.setQuestion(rs.getString("enonce"));
 			result.setImageURI(rs.getString("imageUri"));
-			// TODO liste de reponses
+			result.setAnswers(new AnswerDAO().getAllByQuestionId(result.getId()));
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#itemBuilder : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la construction de la question depuis la base de données.");

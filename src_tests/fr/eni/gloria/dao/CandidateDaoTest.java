@@ -49,12 +49,12 @@ public class CandidateDaoTest {
 	 */
 	@After
 	public void tearDown() throws GloriaException{
-		new CopyCandidateDao().delete(expectedCandidate);		
+		new CopyCandidateDAO().delete(expectedCandidate);		
 	}
 	
 	@Test
 	public void testAuthenticate() throws GloriaException {
-		CopyCandidateDao daoC = new CopyCandidateDao();		
+		CopyCandidateDAO daoC = new CopyCandidateDAO();		
 		Candidate expected = daoC.authenticate("aurelia.delaune", "password");
 
 		assertEquals(expected.getFirstName().trim(), "Aurélia");
@@ -62,7 +62,7 @@ public class CandidateDaoTest {
 	
 	@Test
 	public void testSelectAll() throws GloriaException {
-		CopyCandidateDao daoC = new CopyCandidateDao();
+		CopyCandidateDAO daoC = new CopyCandidateDAO();
 		List<Candidate> listCandidates = null;
 		listCandidates = daoC.selectAll();
 		
@@ -74,7 +74,7 @@ public class CandidateDaoTest {
 	
 	@Test
 	public void testSelectById() throws GloriaException{
-		CopyCandidateDao daoC = new CopyCandidateDao();
+		CopyCandidateDAO daoC = new CopyCandidateDAO();
 		Candidate expected = daoC.selectById(1);
 		
 		assertEquals(expected.getLastName().trim(), "Delauné");
@@ -84,7 +84,7 @@ public class CandidateDaoTest {
 	
 	@Test
 	public void testInsert() throws GloriaException {
-		CopyCandidateDao daoC = new CopyCandidateDao();
+		CopyCandidateDAO daoC = new CopyCandidateDAO();
 		
 		assertTrue(daoC.insert(expectedCandidate));	
 		
@@ -96,7 +96,7 @@ public class CandidateDaoTest {
 	
 	@Test
 	public void testUpdate() throws GloriaException{
-		CopyCandidateDao daoC = new CopyCandidateDao();
+		CopyCandidateDAO daoC = new CopyCandidateDAO();
 		
 		// Création du candidat à modifier:
 		daoC.insert(expectedCandidate);
@@ -113,7 +113,7 @@ public class CandidateDaoTest {
 	
 	@Test
 	public void testDelete() throws GloriaException{
-		CopyCandidateDao daoC = new CopyCandidateDao();
+		CopyCandidateDAO daoC = new CopyCandidateDAO();
 
 		daoC.insert(expectedCandidate);
 		
