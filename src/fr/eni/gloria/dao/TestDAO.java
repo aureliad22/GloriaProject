@@ -159,7 +159,7 @@ public class TestDAO implements ICrud<Test>{
 
 	/**
 	 * Méthode en charge de construire un objet Test
-	 * depis la ligne courante du ResultSet donné en parametre.
+	 * depuis la ligne courante du ResultSet donné en parametre.
 	 * @param rs ResultSet à lire.
 	 * @return result Test construit.
 	 */
@@ -171,12 +171,41 @@ public class TestDAO implements ICrud<Test>{
 			result.setTitle(rs.getString("libelle"));
 			result.setSuccessTreshold(rs.getInt("seuilAcquisition"));
 			result.setSemiSuccessTreshold(rs.getInt("seuilEnCoursAcquisition"));
-			result.setDuration(rs.getInt("durée")); // Pas de colonne durée dans la table test !!!!
+			result.setDuration(rs.getInt("tempsPassage")); 
 			result.setCreator(new TeacherDao().selectById(rs.getInt("idFormateur")));
-			// TODO ajout liste questions
+			// TODO ajout liste sections
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#itemBuilder : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la construction du test depuis la base de données.");
+		}
+		return result;
+	}
+
+	/**
+	 * Méthode en charge de fournir la liste des tests
+	 * auquels le candidat, dont l'identifiant est donné
+	 * en paramètre, est inscrit.
+	 * 
+	 * @param idCandidate Identifiant du candidat.
+	 * @return Liste des en-têtes de tests pour ce candidat.
+	 * @throws GloriaException 
+	 */
+	public List<Test> selectTestsByCandidateId(int idCandidate) throws GloriaException {
+		//TODO Appel de la procStock LIST_TESTS_CANDIDATE
+		List<Test> result = new ArrayList<Test>();
+		try(Connection cnx = AccessBase.getConnection()){
+			CallableStatement rqt = cnx.prepareCall("{CALL LIST_TESTS_CANDIDATE(?)}");
+			rqt.setInt(1, idCandidate);
+			ResultSet rs = rqt.executeQuery();
+			
+			while(rs.next()){
+				
+				result.add(itemBuilder(rs));
+				
+			}
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#selectTestsByCandidateId : "+e.getMessage());
+			throw new GloriaException("Erreur lors de la récupération de tous les tests du candidat dans la base de données.");
 		}
 		return result;
 	}

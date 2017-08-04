@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import fr.eni.gloria.beans.Candidate;
 import fr.eni.gloria.beans.Question;
 import fr.eni.gloria.utils.AccessBase;
 import fr.eni.gloria.utils.GloriaException;
@@ -164,6 +163,37 @@ public class QuestionDAO implements ICrud<Question>{
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#itemBuilder : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la construction de la question depuis la base de données.");
+		}
+		
+		return result;
+	}
+
+	/**
+	 * Méthode en charge de fournir la liste des questions qui ont 
+	 * été selectionnée pour le candidat, le test et la section donnés en paramètres
+	 * 
+	 * @param idTest Ientifiant du test à passer
+	 * @param idStagiaire Identifiant du stagiaire passant le test
+	 * @param idSection Identifiant de la section du test.
+	 * 
+	 * @return La liste des question selectionnées pour cette section, de ce test, pour ce candidat.
+	 * 
+	 * @throws GloriaException 
+	 */
+	public List<Question> getSelectedQuestions(int idTest, int idStagiaire,	int idSection) throws GloriaException {
+		List<Question> result = new ArrayList<Question>();
+		try(Connection cnx = AccessBase.getConnection()){
+			CallableStatement rqt = cnx.prepareCall("{CALL LIST_QUESTIONS_BY_CANDIDATEandTESTandSECTION(?,?,?)}");
+			rqt.setInt(1, idStagiaire);
+			rqt.setInt(2, idTest);
+			rqt.setInt(3, idSection);
+			ResultSet rs = rqt.executeQuery();
+			while(rs.next()){
+				result.add(itemBuilder(rs));
+			}
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#getSelectedQuestions : "+e.getMessage());
+			throw new GloriaException("Erreur lors de la récupération de la liste de questions pour le candidat depuis la base de données.");
 		}
 		
 		return result;

@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.gloria.beans.Candidate;
 import fr.eni.gloria.beans.Test;
+import fr.eni.gloria.services.TestService;
+import fr.eni.gloria.utils.GloriaException;
 import fr.eni.gloria.utils.GloriaLogger;
 
 /**
@@ -39,12 +42,19 @@ public class CandidateTakeTestServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.entering(this.getClass().getName(), "doPost");
+		
 		HttpSession session = request.getSession();
 		@SuppressWarnings("unchecked")
 		List<Test> tests = (List<Test>)session.getAttribute("tests");
 		Test requestedTest = getTestFromListById(tests, Integer.parseInt(request.getParameter("idTest")));
+		try {
+			requestedTest = TestService.fillTest(requestedTest, (Candidate)session.getAttribute("user"));
+		} catch (GloriaException e) {
+			request.setAttribute("error", e.getMessage());
+		}
 		request.getSession().setAttribute("requestedTest", requestedTest);
 		request.getRequestDispatcher("/WEB-INF/jsp/candidate/takeTest.jsp").forward(request, response);
+		
 		logger.exiting(this.getClass().getName(), "doPost");
 	}
 

@@ -5,11 +5,18 @@
  */
 package fr.eni.gloria.dao;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import fr.eni.gloria.beans.Answer;
+import fr.eni.gloria.utils.AccessBase;
 import fr.eni.gloria.utils.GloriaException;
+import fr.eni.gloria.utils.GloriaLogger;
 
 /**
  * @author lvanhove2017
@@ -17,7 +24,7 @@ import fr.eni.gloria.utils.GloriaException;
  * @version GloriaProject V1.0
  */
 public class AnswerDAO implements ICrud<Answer>{
-
+	Logger logger = GloriaLogger.getLogger(this.getClass().getName());
 	/**
 	 * {@inheritDoc}
 	 * @see fr.eni.gloria.dao.ICrud#insert(java.lang.Object)
@@ -74,19 +81,44 @@ public class AnswerDAO implements ICrud<Answer>{
 	 */
 	@Override
 	public Answer itemBuilder(ResultSet rs) throws GloriaException {
-		// TODO Auto-generated method stub
-		return null;
+		Answer result = new Answer();
+		try {
+			result.setId(rs.getInt("id"));
+			result.setAnswer(rs.getString("enonce"));
+			result.setCorrect(rs.getBoolean("estBonne"));
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#itemBuilder : "+e.getMessage());
+			throw new GloriaException("Erreur lors de la construction de la réponse.");
+		}
+		
+		return result;
 	}
 
 	/**
-	 * Méthode en charge de 
+	 * Méthode en charge de fournir la list des réponses possibles pour
+	 * la question dont l'identifiant est passé en paramètre.
 	 * @param id
 	 * @return
+	 * @throws GloriaException 
 	 */
-	public List<Answer> getAllByQuestionId(int id) {
+	public List<Answer> getAllByQuestionId(int id) throws GloriaException {
 		// TODO Coder la récupération de la liste des réponses correspondant à une question
-		return null;
+		List<Answer> result = new ArrayList<Answer>();
+		try(Connection cnx = AccessBase.getConnection()){
+			CallableStatement rqt = cnx.prepareCall("{CALL LIST_ANSWERS_QUESTION(?)}");
+			rqt.setInt(1, id);
+			ResultSet rs = rqt.executeQuery();
+			while (rs.next()){
+				result.add(itemBuilder(rs));
+			}
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#getAllByQuestionId : "+e.getMessage());
+			throw new GloriaException("Erreur lors de la récupération de la liste des réponses possibles.");
+		} 
+		return result;
 	}
+
+
 
 	
 

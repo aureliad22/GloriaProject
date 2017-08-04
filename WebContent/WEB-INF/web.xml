@@ -104,4 +104,14 @@
     <servlet-name>DeconnexionServlet</servlet-name>
     <url-pattern>/Deconnexion</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description>Gere le déroulé du test</description>
+    <display-name>CandidateRunTestServlet</display-name>
+    <servlet-name>CandidateRunTestServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.CandidateRunTestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CandidateRunTestServlet</servlet-name>
+    <url-pattern>/Candidate/RunTest</url-pattern>
+  </servlet-mapping>
 </web-app>

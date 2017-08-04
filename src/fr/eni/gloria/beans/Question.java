@@ -22,6 +22,7 @@ public class Question implements Serializable{
 	private int id;
 	private String question;
 	private String imageURI;
+	private int weight ;
 	private List<Answer> answers ;
 	/**
 	 * Constructeur.
@@ -70,6 +71,20 @@ public class Question implements Serializable{
 	 */
 	public void setImageURI(String imageURI) {
 		this.imageURI = imageURI;
+	}
+	/**
+	 * Getter pour weight.
+	 * @return the weight
+	 */
+	public int getWeight() {
+		return weight;
+	}
+	/**
+	 * Setter pour weight.
+	 * @param weight the weight to set
+	 */
+	public void setWeight(int weight) {
+		this.weight = weight;
 	}
 	/**
 	 * Getter pour answers.
