@@ -94,7 +94,7 @@ public class TestService implements IService<Test> {
 	 * @return Le test complet, prêt à être passé par le candidat.
 	 * @throws GloriaException
 	 */
-	public Test fillTest(Test test, Candidate candidate) throws GloriaException{
+	public static Test fillTest(Test test, Candidate candidate) throws GloriaException{
 		//TODO Appeler les méthodes de Service pour compléter l'objet test avec sections / questions / reponses spécifiques au candidat
 
 		//Récupération des sections : 
@@ -102,9 +102,10 @@ public class TestService implements IService<Test> {
 		
 		//Récupération des question des sections ; 
 		for(Section section : test.getSections()){
+			//Injection des questions dans la section
 			section = SectionService.getSelectedQuestions(section, test.getId(), candidate.getId());
 			
-			//Récupération des proposition de réponse pour chaque question de la section. 
+			//Injection des réponses dans chaque question
 			for(Question question : section.getQuestions()){
 				question = QuestionService.getAnswers(question);
 			}
@@ -121,7 +122,7 @@ public class TestService implements IService<Test> {
 	 * @return le test dont l'attribut sections à été initialisé.
 	 * @throws GloriaException
 	 */
-	public Test getTestSections(Test test) throws GloriaException{
+	public static Test getTestSections(Test test) throws GloriaException{
 		List<Section> sectionList = null ;
 		sectionList = new SectionDAO().getSectionsByTestId(test.getId());
 		test.setSections(sectionList);

@@ -21,6 +21,28 @@ header{
 	margin-bottom : 5px ;
 	padding : 10px ;
 }
+.bloc-test-info{
+  margin-left: 40px;  
+}
+
+.bloc-section{
+  margin : 15px ;
+  margin-left : 100px;
+}
+
+.form-reponse{
+  margin-bottom: 50px;
+}
+
+.bloc-validation{
+	float : right;
+}
+
+.bloc-question{
+  margin : 15px ;
+  padding : 10px;
+}
+
 
 footer{
 	   display: inline-block;
@@ -34,6 +56,20 @@ input.action{
     width: 80%;
     min-height: 70px;
     margin-top : 20px ;	
+}
+
+input.action-test{
+    display : block;
+    width: 80%;
+    min-height: 70px;
+    margin : auto;
+    margin-top : 20px ; 
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+p{
+	text-align: justify;
 }
 
 div.head{

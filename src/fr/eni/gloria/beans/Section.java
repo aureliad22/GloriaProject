@@ -19,7 +19,7 @@ public class Section implements Serializable{
 	 */
 	private static final long serialVersionUID = 5921483930386877071L;
 	private int id;
-	private String libelle;
+	private String caption;
 	private List<Question> questions ;
 	/**
 	 * Constructeur.
@@ -45,15 +45,15 @@ public class Section implements Serializable{
 	 * Getter pour libelle.
 	 * @return the libelle
 	 */
-	public String getLibelle() {
-		return libelle;
+	public String getCaption() {
+		return caption;
 	}
 	/**
 	 * Setter pour libelle.
 	 * @param libelle the libelle to set
 	 */
-	public void setLibelle(String libelle) {
-		this.libelle = libelle;
+	public void setCaption(String libelle) {
+		this.caption = libelle;
 	}
 	/**
 	 * Getter pour questions.
@@ -77,7 +77,7 @@ public class Section implements Serializable{
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Section [id=").append(id).append(", libelle=")
-				.append(libelle).append("]");
+				.append(caption).append("]");
 		return builder.toString();
 	}
 	
