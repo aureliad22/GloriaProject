@@ -25,7 +25,7 @@ public class Test implements Serializable{
 	private int semiSuccessTreshold ;
 	private int duration ;
 	private Teacher creator ;
-	private List<Question> questions ;
+	private List<Section> sections ;
 	/**
 	 * Constructeur.
 	 */
@@ -117,19 +117,20 @@ public class Test implements Serializable{
 	public void setCreator(Teacher creator) {
 		this.creator = creator;
 	}
+
 	/**
-	 * Getter pour questions.
-	 * @return the questions
+	 * Getter pour sections.
+	 * @return the sections
 	 */
-	public List<Question> getQuestions() {
-		return questions;
+	public List<Section> getSections() {
+		return sections;
 	}
 	/**
-	 * Setter pour questions.
-	 * @param questions the questions to set
+	 * Setter pour sections.
+	 * @param sections the sections to set
 	 */
-	public void setQuestions(List<Question> questions) {
-		this.questions = questions;
+	public void setSections(List<Section> sections) {
+		this.sections = sections;
 	}
 	/**
 	 * {@inheritDoc}
@@ -142,9 +143,12 @@ public class Test implements Serializable{
 				.append(", successTreshold=").append(successTreshold)
 				.append(", semiSuccessTreshold=").append(semiSuccessTreshold)
 				.append(", duration=").append(duration).append(", creator=")
-				.append(creator).append("]");
+				.append(creator).append(", sections=").append(sections)
+				.append("]");
 		return builder.toString();
 	}
+	
+	
 	
 	
 }
