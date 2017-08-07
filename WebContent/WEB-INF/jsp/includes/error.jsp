@@ -1,3 +1,3 @@
-<div class="bloc_error">
+<div class="bloc-error">
    Erreur :  ${error}
 </div>

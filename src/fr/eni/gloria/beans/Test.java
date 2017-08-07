@@ -21,11 +21,11 @@ public class Test implements Serializable{
 	private static final long serialVersionUID = -6269583789622750276L;
 	private int id ;
 	private String title; 
-	private String successTreshold ;
-	private String semiSuccessTreshold ;
+	private int successTreshold ;
+	private int semiSuccessTreshold ;
 	private int duration ;
 	private Teacher creator ;
-	private List<Question> questions ;
+	private List<Section> sections ;
 	/**
 	 * Constructeur.
 	 */
@@ -60,32 +60,33 @@ public class Test implements Serializable{
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 	/**
 	 * Getter pour successTreshold.
 	 * @return the successTreshold
 	 */
-	public String getSuccessTreshold() {
+	public int getSuccessTreshold() {
 		return successTreshold;
 	}
 	/**
 	 * Setter pour successTreshold.
 	 * @param successTreshold the successTreshold to set
 	 */
-	public void setSuccessTreshold(String successTreshold) {
+	public void setSuccessTreshold(int successTreshold) {
 		this.successTreshold = successTreshold;
 	}
 	/**
 	 * Getter pour semiSuccessTreshold.
 	 * @return the semiSuccessTreshold
 	 */
-	public String getSemiSuccessTreshold() {
+	public int getSemiSuccessTreshold() {
 		return semiSuccessTreshold;
 	}
 	/**
 	 * Setter pour semiSuccessTreshold.
 	 * @param semiSuccessTreshold the semiSuccessTreshold to set
 	 */
-	public void setSemiSuccessTreshold(String semiSuccessTreshold) {
+	public void setSemiSuccessTreshold(int semiSuccessTreshold) {
 		this.semiSuccessTreshold = semiSuccessTreshold;
 	}
 	/**
@@ -116,6 +117,21 @@ public class Test implements Serializable{
 	public void setCreator(Teacher creator) {
 		this.creator = creator;
 	}
+
+	/**
+	 * Getter pour sections.
+	 * @return the sections
+	 */
+	public List<Section> getSections() {
+		return sections;
+	}
+	/**
+	 * Setter pour sections.
+	 * @param sections the sections to set
+	 */
+	public void setSections(List<Section> sections) {
+		this.sections = sections;
+	}
 	/**
 	 * {@inheritDoc}
 	 * @see java.lang.Object#toString()
@@ -127,9 +143,9 @@ public class Test implements Serializable{
 				.append(", successTreshold=").append(successTreshold)
 				.append(", semiSuccessTreshold=").append(semiSuccessTreshold)
 				.append(", duration=").append(duration).append(", creator=")
-				.append(creator).append("]");
+				.append(creator).append(", sections=").append(sections)
+				.append("]");
 		return builder.toString();
 	}
-	
-	
+
 }

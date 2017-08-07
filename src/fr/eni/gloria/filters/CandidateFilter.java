@@ -41,7 +41,6 @@ public class CandidateFilter implements Filter {
 			chain.doFilter(request, response);
 		}else{
 			request.getRequestDispatcher("/LoginCandidate").forward(request, response);
-			//request.getRequestDispatcher("/WEB-INF/jsp/includes/login.jsp").forward(request, response);
 		}
 		
 	}

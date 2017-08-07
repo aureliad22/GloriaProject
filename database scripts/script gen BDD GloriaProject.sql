@@ -46,7 +46,7 @@ create table tests(
     seuilEnCoursAcquisition INT NOT NULL, --pourcentage de bonnes réponses,
     seuilAcquisition INT NOT NULL,
     idFormateur INT CONSTRAINT fk_test_formateur FOREIGN KEY REFERENCES formateurs(id)
-
+    tempsPassage INT
 )
 
 create table inscriptions(
