@@ -29,7 +29,7 @@ public class GloriaLogger {
 
     if (fh == null) {
       try {
-        fh = new FileHandler("gloria.log");
+        fh = new FileHandler("gloria.log", true);
       } catch (SecurityException e) {
         e.printStackTrace();
       } catch (IOException e) {

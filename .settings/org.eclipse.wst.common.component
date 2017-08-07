@@ -2,6 +2,7 @@
     <wb-module deploy-name="GloriaProject">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src_tests"/>
         <property name="context-root" value="GloriaProject"/>
         <property name="java-output-path" value="/GloriaProject/build/classes"/>
     </wb-module>

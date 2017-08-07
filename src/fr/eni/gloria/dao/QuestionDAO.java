@@ -43,6 +43,7 @@ public class QuestionDAO implements ICrud<Question>{
 			rqt.registerOutParameter(1, Types.INTEGER);
 			rqt.setString(2, data.getQuestion());
 			rqt.setString(3, data.getImageURI());
+
 			rqt.setInt(4, data.getWeight());
 			// TODO gestion liste de reponses et des nullables
 			result = rqt.executeUpdate()==1;
@@ -69,6 +70,7 @@ public class QuestionDAO implements ICrud<Question>{
 			rqt.setString(2, data.getQuestion());
 			rqt.setString(3, data.getImageURI());
 			rqt.setInt(4, data.getWeight());
+
 			// TODO gestion liste de reponses et des nullables
 			result = rqt.executeUpdate()==1;
 		} catch (SQLException e) {
@@ -162,6 +164,7 @@ public class QuestionDAO implements ICrud<Question>{
 			result.setQuestion(rs.getString("enonce"));
 			result.setImageURI(rs.getString("imageUri"));
 			result.setWeight(rs.getInt("poids"));
+
 			result.setAnswers(new AnswerDAO().getAllByQuestionId(result.getId()));
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#itemBuilder : "+e.getMessage());

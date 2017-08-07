@@ -82,7 +82,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>CandidateTakeTestServlet</servlet-name>
-    <url-pattern>/TakeTest</url-pattern>
+    <url-pattern>/Candidate/TakeTest</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -94,8 +94,9 @@
     <servlet-name>TeacherHomeServlet</servlet-name>
     <url-pattern>/Teacher</url-pattern>
   </servlet-mapping>
+  
   <servlet>
-    <description></description>
+    <description>servlet</description>
     <display-name>CandidateResearch</display-name>
     <servlet-name>CandidateResearch</servlet-name>
     <servlet-class>fr.eni.gloria.servlets.CandidateResearch</servlet-class>
@@ -144,4 +145,37 @@
     <servlet-name>QuestionGestion</servlet-name>
     <url-pattern>/Teacher/QuestionGestion</url-pattern>
   </servlet-mapping>
+    <servlet>
+    <description></description>
+    <display-name>DeconnexionServlet</display-name>
+    <servlet-name>DeconnexionServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.DeconnexionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeconnexionServlet</servlet-name>
+    <url-pattern>/Deconnexion</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Gere le déroulé du test</description>
+    <display-name>CandidateRunTestServlet</display-name>
+    <servlet-name>CandidateRunTestServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.CandidateRunTestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CandidateRunTestServlet</servlet-name>
+    <url-pattern>/Candidate/RunTest</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description></description>
+    <display-name>CandidateSaveAnswerServlet</display-name>
+    <servlet-name>CandidateSaveAnswerServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.CandidateSaveAnswerServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CandidateSaveAnswerServlet</servlet-name>
+    <url-pattern>/Candidate/SaveAnswer</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
