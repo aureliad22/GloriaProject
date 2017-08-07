@@ -94,7 +94,6 @@
     <servlet-name>TeacherHomeServlet</servlet-name>
     <url-pattern>/Teacher</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description>servlet</description>
     <display-name>CandidateResearch</display-name>
@@ -145,7 +144,7 @@
     <servlet-name>QuestionGestion</servlet-name>
     <url-pattern>/Teacher/QuestionGestion</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <description></description>
     <display-name>DeconnexionServlet</display-name>
     <servlet-name>DeconnexionServlet</servlet-name>
@@ -155,7 +154,6 @@
     <servlet-name>DeconnexionServlet</servlet-name>
     <url-pattern>/Deconnexion</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description>Gere le déroulé du test</description>
     <display-name>CandidateRunTestServlet</display-name>
@@ -166,7 +164,6 @@
     <servlet-name>CandidateRunTestServlet</servlet-name>
     <url-pattern>/Candidate/RunTest</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description></description>
     <display-name>CandidateSaveAnswerServlet</display-name>
@@ -177,5 +174,14 @@
     <servlet-name>CandidateSaveAnswerServlet</servlet-name>
     <url-pattern>/Candidate/SaveAnswer</url-pattern>
   </servlet-mapping>
-  
+  <servlet>
+    <description>Calcule le résultat d'un test</description>
+    <display-name>CandidateResultServlet</display-name>
+    <servlet-name>CandidateResultServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.CandidateResultServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CandidateResultServlet</servlet-name>
+    <url-pattern>/Candidate/Result</url-pattern>
+  </servlet-mapping>
 </web-app>
