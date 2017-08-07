@@ -114,4 +114,14 @@
     <servlet-name>CandidateRunTestServlet</servlet-name>
     <url-pattern>/Candidate/RunTest</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CandidateSaveAnswerServlet</display-name>
+    <servlet-name>CandidateSaveAnswerServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.CandidateSaveAnswerServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CandidateSaveAnswerServlet</servlet-name>
+    <url-pattern>/Candidate/SaveAnswer</url-pattern>
+  </servlet-mapping>
 </web-app>

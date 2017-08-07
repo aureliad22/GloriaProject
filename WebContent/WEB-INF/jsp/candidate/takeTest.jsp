@@ -20,6 +20,7 @@
 </div>
 
 <form action="<%=request.getContextPath()%>/Candidate/RunTest" method="POST">
+    <input type="hidden" name="idRequestedTest" value="${requestedTest.id}"/>
     <input class="btn btn-default action-test" type="submit" name="commencer" id="commencer" value="Commencer"/>
 </form>
 
