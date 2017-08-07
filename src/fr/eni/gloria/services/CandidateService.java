@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import fr.eni.gloria.beans.Candidate;
-import fr.eni.gloria.beans.Promotion;
 import fr.eni.gloria.dao.CandidateDao;
 import fr.eni.gloria.utils.GloriaException;
 import fr.eni.gloria.utils.GloriaLogger;
@@ -21,6 +20,7 @@ import fr.eni.gloria.utils.GloriaLogger;
  */
 public class CandidateService implements IService<Candidate> {
 	Logger logger = GloriaLogger.getLogger(this.getClass().getName());
+	CandidateDao dao = new CandidateDao();
 
 	/**
 	 * {@inheritDoc}
@@ -29,7 +29,7 @@ public class CandidateService implements IService<Candidate> {
 
 	@Override
 	public void add(Candidate data) throws GloriaException {
-		// TODO Auto-generated method stub
+		dao.insert(data);
 		
 	}
 
@@ -59,7 +59,7 @@ public class CandidateService implements IService<Candidate> {
 	@Override
 	public List<Candidate> getAll() throws GloriaException {
 		// TODO Auto-generated method stub
-		return null;
+		return new CandidateDao().selectAll();
 	}
 
 	/**

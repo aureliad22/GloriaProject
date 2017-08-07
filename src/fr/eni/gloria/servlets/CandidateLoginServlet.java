@@ -48,8 +48,7 @@ public class CandidateLoginServlet extends HttpServlet {
 		
 		//Code bouchon !! A SUPPRIMER
 		if ("gloria".equals(login) && "gloria".equals(password)) {
-			//Login ok ! 
-			System.out.println("login ok");
+			
 			Candidate user = new Candidate();
 			user.setFirstName("Gloria");
 			user.setLastName("Gloria");

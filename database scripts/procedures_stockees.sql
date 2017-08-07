@@ -1,9 +1,33 @@
+/****** Object:  StoredProcedure [dbo].[RESEARCH_CANDIDATE]    Script Date: 04/08/2017 10:20:46 ******/
+CREATE PROCEDURE [dbo].[AUTHENTICATE_TEACHER]
+
+
+@login nvarchar(200),
+@password nvarchar(200)
+
+AS
+
+
+BEGIN
+
+    SELECT * from formateurs
+
+where
+	login = @login AND
+	password = @password
+	
+	
+	
+END;
+
+
 -- =============================================
 -- Author:		Aurélia Delauné
 -- Create date: 01/08/2017
 -- Description:	Stored procedure that returns the candidate's info 
 -- whose login (or email) and password match the given parameters
 -- =============================================
+
 CREATE PROCEDURE AUTHENTICATE_CANDIDATE 
 	@login nvarchar(250),
 	@password nvarchar(100)

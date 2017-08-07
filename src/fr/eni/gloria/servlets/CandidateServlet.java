@@ -1,6 +1,7 @@
 package fr.eni.gloria.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -9,6 +10,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
+import org.eclipse.jdt.internal.compiler.ast.ForeachStatement;
 
 import fr.eni.gloria.beans.Candidate;
 import fr.eni.gloria.dao.PromotionDAO;
@@ -26,7 +30,7 @@ public class CandidateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	Logger logger = GloriaLogger.getLogger(this.getClass().getName());
-	private CandidateService candidateService; 
+	private CandidateService candidateService = new CandidateService(); 
 
        
     /**
@@ -89,16 +93,43 @@ public class CandidateServlet extends HttpServlet {
 	 */
 
 	private void listCandidates(HttpServletRequest request,	HttpServletResponse response) throws ServletException, IOException, GloriaException {
-		List<Candidate> liste = this.candidateService.getAll();
+		List<Candidate> liste ; 
+		List<Candidate> listeFiltree = null;
+		liste = candidateService.getAll();
+		 String motClePourFiltre = request.getParameter("filtrerListeCandidat");
 
 		if(liste!=null)
 		{
-			request.setAttribute("listeCandidats", liste);
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/teacher/gestionCandidat.jsp");
-			rd.forward(request, response);
+			/*if (motClePourFiltre == null) {*/
+				
+				request.setAttribute("listeCandidats", liste);
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/teacher/gestionCandidat.jsp");
+				rd.forward(request, response);
+				
 		}
+			/*} else 
+					for (Candidate item : liste) 
+					{
+						if (((String) item.getFirstName()).toLowerCase().contains(motClePourFiltre.toLowerCase())
+						           ||
+						    ((String) item.getLastName()).toLowerCase().contains(motClePourFiltre.toLowerCase())) 
+						
+						{
+							listeFiltree.add(item);
+							
+						}	           
+			           
+
+			        }
+			         liste=listeFiltree;
+			         request.setAttribute("listeCandidats", liste);
+					 RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/teacher/gestionCandidat.jsp");
+					 rd.forward(request, response);
+						
+		}*/
 		else
 		{
+			
 			request.setAttribute("erreur", "Les candidats sont inaccessibles pour le moment");
 
 		}

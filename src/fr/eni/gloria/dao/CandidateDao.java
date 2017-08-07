@@ -100,13 +100,13 @@ public class CandidateDao implements ICrud<Candidate>{
 		boolean result = false ;
 		try(Connection cnx=AccessBase.getConnection()){
 			
-			rqt=cnx.prepareCall("{ADD_CANDIDATE()}");
+			rqt=cnx.prepareCall("ADD_CANDIDATE");
 			rqt.setString(1, data.getFirstName());
 			rqt.setString(2, data.getLastName());
 			rqt.setString(3, data.getEmail());
 			rqt.setString(4, data.getLogin());
 			rqt.setString(5, data.getPassword());
-			rqt.setInt(6, promotion.getId());
+			//rqt.setInt(6, promotion.getId());
 			
 			result = rqt.executeUpdate()<1;
 			data.setId(rqt.getInt(1));
@@ -200,7 +200,7 @@ public class CandidateDao implements ICrud<Candidate>{
 	public List<Candidate> selectAll() throws GloriaException {
 		List<Candidate> result = new ArrayList<Candidate>();
 		try(Connection cnx=AccessBase.getConnection()){
-			CallableStatement rqt=cnx.prepareCall("{call LIST_CANDIDATES()}");
+			CallableStatement rqt=cnx.prepareCall("LIST_CANDIDATES");
 			ResultSet rs=rqt.executeQuery();
 			
 			while (rs.next()){
@@ -210,7 +210,7 @@ public class CandidateDao implements ICrud<Candidate>{
 			logger.severe(this.getClass().getName()+"#selectAll : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la récupération de la liste des candidats.");
 		} 
-		
+		System.out.println(result);
 		return result;
 	}
 
