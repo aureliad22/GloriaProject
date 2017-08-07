@@ -24,6 +24,7 @@ public class Question implements Serializable{
 	private String imageURI;
 	private int weight ;
 	private List<Answer> answers ;
+	private boolean marked ;
 	/**
 	 * Constructeur.
 	 */
@@ -99,6 +100,20 @@ public class Question implements Serializable{
 	 */
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
+	}
+	/**
+	 * Getter pour marked.
+	 * @return the marked
+	 */
+	public boolean isMarked() {
+		return marked;
+	}
+	/**
+	 * Setter pour marked.
+	 * @param marked the marked to set
+	 */
+	public void setMarked(boolean marked) {
+		this.marked = marked;
 	}
 	/**
 	 * {@inheritDoc}
