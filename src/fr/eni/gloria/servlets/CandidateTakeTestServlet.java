@@ -52,7 +52,7 @@ public class CandidateTakeTestServlet extends HttpServlet {
 		} catch (GloriaException e) {
 			request.setAttribute("error", e.getMessage());
 		}
-		request.getSession().setAttribute("requestedTest", requestedTest);
+		session.setAttribute("requestedTest", requestedTest);
 		request.getRequestDispatcher("/WEB-INF/jsp/candidate/takeTest.jsp").forward(request, response);
 		
 		logger.exiting(this.getClass().getName(), "doPost");

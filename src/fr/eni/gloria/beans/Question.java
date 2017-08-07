@@ -100,6 +100,19 @@ public class Question implements Serializable{
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
 	}
+	/**
+	 * {@inheritDoc}
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Question [id=").append(id).append(", question=")
+				.append(question).append(", imageURI=").append(imageURI)
+				.append(", weight=").append(weight).append(", answers=")
+				.append(answers).append("]");
+		return builder.toString();
+	}
 	
 	
 	
