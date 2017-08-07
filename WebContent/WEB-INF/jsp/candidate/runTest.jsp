@@ -3,7 +3,7 @@
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp"/>
 TEST recup pour ecriture reponses_données : [idTest=${requestedTest.id}, idStagiaire=${user.id}, idSection=${requestedTest.sections.get(currentSectionIndex).id}, idQuestion=${nextQuestion.id}]
 <div class="bloc-question">
-    <form action="<%=request.getContextPath()%>/Candidate/RunTest" method="post">
+    <form action="<%=request.getContextPath()%>/Candidate/SaveAnswer" method="post">
         <p>${nextQuestion.question}</p>
         <input type="hidden" name="idQuestion" value="${nextQuestion.id}"/>
         <c:forEach items="${nextQuestion.answers}" var="a">
