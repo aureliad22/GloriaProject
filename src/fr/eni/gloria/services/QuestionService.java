@@ -10,6 +10,7 @@ import java.util.List;
 import fr.eni.gloria.beans.Answer;
 import fr.eni.gloria.beans.Question;
 import fr.eni.gloria.dao.AnswerDAO;
+import fr.eni.gloria.dao.QuestionDAO;
 import fr.eni.gloria.utils.GloriaException;
 
 /**
@@ -36,4 +37,16 @@ public class QuestionService {
 		return question;
 	}
 
+	/**
+	 * 
+	 * Méthode en charge de marquer une question. 
+	 * @param idStagiaire
+	 * @param idTest
+	 * @param idSection
+	 * @param idQuestion
+	 * @throws GloriaException
+	 */
+	public static void markQuestion(int idStagiaire, int idTest, int idSection, int idQuestion) throws GloriaException{
+		new QuestionDAO().markQuestion(idStagiaire, idTest, idSection, idQuestion); 
+	}
 }
