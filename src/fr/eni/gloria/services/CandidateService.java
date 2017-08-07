@@ -6,13 +6,10 @@
 package fr.eni.gloria.services;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import fr.eni.gloria.beans.Candidate;
-import fr.eni.gloria.beans.Promotion;
 import fr.eni.gloria.dao.CandidateDAO;
 import fr.eni.gloria.utils.GloriaException;
-import fr.eni.gloria.utils.GloriaLogger;
 
 /**
  * @author adelaune2017
@@ -20,8 +17,6 @@ import fr.eni.gloria.utils.GloriaLogger;
  * @version GloriaProject V1.0
  */
 public class CandidateService implements IService<Candidate> {
-	Logger logger = GloriaLogger.getLogger(this.getClass().getName());
-
 	/**
 	 * {@inheritDoc}
 	 * @see fr.eni.gloria.services.IService#add(java.lang.Object)
@@ -29,8 +24,8 @@ public class CandidateService implements IService<Candidate> {
 
 	@Override
 	public void add(Candidate data) throws GloriaException {
-		// TODO Auto-generated method stub
-		
+		CandidateDAO daoC = new CandidateDAO();
+		daoC.insert(data);
 	}
 
 	/**
@@ -39,8 +34,8 @@ public class CandidateService implements IService<Candidate> {
 	 */
 	@Override
 	public void modify(Candidate data) throws GloriaException {
-		// TODO Auto-generated method stub
-		
+		CandidateDAO daoC = new CandidateDAO();
+		daoC.update(data);
 	}
 
 	/**
@@ -49,7 +44,8 @@ public class CandidateService implements IService<Candidate> {
 	 */
 	@Override
 	public void remove(Candidate data) throws GloriaException {
-		// TODO Auto-generated method stub
+		CandidateDAO daoC = new CandidateDAO();
+		daoC.delete(data);
 	}
 
 	/**
@@ -58,8 +54,8 @@ public class CandidateService implements IService<Candidate> {
 	 */
 	@Override
 	public List<Candidate> getAll() throws GloriaException {
-		// TODO Auto-generated method stub
-		return null;
+		CandidateDAO daoC = new CandidateDAO();
+		return daoC.selectAll();
 	}
 
 	/**
@@ -68,19 +64,19 @@ public class CandidateService implements IService<Candidate> {
 	 */
 	@Override
 	public Candidate getById(int id) throws GloriaException {
-		// TODO Auto-generated method stub
-		return null;
+		CandidateDAO daoC = new CandidateDAO();
+		return daoC.selectById(id);
 	}
 
 	/**
-	 * Méthode en charge de 
+	 * Méthode en charge d'authentifier un candidat 
+	 * avec son identifiant (email ou login) et son mot de passe 
 	 * @param login
 	 * @param password
 	 * @return
 	 * @throws GloriaException 
 	 */
 	public Candidate authenticate(String login, String password) throws GloriaException {
-		// TODO Auto-generated method stub
 		return new CandidateDAO().authenticate(login, password);
 	}
 }
