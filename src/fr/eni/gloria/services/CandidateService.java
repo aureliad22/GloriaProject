@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 import fr.eni.gloria.beans.Candidate;
 import fr.eni.gloria.beans.Promotion;
-import fr.eni.gloria.dao.CandidateDao;
+import fr.eni.gloria.dao.CandidateDAO;
 import fr.eni.gloria.utils.GloriaException;
 import fr.eni.gloria.utils.GloriaLogger;
 

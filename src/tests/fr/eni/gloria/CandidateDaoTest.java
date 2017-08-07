@@ -16,7 +16,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import fr.eni.gloria.beans.Candidate;
-import fr.eni.gloria.dao.CandidateDao;
+import fr.eni.gloria.dao.CandidateDAO;
 import fr.eni.gloria.utils.GloriaException;
 
 /**
@@ -60,7 +60,7 @@ public class CandidateDaoTest {
 
 	@Test
 	public void testAuthenticate() throws GloriaException {
-		CandidateDao daoC = new CandidateDao();		
+		CandidateDAO daoC = new CandidateDAO();		
 		Candidate expected = daoC.authenticate("aurelia.delaune", "password");
 
 		assertEquals(expected.getFirstName().trim(), "Aurélia");
@@ -68,7 +68,7 @@ public class CandidateDaoTest {
 	
 	@Test
 	public void testSelectAll() throws GloriaException {
-		CandidateDao daoC = new CandidateDao();
+		CandidateDAO daoC = new CandidateDAO();
 		List<Candidate> listCandidates = null;
 		listCandidates = daoC.selectAll();
 		
@@ -80,7 +80,7 @@ public class CandidateDaoTest {
 	
 	@Test
 	public void testSelectById() throws GloriaException{
-		CandidateDao daoC = new CandidateDao();
+		CandidateDAO daoC = new CandidateDAO();
 		Candidate expected = daoC.selectById(1);
 		
 		assertEquals(expected.getLastName().trim(), "Delauné");
@@ -90,7 +90,7 @@ public class CandidateDaoTest {
 	
 	@Test
 	public void testInsert() throws GloriaException {
-		CandidateDao daoC = new CandidateDao();
+		CandidateDAO daoC = new CandidateDAO();
 		Candidate expected = new Candidate();
 		expected.setLastName("Wololo");
 		expected.setFirstName("Toto");
