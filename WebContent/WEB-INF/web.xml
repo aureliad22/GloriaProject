@@ -134,4 +134,14 @@
     <servlet-name>PromotionServlet</servlet-name>
     <url-pattern>/PromotionServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>QuestionGestion</display-name>
+    <servlet-name>QuestionGestion</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.QuestionGestion</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>QuestionGestion</servlet-name>
+    <url-pattern>/Teacher/QuestionGestion</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -85,6 +85,18 @@ public class Answer implements Serializable{
 	public void setCorrect(boolean correct) {
 		this.correct = correct;
 	}
+	/**
+	 * {@inheritDoc}
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Answer [id=").append(id).append(", position=")
+				.append(position).append(", answer=").append(answer)
+				.append(", correct=").append(correct).append("]");
+		return builder.toString();
+	}
 	
 	
 
