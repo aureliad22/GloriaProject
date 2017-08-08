@@ -1,8 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp"/>
 <div class="bloc-question">
     <h3>${requestedTest.title}</h3>
+    <!-- 
+    <div class="timer">    
+    	<fmt:formatDate value="${timer}" timeStyle="medium"/> 
+    </div>
+     -->
     <form action="<%=request.getContextPath()%>/Candidate/SaveAnswer" method="post">
         <p class="enonce">Question : ${nextQuestion.question}</p>
         <input type="hidden" name="idQuestion" value="${nextQuestion.id}"/>

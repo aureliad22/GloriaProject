@@ -3,7 +3,7 @@
  * @date 2 août 2017
  * @version GloriaProject V1.0
  */
-package fr.eni.gloria.dao;
+package fr.eni.gloria.dao.daoPourTests;
 
 import java.sql.CallableStatement;
 /**
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import fr.eni.gloria.beans.Promotion;
-import fr.eni.gloria.utils.AccessBase;
+import fr.eni.gloria.dao.ICrud;
 import fr.eni.gloria.utils.GloriaException;
 import fr.eni.gloria.utils.GloriaLogger;
 

@@ -3,7 +3,7 @@
  * @date 2 août 2017
  * @version GloriaProject V1.0
  */
-package fr.eni.gloria.dao;
+package fr.eni.gloria.dao.daoPourTests;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

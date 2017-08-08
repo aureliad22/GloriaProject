@@ -1,4 +1,4 @@
-package fr.eni.gloria.dao;
+package fr.eni.gloria.dao.daoPourTests;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import fr.eni.gloria.beans.Candidate;
+import fr.eni.gloria.dao.ICrud;
 import fr.eni.gloria.utils.GloriaException;
 import fr.eni.gloria.utils.GloriaLogger;
 

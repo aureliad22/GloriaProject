@@ -1,6 +1,8 @@
 package fr.eni.gloria.servlets;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -47,6 +49,19 @@ public class CandidateRunTestServlet extends HttpServlet {
 		
 		if (session.getAttribute("testBegun")==null) { 
 			initParameters(session);
+			/*	
+			final Timer timer = new Timer();
+			timer.schedule(new TimerTask() {				
+				@Override
+				public void run() {
+					System.out.println("Time's up!");
+					timer.cancel();
+					rd=request.getRequestDispatcher("/WEB-INF/jsp/candidate/testResult.jsp");
+				}
+			}, currentTest.getDuration()*60*1000);
+			session.setAttribute("timer", timer);
+			System.out.println(timer);
+			*/
 			currentQuestionIndex = (int) session.getAttribute("currentQuestionIndex");
 			currentSectionIndex = (int) session.getAttribute("currentSectionIndex");
 			getNextQuestion(session, currentTest, currentQuestionIndex, currentSectionIndex);
