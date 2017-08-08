@@ -5,8 +5,15 @@
  */
 package fr.eni.gloria.services;
 
+import java.util.List;
 import java.util.logging.Logger;
 
+import fr.eni.gloria.beans.Answer;
+import fr.eni.gloria.beans.Candidate;
+import fr.eni.gloria.beans.Question;
+import fr.eni.gloria.beans.Section;
+import fr.eni.gloria.beans.Test;
+import fr.eni.gloria.dao.AnswerDAO;
 import fr.eni.gloria.dao.ResultDAO;
 import fr.eni.gloria.utils.GloriaException;
 import fr.eni.gloria.utils.GloriaLogger;
@@ -38,4 +45,18 @@ public class ResultService {
 		}
 	}
 
+	/**
+	 * 
+	 * Méthode en charge de récupérer les réponses fournies par le candidat 
+	 * à partir de la BdD
+	 * @param stagiaire
+	 * @param test
+	 * @param section
+	 * @param question
+	 * @return Liste des réponses données par le candidat
+	 * @throws GloriaException
+	 */
+	public static List<Answer> getGivenAnswers(Candidate stagiaire, Test test, Section section,	Question question) throws GloriaException{
+		return new AnswerDAO().getGivenAnswers(stagiaire.getId(), test.getId(), section.getId(), question.getId());
+	}
 }

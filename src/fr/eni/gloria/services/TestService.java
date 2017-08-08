@@ -130,5 +130,15 @@ public class TestService implements IService<Test> {
 		return test ;
 	}
 
+	/**
+	 * Méthode en charge de 
+	 * @param stagiaire
+	 * @param test
+	 * @return
+	 */
+	public static int getTotal(Candidate stagiaire, Test test) {
+		return new TestDAO().getTotal(stagiaire.getId(), test.getId());
+	}
+
 }
 

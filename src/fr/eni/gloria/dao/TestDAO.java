@@ -210,5 +210,16 @@ public class TestDAO implements ICrud<Test>{
 		return result;
 	}
 
+	/**
+	 * Méthode en charge de calculer le total attendu pour un test donné
+	 * @param idTest 
+	 * @param idStagiaire 
+	 * @return
+	 */
+	public int getTotal(int idStagiaire, int idTest) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 }
