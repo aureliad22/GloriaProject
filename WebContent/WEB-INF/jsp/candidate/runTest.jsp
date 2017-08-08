@@ -9,6 +9,9 @@ TEST recup pour ecriture reponses_données : [idTest=${requestedTest.id}, idStag
         <c:forEach items="${nextQuestion.answers}" var="a">
             <input type="checkbox" id="${a.id}" value="${a.id}" name="answer" />&nbsp;${a.answer}
         </c:forEach>
+        <div class="bloc-marquage">
+            <input type="checkbox" name="marquer" value="1"> Marquer la question
+        </div>
         <input type="submit" name="chosenAnswer" value="Question suivante">
     </form>
 </div>

@@ -205,5 +205,27 @@ public class QuestionDAO implements ICrud<Question>{
 		return result;
 	}
 
+	/**
+	 * Méthode en charge de marquer la question correspondant aux paramètre fournis.
+	 *  
+	 * @param idStagiaire Identifiant du Stagiaire
+	 * @param idTest Identifiant du test
+	 * @param idSection Identifiant de la section
+	 * @param idQuestion Identifiant de la section.
+	 * @throws GloriaException
+	 */
+	public void markQuestion(int idStagiaire, int idTest, int idSection, int idQuestion) throws GloriaException{
+		try(Connection cnx = AccessBase.getConnection()){
+			CallableStatement rqt = cnx.prepareCall("{CALL MARK_QUESTION(?,?,?,?)}");
+			rqt.setInt(1, idStagiaire);
+			rqt.setInt(2, idTest);
+			rqt.setInt(3, idSection);
+			rqt.setInt(4, idQuestion);
+			rqt.executeUpdate();
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#getSelectedQuestions : "+e.getMessage());
+			throw new GloriaException("Erreur lors de la récupération de la liste de questions pour le candidat depuis la base de données.");
+		}
+	}
 
 }
