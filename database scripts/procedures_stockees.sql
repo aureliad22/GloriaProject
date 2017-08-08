@@ -1,4 +1,23 @@
 /****** Object:  StoredProcedure [dbo].[RESEARCH_CANDIDATE]    Script Date: 04/08/2017 10:20:46 ******/
+
+/****** Object:  StoredProcedure [dbo].[LIST_CANDIDATES]    Script Date: 08/08/2017 09:58:32 ******/
+
+CREATE PROCEDURE [dbo].[LIST_THEMES]
+
+AS
+
+
+BEGIN
+
+    SELECT * from themes
+	
+	
+END;
+
+
+
+
+
 CREATE PROCEDURE [dbo].[AUTHENTICATE_TEACHER]
 
 

@@ -11,6 +11,7 @@ import java.util.List;
 import fr.eni.gloria.beans.Answer;
 import fr.eni.gloria.beans.Question;
 import fr.eni.gloria.dao.AnswerDAO;
+import fr.eni.gloria.dao.QuestionDAO;
 import fr.eni.gloria.utils.GloriaException;
 
 /**
@@ -18,7 +19,8 @@ import fr.eni.gloria.utils.GloriaException;
  * @date 4 août 2017
  * @version GloriaProject V1.0
  */
-public class QuestionService {
+public class QuestionService implements IService<Question> {
+	QuestionDAO dao = new QuestionDAO();
 
 	/**
 	 * Méthode en charge de retourner la liste des réponses proposées 
@@ -35,6 +37,57 @@ public class QuestionService {
 		reponses = new AnswerDAO().getAllByQuestionId(question.getId());
 		question.setAnswers(reponses);
 		return question;
+	}
+
+	/* (non-Javadoc)
+	 * {@inheritedoc}
+	 * @see fr.eni.gloria.services.IService#add(java.lang.Object)
+	 */
+	@Override
+	public void add(Question data) throws GloriaException {
+		
+		dao.insert(data);
+		
+	}
+
+	/* (non-Javadoc)
+	 * {@inheritedoc}
+	 * @see fr.eni.gloria.services.IService#modify(java.lang.Object)
+	 */
+	@Override
+	public void modify(Question data) throws GloriaException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * {@inheritedoc}
+	 * @see fr.eni.gloria.services.IService#remove(java.lang.Object)
+	 */
+	@Override
+	public void remove(Question data) throws GloriaException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * {@inheritedoc}
+	 * @see fr.eni.gloria.services.IService#getAll()
+	 */
+	@Override
+	public List<Question> getAll() throws GloriaException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * {@inheritedoc}
+	 * @see fr.eni.gloria.services.IService#getById(int)
+	 */
+	@Override
+	public Question getById(int id) throws GloriaException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
