@@ -4,10 +4,17 @@
 <h1>Récapitulatif du test : ${requestedTest.title}</h1>
 <div>
    <c:forEach items="${questionList}" var="q">
-    <div>
-        //TODO mettre la liste des question du test en cours.
+    <div class="ligne-recap">
+    <form action="<%=request.getContextPath()%>/Candidate/RunTest" method="POST">
+       Question ${q.key} 
+       <c:if test="${q.value.marked}"> - marked</c:if>
+       <c:if test="${!hasGivenAnswers.get(q.value.id)}"> - Aucune réponse donnée</c:if>
+        //Mettre ici des input hidden avec de quoi reconstruire l'acces à la question
+        <input type="submit" value="Revoir" class="btn btn-default btn-recap-test"/>
+       </form>
     </div>
    </c:forEach>
+   
 </div>
 
 <form action ="<%=request.getContextPath()%>/Candidate/Result" method="post" id="endOfTest">

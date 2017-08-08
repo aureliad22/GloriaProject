@@ -12,6 +12,17 @@ header{
 	min-height: 600px;
 }
 
+.ligne-recap{
+	padding : 10px ; 
+	margin : 10px;
+	border-bottom: 1px solid teal ;
+	min-height: 50px;
+}
+
+.btn-recap-test{
+    float : right;	
+}
+
 .bloc-error{
 	border : 1px solid red ;
 	background-color: #f9acac;
