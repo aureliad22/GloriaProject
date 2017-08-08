@@ -35,11 +35,13 @@ public class AnswerDAO implements ICrud<Answer>{
 	
 	
 	private static final String LIST_GIVEN_ANSWERS = "SELECT * "
+													+ "FROM reponses "
+													+ "WHERE id IN(SELECT idReponse "
 													+ "FROM reponses_donnees "
 													+ "WHERE idStagiaire = ? "
 													+ "AND idTest = ? "
-													+ "AND idSection =? " 
-													+ "AND idQuestion = ?";
+													+ "AND idSection = ? " 
+													+ "AND idQuestion = ?);";
 	/**
 	 * {@inheritDoc}
 	 * @see fr.eni.gloria.dao.ICrud#insert(java.lang.Object)
@@ -140,6 +142,7 @@ public class AnswerDAO implements ICrud<Answer>{
 	 * @throws GloriaException
 	 */
 	public List<Answer> getRightAnswersByQuestionId(int id) throws GloriaException {
+		logger.entering(this.getClass().getName(), "getRightAnswersByQuestionId");
 		List<Answer> result = new ArrayList<Answer>();
 		try(Connection cnx = AccessBase.getConnection()){
 			PreparedStatement rqt = cnx.prepareStatement(LIST_RIGHT_ANSWERS);
@@ -152,6 +155,7 @@ public class AnswerDAO implements ICrud<Answer>{
 			logger.severe(this.getClass().getName()+"#getRightAnswersByQuestionId : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la récupération de la liste des réponses correctes.");
 		} 
+		logger.exiting(this.getClass().getName(), "getRightAnswersByQuestionId");
 		return result;
 	}	
 
@@ -176,7 +180,7 @@ public class AnswerDAO implements ICrud<Answer>{
 			ResultSet rs=rqt.executeQuery();
 			
 			while (rs.next()){
-				result.add(itemBuilder(rs));				
+				result.add(itemBuilder(rs));	
 			}
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#getGivenAnswers : "+e.getMessage());

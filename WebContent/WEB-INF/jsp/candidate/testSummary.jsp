@@ -10,7 +10,7 @@
    </c:forEach>
 </div>
 
-<form action ="/Candidate/Result" method="post" id="endOfTest">
+<form action ="<%=request.getContextPath()%>/Candidate/Result" method="post" id="endOfTest">
 </form>
 <button class="btn btn-default" onclick="confirmEndOfTest()">Terminer le test</button>
 

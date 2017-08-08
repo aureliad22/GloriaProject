@@ -3,6 +3,7 @@ package fr.eni.gloria.servlets;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -51,15 +52,16 @@ public class CandidateResultServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		Test test = (Test) session.getAttribute("requestedTest");
 		Candidate stagiaire = ((Candidate) session.getAttribute("user"));
-
+		RequestDispatcher rd =  request.getRequestDispatcher("/WEB-INF/jsp/candidate/testResult.jsp");
+		
 		// 1. Récupération du total attendu pour le test courant:
 		int total = 0;
 		try {
 			total = TestService.getTotal(stagiaire, test);
-			System.out.println(total);
 		} catch (GloriaException ge) {
 			request.setAttribute("error", ge.getMessage());
 		}
+		System.out.println(total);
 
 		// 2. Calcul du résultat obtenu
 		int resultatCandidat = 0;	
@@ -69,26 +71,28 @@ public class CandidateResultServlet extends HttpServlet {
 					try {
 						List<Answer> rightAnswers = AnswerService.getRightAnswers(question);
 						List<Answer> givenAnswers = ResultService.getGivenAnswers(stagiaire, test, section, question);
-	
-						if (givenAnswers != null) {
+						System.out.println(rightAnswers);
+						System.out.println(givenAnswers);
+
 			// 2.2. Comparaison des listes de réponses attendues et obtenues
 							if ((rightAnswers.size() == givenAnswers.size()) && givenAnswers.containsAll(rightAnswers)) {
 			// 2.3. Si les listes sont égales, alors on ajoute le poids de la question au résultat du candidat
 									resultatCandidat += question.getWeight();
 									System.out.println("Les réponses à la question "+question.getId() + " sont correctes");
-							}
-						}
+							} else {
+								System.out.println("Réponses erronées.");
+							}						
 					} catch (GloriaException e) {
 						request.setAttribute("error", e.getMessage());
 					}
 				}
 			}
-			System.out.println(resultatCandidat);
-
+		System.out.println(resultatCandidat);
 		
 		// 3. Calcul du pourcentage de réussite:
-		int score = (resultatCandidat/total)*100;
-		
+		int score = (int)(resultatCandidat*100/total);
+		System.out.println(score);
+		session.setAttribute("score", score);
 		// 4. Ajout du score dans la base de données:
 		try {
 			ResultService.addResultCandidate(score, stagiaire, test);
@@ -96,14 +100,20 @@ public class CandidateResultServlet extends HttpServlet {
 			request.setAttribute("error", e.getMessage());
 		}
 		
+		String bilan = null;
 		// 5. Comparaison du score avec les seuils du test:
-		if(score <= test.getSuccessTreshold()){
+		if(score >= test.getSuccessTreshold()){
+			bilan = "Acquis";
 			System.out.println("test acquis");
-		} else if(score<= test.getSemiSuccessTreshold()){
+		} else if(score>= test.getSemiSuccessTreshold()){
+			bilan = "En cours d'acquisition";
 			System.out.println("test en cours d'acquisition");
 		} else {
+			bilan = "Non acquis";
 			System.out.println("test non acquis");
+		}
+		session.setAttribute("bilan", bilan);
 
-		}		
+		rd.forward(request, response);
 	}
 }
