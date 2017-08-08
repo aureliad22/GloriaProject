@@ -45,6 +45,7 @@ public class CandidateLoginServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		HttpSession session = request.getSession(true);
 		//Appel de la Service pour checker l'identification :
+
 		Candidate user = null;
 		try {
 			user = new CandidateService().authenticate(login, password);
@@ -54,6 +55,7 @@ public class CandidateLoginServlet extends HttpServlet {
 		}
 
 		if ( user != null) {
+
 			session.setAttribute("user", user);
 			request.getRequestDispatcher("/Candidate").forward(request, response);
 		}else{

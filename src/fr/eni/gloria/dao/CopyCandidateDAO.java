@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import fr.eni.gloria.beans.Candidate;
-import fr.eni.gloria.utils.AccessBase;
 import fr.eni.gloria.utils.GloriaException;
 import fr.eni.gloria.utils.GloriaLogger;
 
@@ -21,7 +20,7 @@ import fr.eni.gloria.utils.GloriaLogger;
  * @date 1 août 2017
  * @version GloriaProject V1.0
  */
-public class CandidateDAO implements ICrud<Candidate>{
+public class CopyCandidateDAO implements ICrud<Candidate>{
 	Logger logger = GloriaLogger.getLogger(this.getClass().getName());
 	
 	/**
@@ -38,7 +37,7 @@ public class CandidateDAO implements ICrud<Candidate>{
 	 */
 	public Candidate authenticate(String login, String password) throws GloriaException{
 		Candidate result = null ;
-		try(Connection cnx = AccessBase.getConnection()){
+		try(Connection cnx = DBConnection.getConnection()){
 			CallableStatement rqt = cnx.prepareCall("{CALL AUTHENTICATE_CANDIDATE(?, ?)}");
 			rqt.setString(1, login);
 			rqt.setString(2, password);
@@ -64,7 +63,7 @@ public class CandidateDAO implements ICrud<Candidate>{
 	 */
 	public Candidate search(String lastName, String firstName, String email) throws GloriaException{
 		Candidate result = null;
-		try(Connection cnx=AccessBase.getConnection()){
+		try(Connection cnx=DBConnection.getConnection()){
 			CallableStatement rqt = cnx.prepareCall("{CALL RESEARCH_CANDIDATE(?,?,?)}");
 			rqt.setString(1, lastName);
 			rqt.setString(2, firstName);
@@ -94,8 +93,9 @@ public class CandidateDAO implements ICrud<Candidate>{
 	@Override
 	public boolean insert(Candidate data) throws GloriaException {
 		CallableStatement rqt=null;
-		boolean result = false ;		
-		try(Connection cnx=AccessBase.getConnection()){			
+		boolean result = false ;
+		try(Connection cnx=DBConnection.getConnection()){
+			
 			rqt=cnx.prepareCall("{?=CALL ADD_CANDIDATE(?,?,?,?,?,?)}");
 			rqt.registerOutParameter(1, Types.INTEGER);
 			rqt.setString(2, data.getLastName());
@@ -104,7 +104,8 @@ public class CandidateDAO implements ICrud<Candidate>{
 			rqt.setString(5, data.getLogin());
 			rqt.setString(6, data.getPassword());
 			rqt.setInt(7, data.getPromotion().getId());	
-			result = rqt.executeUpdate()== 1;
+			
+			result = (rqt.executeUpdate()==1);
 			data.setId(rqt.getInt(1));
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#insert : "+e.getMessage());
@@ -123,7 +124,7 @@ public class CandidateDAO implements ICrud<Candidate>{
 	public boolean update(Candidate data) throws GloriaException {
 		boolean result = false ;
 
-		try(Connection cnx=AccessBase.getConnection()){
+		try(Connection cnx=DBConnection.getConnection()){
 			CallableStatement rqt=cnx.prepareCall("{CALL MODIFY_CANDIDATE(?,?,?,?,?,?,?)}");
 			rqt.setInt(1,  data.getId());
 			rqt.setString(2, data.getFirstName());
@@ -133,7 +134,7 @@ public class CandidateDAO implements ICrud<Candidate>{
 			rqt.setString(6, data.getLogin());
 			rqt.setInt(7, data.getPromotion().getId());
 
-			result = rqt.executeUpdate() <1;
+			result = (rqt.executeUpdate() == 1);
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#update : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la mise à jour du candidat dans la base de données.");
@@ -151,14 +152,14 @@ public class CandidateDAO implements ICrud<Candidate>{
 	@Override
 	public boolean delete(Candidate data) throws GloriaException {
 		boolean result = false ;
-		try(Connection cnx=AccessBase.getConnection()){
+		try(Connection cnx=DBConnection.getConnection()){
 			
 			CallableStatement rqt=cnx.prepareCall("{CALL DELETE_CANDIDATE(?)}");
 			rqt.setInt(1, data.getId());
-			result = rqt.executeUpdate() ==1 ;
+			result = rqt.executeUpdate() == 1 ;
 			
 		} catch (SQLException e) {
-			logger.severe(this.getClass().getName()+"#delete : "+e.getMessage());
+			logger.severe(this.getClass().getName()+"#update : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la suppression du candidat dans la base de données.");
 		}
 		return result ;
@@ -173,7 +174,7 @@ public class CandidateDAO implements ICrud<Candidate>{
 	@Override
 	public Candidate selectById(int id) throws GloriaException {
 		Candidate result = null ;
-		try(Connection cnx = AccessBase.getConnection()){
+		try(Connection cnx = DBConnection.getConnection()){
 			CallableStatement rqt = cnx.prepareCall("{CALL FIND_BY_ID_CANDIDATE(?)}");
 			rqt.setInt(1, id);
 			ResultSet rs=rqt.executeQuery();
@@ -197,7 +198,7 @@ public class CandidateDAO implements ICrud<Candidate>{
 	@Override
 	public List<Candidate> selectAll() throws GloriaException {
 		List<Candidate> result = new ArrayList<Candidate>();
-		try(Connection cnx=AccessBase.getConnection()){
+		try(Connection cnx=DBConnection.getConnection()){
 			CallableStatement rqt=cnx.prepareCall("LIST_CANDIDATES");
 			ResultSet rs=rqt.executeQuery();
 			
@@ -207,7 +208,6 @@ public class CandidateDAO implements ICrud<Candidate>{
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#selectAll : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la récupération de la liste des candidats.");
-
 		} 		
 		return result;
 	}
@@ -222,7 +222,7 @@ public class CandidateDAO implements ICrud<Candidate>{
 	@Override
 	public Candidate itemBuilder(ResultSet rs) throws GloriaException {
 		Candidate result = new Candidate();
-		PromotionDAO daoP = new PromotionDAO();
+		CopyPromotionDAO daoP = new CopyPromotionDAO();
 		try {
 			result.setId(rs.getInt("id"));
 			result.setFirstName(rs.getString("prenom"));

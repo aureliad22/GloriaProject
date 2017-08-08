@@ -1,3 +1,4 @@
+
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp"/>
 
 <div class="row">
@@ -15,4 +16,5 @@
     </a>
 </div>
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp"/>
+
 

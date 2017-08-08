@@ -94,7 +94,58 @@
     <servlet-name>TeacherHomeServlet</servlet-name>
     <url-pattern>/Teacher</url-pattern>
   </servlet-mapping>
+  
   <servlet>
+    <description>servlet</description>
+    <display-name>CandidateResearch</display-name>
+    <servlet-name>CandidateResearch</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.CandidateResearch</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CandidateResearch</servlet-name>
+    <url-pattern>/CandidateResearch</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>TeacherGestionPage</display-name>
+    <servlet-name>TeacherGestionPage</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.TeacherGestionPage</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TeacherGestionPage</servlet-name>
+    <url-pattern>/TeacherGestionPage</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CreateCandidateServlet</display-name>
+    <servlet-name>CreateCandidateServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.CreateCandidatServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateCandidateServlet</servlet-name>
+    <url-pattern>/CreateCandidate</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>PromotionServlet</display-name>
+    <servlet-name>PromotionServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.PromotionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PromotionServlet</servlet-name>
+    <url-pattern>/PromotionServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>QuestionGestion</display-name>
+    <servlet-name>QuestionGestion</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.QuestionGestion</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>QuestionGestion</servlet-name>
+    <url-pattern>/Teacher/QuestionGestion</url-pattern>
+  </servlet-mapping>
+    <servlet>
     <description></description>
     <display-name>DeconnexionServlet</display-name>
     <servlet-name>DeconnexionServlet</servlet-name>
@@ -104,6 +155,7 @@
     <servlet-name>DeconnexionServlet</servlet-name>
     <url-pattern>/Deconnexion</url-pattern>
   </servlet-mapping>
+  
   <servlet>
     <description>Gere le déroulé du test</description>
     <display-name>CandidateRunTestServlet</display-name>
@@ -114,6 +166,7 @@
     <servlet-name>CandidateRunTestServlet</servlet-name>
     <url-pattern>/Candidate/RunTest</url-pattern>
   </servlet-mapping>
+  
   <servlet>
     <description></description>
     <display-name>CandidateSaveAnswerServlet</display-name>
@@ -124,4 +177,5 @@
     <servlet-name>CandidateSaveAnswerServlet</servlet-name>
     <url-pattern>/Candidate/SaveAnswer</url-pattern>
   </servlet-mapping>
+  
 </web-app>

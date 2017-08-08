@@ -144,17 +144,19 @@ public class PromotionDAO implements ICrud<Promotion>{
 		List<Promotion> listePromotions = new ArrayList<Promotion>();
 		
 		try(Connection cnx = AccessBase.getConnection()){
-			CallableStatement rqt = cnx.prepareCall("{CALL LIST_PROMOTIONS()}");
-			
+			CallableStatement rqt = cnx.prepareCall("LIST_PROMOTIONS");
 			ResultSet rs = rqt.executeQuery();
 			while(rs.next()){
 				listePromotions.add(itemBuilder(rs));
+				System.out.println(listePromotions);
 			}
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#selectAll : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la récupération de la liste des promotions.");
 		}
+		System.out.println(listePromotions);
 		return listePromotions;
+		
 	}
 	
 	/**
