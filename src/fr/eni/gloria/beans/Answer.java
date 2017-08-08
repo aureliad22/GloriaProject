@@ -97,8 +97,16 @@ public class Answer implements Serializable{
 				.append(", correct=").append(correct).append("]");
 		return builder.toString();
 	}
-	
-	
-
-	
+	/**
+	 * {@inheritDoc}
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object answer) {
+		boolean result = false;
+		if(answer instanceof Answer){
+			result = ((Answer) answer).getId() == this.getId();
+		}
+		return result;
+	}	
 }

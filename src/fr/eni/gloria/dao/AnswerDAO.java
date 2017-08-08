@@ -28,14 +28,14 @@ import fr.eni.gloria.utils.GloriaLogger;
 public class AnswerDAO implements ICrud<Answer>{
 	Logger logger = GloriaLogger.getLogger(this.getClass().getName());
 	private final static String LIST_RIGHT_ANSWERS = "SELECT * "
-													+ "FROM reponses_donnees rd "
-													+ "JOIN reponses r ON r.id = rd.idReponse "
-													+ "JOIN questions_selectionnees qs ON qs.idQuestion = rd.idQuestion "
-													+ "WHERE rd.idQuestion = ?"
-													+ "AND rd.idReponse IN (SELECT id FROM reponses WHERE r.estBonne = 1);";
+													+ "FROM reponses "
+													+ "WHERE idQuestion = ? "
+													+ "AND estBonne = 1 "
+													+ "ORDER BY id;";
 	
 	
-	private static final String LIST_GIVEN_ANSWERS = "SELECT * FROM reponses_donnees "
+	private static final String LIST_GIVEN_ANSWERS = "SELECT * "
+													+ "FROM reponses_donnees "
 													+ "WHERE idStagiaire = ? "
 													+ "AND idTest = ? "
 													+ "AND idSection =? " 
@@ -104,8 +104,7 @@ public class AnswerDAO implements ICrud<Answer>{
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#itemBuilder : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la construction de la réponse.");
-		}
-		
+		}		
 		return result;
 	}
 
@@ -173,8 +172,7 @@ public class AnswerDAO implements ICrud<Answer>{
 			rqt.setInt(1, idStagiaire);
 			rqt.setInt(2, idTest);
 			rqt.setInt(3, idSection);
-			rqt.setInt(4, idQuestion);
-			
+			rqt.setInt(4, idQuestion);			
 			ResultSet rs=rqt.executeQuery();
 			
 			while (rs.next()){
