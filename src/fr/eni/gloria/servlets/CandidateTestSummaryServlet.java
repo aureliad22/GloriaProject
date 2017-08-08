@@ -1,17 +1,23 @@
 package fr.eni.gloria.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.eni.gloria.beans.Answer;
+import fr.eni.gloria.beans.Candidate;
 import fr.eni.gloria.beans.Question;
-import fr.eni.gloria.services.QuestionService;
+import fr.eni.gloria.beans.Section;
+import fr.eni.gloria.beans.Test;
+import fr.eni.gloria.services.ResultService;
+import fr.eni.gloria.utils.GloriaException;
 
 /**
  * Servlet implementation class CandidateTestSummaryServlet
@@ -39,13 +45,39 @@ public class CandidateTestSummaryServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//Récupérer la liste des questions 
+		//Récupérer la liste des questions
+		HttpSession session = request.getSession();
+		Map<Integer, Question> questions = new HashMap<Integer, Question>();
+		Map<Integer, Boolean> hasGivenAnswers = new HashMap<Integer, Boolean>();
+		Test currentTest = (Test) session.getAttribute("requestedTest");
+		Candidate user = (Candidate)session.getAttribute("user");
+		List<Section> sections = currentTest.getSections();
+		int numQuestion = 1 ;
+		for (Section section : sections) {
+			for (Question question : section.getQuestions()) {
+				questions.put(numQuestion++, question);
+				List<Answer> givenAnswers;
+				try {
+					givenAnswers = ResultService.getGivenAnswers(user, currentTest, section, question);
+					if (givenAnswers.size()==0) {
+						hasGivenAnswers.put(question.getId(), false);
+					}
+				} catch (GloriaException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		}
 		
-		//Stocker la lsite dans la session
+		session.setAttribute("questionList", questions);
+		session.setAttribute("givenAnswers", hasGivenAnswers);
+		
+		//Récupération des réponses données : 
 		
 		
 		
-		//request.getSession().setAttribute("questionList", questionList);
+		
 		request.getRequestDispatcher("/WEB-INF/jsp/candidate/testSummary.jsp").forward(request, response);
 	}
 
