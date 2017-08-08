@@ -215,10 +215,20 @@ public class TestDAO implements ICrud<Test>{
 	 * @param idTest 
 	 * @param idStagiaire 
 	 * @return
+	 * @throws GloriaException 
 	 */
-	public int getTotal(int idStagiaire, int idTest) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getTotal(int idCandidate, int idTest) throws GloriaException {
+		int result = 0;
+		try(Connection cnx = AccessBase.getConnection()){
+			CallableStatement rqt = cnx.prepareCall("{?=CALL CALCULATE_TOTAL (?,?)}");
+			rqt.setInt(2, idCandidate);
+			rqt.setInt(2, idTest);
+			result = rqt.getInt(1);
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#getTotal : "+e.getMessage());
+			throw new GloriaException("Erreur lors du calcul du total attendu pour un test donné.");
+		}
+		return result;	
 	}
 
 

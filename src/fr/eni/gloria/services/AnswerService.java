@@ -5,7 +5,6 @@
  */
 package fr.eni.gloria.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.gloria.beans.Answer;
