@@ -184,4 +184,14 @@
     <servlet-name>CandidateResultServlet</servlet-name>
     <url-pattern>/Candidate/Result</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CandidateTestSummaryServlet</display-name>
+    <servlet-name>CandidateTestSummaryServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.CandidateTestSummaryServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CandidateTestSummaryServlet</servlet-name>
+    <url-pattern>/Candidate/TestSummary</url-pattern>
+  </servlet-mapping>
 </web-app>

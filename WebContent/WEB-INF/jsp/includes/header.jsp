@@ -7,7 +7,8 @@
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/styles/style.css" >
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/styles/bootstrap.css" >
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/styles/bootstrap-theme.css" >
-	   <title>GloriaQCM</title>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/script.js"></script>
+    <title>GloriaQCM</title>
 	</head>
 	
     <body>

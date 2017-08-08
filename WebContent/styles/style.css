@@ -68,6 +68,33 @@ input.action-test{
     text-align: center;
 }
 
+.ligne-reponse{
+	margin-bottom: 5px;
+}
+
+.bloc-reponses{
+    margin-bottom : 30px;
+	margin-left : 30px;
+	padding : 10px;
+}
+
+.bloc-marquage{
+    float:right;	
+}
+
+.validation-button{
+	display: block;
+}
+
+.marque{
+	margin-bottom : 10px ;
+}
+
+.enonce{
+	font-size: large;
+	font-weight: bold ;
+}
+
 p{
 	text-align: justify;
 }

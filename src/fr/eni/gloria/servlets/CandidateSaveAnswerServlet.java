@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import fr.eni.gloria.beans.Candidate;
 import fr.eni.gloria.beans.Test;
+import fr.eni.gloria.services.QuestionService;
 import fr.eni.gloria.services.ResultService;
 import fr.eni.gloria.utils.GloriaException;
 
@@ -62,7 +63,14 @@ public class CandidateSaveAnswerServlet extends HttpServlet {
 		}
 		
 		if (isMarked != null) {
-			//Faire l'entrée dabns la bdd pour marquer la question
+			System.out.println("Question marquée");
+			test.getSections().get((int)session.getAttribute("currentSectionIndex")).getQuestions().get((int) session.getAttribute("currentQuestionIndex")).setMarked(true);
+			try {
+				System.out.println("Ecriture du marquage dans la bdd");
+				QuestionService.markQuestion(idStagiaire, idTest, idSection, idQuestion);
+			} catch (GloriaException e) {
+				request.setAttribute("error", e.getMessage());
+			}
 		}
 		
 		request.getRequestDispatcher("/Candidate/RunTest").forward(request, response);
