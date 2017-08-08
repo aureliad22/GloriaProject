@@ -12,6 +12,17 @@ header{
 	min-height: 600px;
 }
 
+.ligne-recap{
+	padding : 10px ; 
+	margin : 10px;
+	border-bottom: 1px solid teal ;
+	min-height: 50px;
+}
+
+.btn-recap-test{
+    float : right;	
+}
+
 .bloc-error{
 	border : 1px solid red ;
 	background-color: #f9acac;
@@ -68,6 +79,33 @@ input.action-test{
     text-align: center;
 }
 
+.ligne-reponse{
+	margin-bottom: 5px;
+}
+
+.bloc-reponses{
+    margin-bottom : 30px;
+	margin-left : 30px;
+	padding : 10px;
+}
+
+.bloc-marquage{
+    float:right;	
+}
+
+.validation-button{
+	display: block;
+}
+
+.marque{
+	margin-bottom : 10px ;
+}
+
+.enonce{
+	font-size: large;
+	font-weight: bold ;
+}
+
 p{
 	text-align: justify;
 }
@@ -105,6 +143,10 @@ span.titre-accueil{
 	border : 1px solid teal;
 	padding : 5px ;
 	margin : 3px;
+}
+
+a{
+    color : black;
 }
 
 /****** LOGIN MODAL ******/

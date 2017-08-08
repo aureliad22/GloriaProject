@@ -7,11 +7,12 @@
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/styles/style.css" >
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/styles/bootstrap.css" >
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/styles/bootstrap-theme.css" >
-	   <title>GloriaQCM</title>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/script.js"></script>
+    <title>GloriaQCM</title>
 	</head>
 	
     <body>
-        <header><h1>GloriaProject</h1>
+        <header><h1><a href="<%=request.getContextPath()%>">GloriaProject</a></h1>
         <c:if test="${user != null}">
             <a href="<%=request.getContextPath()%>/Deconnexion">Deconnexion</a>
         </c:if></header>

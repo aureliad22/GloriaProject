@@ -31,10 +31,10 @@ public class ResultDAO {
 	 * @param idQuestion Identifiant de la question concernée
 	 * @throws GloriaException 
 	 */
-	public void cleanGivenAnswers(int idStagiaire, int idTest, int idSection, int idQuestion) throws GloriaException {
+	public void cleanGivenAnswers(int idcandidate, int idTest, int idSection, int idQuestion) throws GloriaException {
 		try (Connection cnx = AccessBase.getConnection()){
 			CallableStatement rqt = cnx.prepareCall("{CALL DELETE_GIVEN_ANSWERS(?,?,?,?)}");
-			rqt.setInt(1, idStagiaire);
+			rqt.setInt(1, idcandidate);
 			rqt.setInt(2, idTest);
 			rqt.setInt(3, idSection);
 			rqt.setInt(4, idQuestion);
@@ -56,10 +56,10 @@ public class ResultDAO {
 	 * @param idReponse Identifiant de la réponse donnée.
 	 * @throws GloriaException 
 	 */
-	public void addGivenAnswer(int idStagiaire, int idTest, int idSection, int idQuestion, int idReponse) throws GloriaException {
+	public void addGivenAnswer(int idcandidate, int idTest, int idSection, int idQuestion, int idReponse) throws GloriaException {
 		try (Connection cnx = AccessBase.getConnection()){
 			CallableStatement rqt = cnx.prepareCall("{CALL ADD_GIVEN_ANSWER(?,?,?,?,?)}");
-			rqt.setInt(1, idStagiaire);
+			rqt.setInt(1, idcandidate);
 			rqt.setInt(2, idTest);
 			rqt.setInt(3, idSection);
 			rqt.setInt(4, idQuestion);
@@ -71,4 +71,28 @@ public class ResultDAO {
 		} 
 	}
 	
+	/**
+	 * 
+	 * Méthode en charge d'insérer dans la base de onnées le résultat obtenu par 
+	 * un stagiaire à un test
+	 * @param idCandidate
+	 * @param idTest
+	 * @param score
+	 * @return True si l'insertion s'est bien effectuée
+	 * @throws GloriaException
+	 */
+	public boolean addResultCandidate(int score, int idCandidate, int idTest) throws GloriaException{
+		boolean result = false;
+		try (Connection cnx = AccessBase.getConnection()){
+			CallableStatement rqt = cnx.prepareCall("{CALL REGISTER_SCORE_CANDIDATE(?,?,?)}");
+			rqt.setInt(1, score);
+			rqt.setInt(2, idCandidate);
+			rqt.setInt(3, idTest);
+			result = rqt.executeUpdate() == 1;
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#addResultCandidate : "+e.getMessage());
+			throw new GloriaException("Erreur lors de l'insertion du résultat du candidat dans la base de données");
+		} 
+		return result;
+	}
 }

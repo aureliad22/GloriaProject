@@ -7,6 +7,7 @@ package fr.eni.gloria.dao;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -27,7 +28,12 @@ import fr.eni.gloria.utils.GloriaLogger;
  */
 public class TestDAO implements ICrud<Test>{
 	Logger logger = GloriaLogger.getLogger(this.getClass().getName());
-
+	private static final String CALCULATE_TOTAL = "SELECT SUM(poids) as total "
+												+ "	FROM questions q "
+												+ "	JOIN questions_selectionnees qs ON qs.idQuestion = q.id "
+												+ " WHERE idStagiaire = ? "
+												+ " AND idTest = ?;";
+	
 	/** 
 	 * Méthode permettant d'insérer un nouveau test dans la BdD.
 	 * L'id du test sera mis à jour avec l'id autogénéré par la BdD.
@@ -208,6 +214,39 @@ public class TestDAO implements ICrud<Test>{
 			throw new GloriaException("Erreur lors de la récupération de tous les tests du candidat dans la base de données.");
 		}
 		return result;
+	}
+
+	/**
+	 * Méthode en charge de calculer le total attendu pour un test donné
+	 * @param idTest 
+	 * @param idStagiaire 
+	 * @return
+	 * @throws GloriaException 
+	 */
+	public int getTotal(int idCandidate, int idTest) throws GloriaException {
+		int result = 0;
+		ResultSet rs = null;
+		try(Connection cnx = AccessBase.getConnection()){
+//			CallableStatement rqt = cnx.prepareCall("{?=CALL CALCULATE_TOTAL (?,?)}");
+//			rqt.registerOutParameter(1, Types.INTEGER);
+//			rqt.setInt(2, idCandidate);
+//			rqt.setInt(3, idTest);
+//			
+//			rqt.execute();
+//			result = rqt.getInt(1);
+			PreparedStatement rqt = cnx.prepareStatement(CALCULATE_TOTAL);
+			rqt.setInt(1, idCandidate);
+			rqt.setInt(2, idTest);
+			
+			rs = rqt.executeQuery();
+			if(rs.next()){
+				result = rs.getInt(1);
+			}			
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#getTotal : "+e.getMessage());
+			throw new GloriaException("Erreur lors du calcul du total attendu pour un test donné.");
+		}
+		return result;	
 	}
 
 

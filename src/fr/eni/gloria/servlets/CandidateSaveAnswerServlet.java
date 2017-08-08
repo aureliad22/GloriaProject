@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import fr.eni.gloria.beans.Candidate;
 import fr.eni.gloria.beans.Test;
+import fr.eni.gloria.services.QuestionService;
 import fr.eni.gloria.services.ResultService;
 import fr.eni.gloria.utils.GloriaException;
 
@@ -46,17 +47,32 @@ public class CandidateSaveAnswerServlet extends HttpServlet {
 		int idSection = test.getSections().get((int)session.getAttribute("currentSectionIndex")).getId();
 		int idQuestion = Integer.parseInt(request.getParameter("idQuestion"));
 		String[] reponses = request.getParameterValues("answer");
-		int[] tabReponses = new int[reponses.length];
-		for (int i = 0; i < reponses.length; i++) {
-			tabReponses[i] = Integer.parseInt(reponses[i]);
+		String isMarked = request.getParameter("marquer");
+		if (reponses != null) {
+			int[] tabReponses = new int[reponses.length];
+			for (int i = 0; i < reponses.length; i++) {
+				tabReponses[i] = Integer.parseInt(reponses[i]);
+			}
+			
+			//Suppression de la réponse donnée à cette question (cas de changement de réponse)
+			try {
+				ResultService.writeAnswer(idStagiaire, idTest, idSection, idQuestion, tabReponses);
+			} catch (GloriaException e) {
+				request.setAttribute("error", e.getMessage());
+			}
 		}
 		
-		//Suppression de la réponse donnée à cette question (cas de changement de réponse)
-		try {
-			ResultService.writeAnswer(idStagiaire, idTest, idSection, idQuestion, tabReponses);
-		} catch (GloriaException e) {
-			request.setAttribute("error", e.getMessage());
+		if (isMarked != null) {
+			System.out.println("Question marquée");
+			test.getSections().get((int)session.getAttribute("currentSectionIndex")).getQuestions().get((int) session.getAttribute("currentQuestionIndex")).setMarked(true);
+			try {
+				System.out.println("Ecriture du marquage dans la bdd");
+				QuestionService.markQuestion(idStagiaire, idTest, idSection, idQuestion);
+			} catch (GloriaException e) {
+				request.setAttribute("error", e.getMessage());
+			}
 		}
+		
 		request.getRequestDispatcher("/Candidate/RunTest").forward(request, response);
 	}
 

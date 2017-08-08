@@ -130,5 +130,16 @@ public class TestService implements IService<Test> {
 		return test ;
 	}
 
+	/**
+	 * Méthode en charge de 
+	 * @param stagiaire
+	 * @param test
+	 * @return
+	 * @throws GloriaException 
+	 */
+	public static int getTotal(Candidate candidate, Test test) throws GloriaException {
+		return new TestDAO().getTotal(candidate.getId(), test.getId());
+	}
+
 }
 

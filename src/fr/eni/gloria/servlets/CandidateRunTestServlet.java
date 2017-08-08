@@ -39,79 +39,80 @@ public class CandidateRunTestServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Test currentTest = (Test)session.getAttribute("requestedTest"); 
-		System.out.println(currentTest);
-		RequestDispatcher rd = null ;
-		System.out.println(session.getAttribute("testBegun"));
-		//1.Si test non commencé : /Premiere question
-		if (session.getAttribute("testBegun")==null) {
-			System.out.println("Entrée dans 1.");
-			//Initialisation des variables d'itération : 
-			session.setAttribute("testBegun", true);
-			session.setAttribute("currentSectionIndex", 0);
-			session.setAttribute("currentQuestionIndex", 0);
-			session.setAttribute("currentTestDone", false);
-			
-			//Récupération de la première question du test
-			Question nextQuestion = currentTest.getSections().get(0).getQuestions().get(0);
-			request.setAttribute("nextQuestion", nextQuestion);
-			rd = request.getRequestDispatcher("/WEB-INF/jsp/candidate/runTest.jsp");
-			
+		RequestDispatcher rd =  request.getRequestDispatcher("/WEB-INF/jsp/candidate/runTest.jsp");
+		int currentQuestionIndex = 0;
+		int currentSectionIndex =0;
+		int questionMaxIndex =0;
+		int sectionMaxIndex =0;
+		
+		if (session.getAttribute("testBegun")==null) { 
+			initParameters(session);
+			currentQuestionIndex = (int) session.getAttribute("currentQuestionIndex");
+			currentSectionIndex = (int) session.getAttribute("currentSectionIndex");
+			getNextQuestion(session, currentTest, currentQuestionIndex, currentSectionIndex);
 			
 		//2. Si le test est déja commencé mais non terminé :	
-		}else if (!(boolean)session.getAttribute("currentTestDone")){
-			System.out.println("Entrée dans 2. Test en cours de passage");
-			
-			//Enregistrement de la réponse dans la base de données : 
-			System.out.println("Sauvegarde de la réponse donnée");
-			
+		}else if (!(boolean)session.getAttribute("currentTestDone")){ 
 			//Récupération des variables : 
-			int currentQuestionIndex = (int) session.getAttribute("currentQuestionIndex");
-			int currentSectionIndex = (int) session.getAttribute("currentSectionIndex");
-			int questionMaxIndex = currentTest.getSections().get(currentSectionIndex).getQuestions().size()-1 ;
-			int sectionMaxIndex = currentTest.getSections().size()-1;
+			currentQuestionIndex = (int) session.getAttribute("currentQuestionIndex");
+			currentSectionIndex = (int) session.getAttribute("currentSectionIndex");
+			questionMaxIndex = currentTest.getSections().get(currentSectionIndex).getQuestions().size()-1 ;
+			sectionMaxIndex = currentTest.getSections().size()-1;
 			
 			//2.1 Si on arrive à la fin de la liste de question de la section courante :
 			if (currentQuestionIndex == questionMaxIndex){
-				System.out.println("Entrée dans 2.1 Dernière question de la section courante");
-				
 				// 2.1.1 si la section courante est la dernière section du test courant mais que le candidat n'a pas cloturé le test :
 				if (currentSectionIndex == sectionMaxIndex) {
-					System.out.println("Entrée dans 2.1.1 : Fin de la derniere section du test.");
-					rd=request.getRequestDispatcher("/WEB-INF/jsp/candidate/recapTest.jsp");
+					session.setAttribute("authorizeSummary", true); //Pour activer lun bouton qui permet d'arriver directement sur le recap du test
+					rd=request.getRequestDispatcher("/Candidate/TestSummary");
 				
 				//2.1.2. Passage à la section suivante. 
 				}else{
-					System.out.println("Entrée dans 2.1.2 : Changement de section / Affichage première question");
-					currentSectionIndex++;
 					currentQuestionIndex = 0 ;
-					
-					session.setAttribute("currentSectionIndex",currentSectionIndex);
+					session.setAttribute("currentSectionIndex",++currentSectionIndex);
 					session.setAttribute("currentQuestionIndex", currentQuestionIndex);
-					Question nextQuestion = currentTest.getSections().get(currentSectionIndex).getQuestions().get(currentQuestionIndex);
-					session.setAttribute("nextQuestion", nextQuestion);
-					rd = request.getRequestDispatcher("/WEB-INF/jsp/candidate/runTest.jsp");
-					System.out.println("Section [index="+currentSectionIndex +", idSection="+currentTest.getSections().get(currentSectionIndex).getId() +"] | Question [index="+currentQuestionIndex+", idQuestion="+currentTest.getSections().get(currentSectionIndex).getQuestions().get(currentQuestionIndex).getId()+"]");
-					
+					getNextQuestion(session, currentTest, currentQuestionIndex,	currentSectionIndex);
 				}
 			//2.2 Passage à la prochaine question de la section courante	
 			}else{
-				System.out.println("Entrée dans 2.2 : Affichage de la question suivante de la même section");
 				//Incrément de l'index de question
 				session.setAttribute("currentQuestionIndex", ++currentQuestionIndex);
-				Question nextQuestion = currentTest.getSections().get(currentSectionIndex).getQuestions().get(currentQuestionIndex);
-				request.setAttribute("nextQuestion", nextQuestion);
-				rd = request.getRequestDispatcher("/WEB-INF/jsp/candidate/runTest.jsp");
-				System.out.println("Section [index="+currentSectionIndex +", idSection="+currentTest.getSections().get(currentSectionIndex).getId() +"] | Question [index="+currentQuestionIndex+", idQuestion="+currentTest.getSections().get(currentSectionIndex).getQuestions().get(currentQuestionIndex).getId()+"]");
+				getNextQuestion(session, currentTest, currentQuestionIndex,	currentSectionIndex);
 			}
 		//3. Si le test est terminé et cloturé : 	
 		}else{
-			System.out.println("Entrée dans 3.");
 			rd=request.getRequestDispatcher("/WEB-INF/jsp/candidate/testResult.jsp");
 		}
-		
+		System.out.println("IndexSection  : "+currentSectionIndex  + " | SectionID  : "+currentTest.getSections().get(currentSectionIndex).getId());
+		System.out.println("QuestionIndex : "+currentQuestionIndex + " | QuestionID : "+currentTest.getSections().get(currentSectionIndex).getQuestions().get(currentQuestionIndex).getId());
+		System.out.println("_____________________________________");
 		//Display next question
-		System.out.println("Sortie. \n\n");
 		rd.forward(request, response);
+	}
+
+	/**
+	 * Méthode en charge de mettre à disposition dans la session la prochaine question à soumettre au candidat.
+	 * @param session
+	 * @param currentTest
+	 * @param currentQuestionIndex
+	 * @param currentSectionIndex
+	 */
+	private void getNextQuestion(HttpSession session, Test currentTest,	int currentQuestionIndex, int currentSectionIndex) {
+		Question nextQuestion = currentTest.getSections().get(currentSectionIndex).getQuestions().get(currentQuestionIndex);
+		session.setAttribute("nextQuestion", nextQuestion);
+	}
+
+	
+	/**
+	 * Méthode en charge d'initialiser les paramètre pour le parcours des questions du test
+	 * @param session
+	 */
+	private void initParameters(HttpSession session) {
+		session.setAttribute("testBegun", true);
+		session.setAttribute("currentSectionIndex", 0);
+		session.setAttribute("currentQuestionIndex", 0);
+		session.setAttribute("currentTestDone", false);
+		session.setAttribute("authorizeSummary", false);
 	}
 	
 	
