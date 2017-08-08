@@ -37,26 +37,43 @@ public class ResultService {
 	 * @param tabReponses Tableau des réponses cochées pour la question en cours
 	 * @throws GloriaException 
 	 */
-	public static void writeAnswer(int idStagiaire, int idTest, int idSection,	int idQuestion, int[] tabReponses) throws GloriaException {
-		new ResultDAO().cleanGivenAnswers(idStagiaire, idTest, idSection, idQuestion);
+	public static void writeAnswer(int idCandidate, int idTest, int idSection,	int idQuestion, int[] tabReponses) throws GloriaException {
+		new ResultDAO().cleanGivenAnswers(idCandidate, idTest, idSection, idQuestion);
 		
 		for (int i = 0; i < tabReponses.length; i++) {
-			new ResultDAO().addGivenAnswer(idStagiaire, idTest, idSection, idQuestion, tabReponses[i]);
+			new ResultDAO().addGivenAnswer(idCandidate, idTest, idSection, idQuestion, tabReponses[i]);
 		}
 	}
 
 	/**
 	 * 
-	 * Méthode en charge de récupérer les réponses fournies par le candidat 
-	 * à partir de la BdD
-	 * @param stagiaire
+	 * Méthode en charge de retourner la liste des réponses fournies par le candidat 
+	 * pour une question spécifique (idTest, idSection, idQuestion) à partir de la BdD
+	 * @param candidate
 	 * @param test
 	 * @param section
 	 * @param question
 	 * @return Liste des réponses données par le candidat
 	 * @throws GloriaException
 	 */
-	public static List<Answer> getGivenAnswers(Candidate stagiaire, Test test, Section section,	Question question) throws GloriaException{
-		return new AnswerDAO().getGivenAnswers(stagiaire.getId(), test.getId(), section.getId(), question.getId());
+	public static List<Answer> getGivenAnswers(Candidate candidate, Test test, Section section,	Question question) throws GloriaException{
+		List<Answer> result= new AnswerDAO().getGivenAnswers(candidate.getId(), test.getId(), section.getId(), question.getId());
+		return result;
+	}
+	
+	/**
+	 * 
+	 * Méthode en charge d'ajouter le résultat obtenu par un candidat à un test dans la BdD
+	 * @param score
+	 * @param candidate
+	 * @param test
+	 * @return Vrai si l'insertion a bien eu lieu
+	 * @throws GloriaException
+	 */
+	public static boolean addResultCandidate(int score, Candidate candidate, Test test) throws GloriaException{
+		boolean result = false;
+		result = new ResultDAO().addResultCandidate(score, candidate.getId(), test.getId());
+		
+		return result;
 	}
 }
