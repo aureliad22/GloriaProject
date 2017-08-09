@@ -4,11 +4,7 @@
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp"/>
 <div class="bloc-question">
     <h3>${requestedTest.title}</h3>
-    <!-- 
-    <div class="timer">    
-    	<fmt:formatDate value="${timer}" timeStyle="medium"/> 
-    </div>
-     -->
+
     <form action="<%=request.getContextPath()%>/Candidate/SaveAnswer" method="post">
         <p class="enonce">Question : ${nextQuestion.question}</p>
         <input type="hidden" name="idQuestion" value="${nextQuestion.id}"/>
