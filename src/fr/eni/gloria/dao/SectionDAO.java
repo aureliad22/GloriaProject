@@ -8,6 +8,7 @@ package fr.eni.gloria.dao;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -26,7 +27,13 @@ import fr.eni.gloria.utils.GloriaLogger;
  */
 public class SectionDAO implements ICrud<Section>{
 	Logger logger = GloriaLogger.getLogger(this.getClass().getName());
-	
+	private static final String CALCULATE_TOTAL_SECTION =  "SELECT SUM(poids) as totalSection"
+														+ "	FROM sections s"
+														+ "	JOIN questions_selectionnees qs ON qs.idSection = s.id"
+														+ " JOIN questions q ON q.id = qs.idQuestion"
+														+ " WHERE idStagiaire = ?"
+														+ " AND idTest = ?"
+														+ " AND idSection = ?;";
 	/**
 	 * Méthode en charge de récupérer les sections du test 
 	 * ont l'identifiant est donné en paramètreµ.
@@ -120,5 +127,30 @@ public class SectionDAO implements ICrud<Section>{
 		return result;
 	}
 
+	/**
+	 * Méthode en charge de calculer le total attendu pour une section dans test donné
+	 * @param idTest 
+	 * @param idStagiaire 
+	 * @return le total pour une section
+	 * @throws GloriaException 
+	 */
+	public int getTotalSection(int idCandidate, int idTest, int idSection) throws GloriaException {
+		int result = 0;
+		ResultSet rs = null;
+		try(Connection cnx = AccessBase.getConnection()){
+			PreparedStatement rqt = cnx.prepareStatement(CALCULATE_TOTAL_SECTION);
+			rqt.setInt(1, idCandidate);
+			rqt.setInt(2, idTest);
+			rqt.setInt(3, idSection);
+			rs = rqt.executeQuery();
+			if(rs.next()){
+				result = rs.getInt(1);
+			}			
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#getTotalSection : "+e.getMessage());
+			throw new GloriaException("Erreur lors du calcul du total attendu pour une section dans un test.");
+		}
+		return result;	
+	}
 }
 
