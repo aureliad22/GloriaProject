@@ -85,7 +85,17 @@ public class TestService implements IService<Test> {
 		return new TestDAO().selectTestsByCandidateId(idCandidate);
 	}
 	
-
+	/**
+	 * Méthode en charge de fournir la liste des tests 
+	 * complétés par le candidat identifié dans la session.
+	 *  
+	 * @param idCandidate Identifiant du candidat 
+	 * @return Liste des tests complétés.
+	 * @throws GloriaException 
+	 */
+	public List<Test> getResultTests(Candidate candidate) throws GloriaException {
+		return new TestDAO().selectResultTestsByCandidateId(candidate.getId());
+	}
 	/**
 	 *  Méthode en charge d'injecter les dépendances dans l'objet Test 
 	 *  fourni en paramètre
@@ -112,15 +122,14 @@ public class TestService implements IService<Test> {
 			}
 		}
 		return test;
-	}
-	
+	}	
 	
 	/**
 	 * Méthode en charge de récupérer la liste des sections qui 
 	 * composent le test donné en paramètre.
 	 *  
 	 * @param test dont on doit récupérer les sections
-	 * @return le test dont l'attribut sections à été initialisé.
+	 * @return le test dont l'attribut sections a été initialisé.
 	 * @throws GloriaException
 	 */
 	public static Test getTestSections(Test test) throws GloriaException{
@@ -131,10 +140,10 @@ public class TestService implements IService<Test> {
 	}
 
 	/**
-	 * Méthode en charge de 
+	 * Méthode en charge de retourner le total attendu à un test donné
 	 * @param stagiaire
 	 * @param test
-	 * @return
+	 * @return totalTest
 	 * @throws GloriaException 
 	 */
 	public static int getTotal(Candidate candidate, Test test) throws GloriaException {

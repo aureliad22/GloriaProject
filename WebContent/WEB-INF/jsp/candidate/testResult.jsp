@@ -3,7 +3,7 @@
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
 
 <div class="bloc-result">
-	<h3>Résultats au test ${requestedTest.title}</h3>
+	<h1>Résultats au test ${requestedTest.title}</h1>
 
 	<div class="bloc-score">
         <p>Vous avez obtenu ${score} % au test ${requestedTest.title}.</p>
@@ -14,9 +14,14 @@
 	   <c:set var="numSection" value="${0}"/>
 		   <c:forEach items="${requestedTest.sections}" var="section">
 		       <div class="ligne-score-section">
-		           <h4> ${section.caption} :</h4> 
-		           <p>${totalSection} bonne(s) réponse(s) soit ${scoreSection.get(numSection)} % de réussite.</p>
-		       </div>
+                    <h3 class="section-recap">${section.caption}</h3>
+                    <div class="row">
+                        <div class="stats multicolor">
+                            ${totalSection.get(numSection)} bonne(s) réponse(s).
+                            <span class="percent v70">${scoreSection.get(numSection)}.</span>
+				        </div>
+				    </div>
+				</div>
 		      <c:set var="numSection" value="${numSection+1}"/>		     
 		   </c:forEach>	   
 	</div>

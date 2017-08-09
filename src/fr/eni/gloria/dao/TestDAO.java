@@ -33,7 +33,11 @@ public class TestDAO implements ICrud<Test>{
 												+ "	JOIN questions_selectionnees qs ON qs.idQuestion = q.id "
 												+ " WHERE idStagiaire = ? "
 												+ " AND idTest = ?;";
-	
+	private static final String LIST_RESULT_TESTS_CANDIDATE = "SELECT * " //, i.resultatCandidat
+															+ "FROM inscriptions "
+															+ "JOIN tests ON tests.id = inscriptions.idTest "
+															+ "WHERE idStagiaire = ? "
+															+ "AND resultatCandidat IS NOT NULL;";
 	/** 
 	 * Méthode permettant d'insérer un nouveau test dans la BdD.
 	 * L'id du test sera mis à jour avec l'id autogénéré par la BdD.
@@ -193,7 +197,7 @@ public class TestDAO implements ICrud<Test>{
 	 * en paramètre, est inscrit.
 	 * 
 	 * @param idCandidate Identifiant du candidat.
-	 * @return Liste des en-têtes de tests pour ce candidat.
+	 * @return Liste des en-têtes de tests à passer pour ce candidat.
 	 * @throws GloriaException 
 	 */
 	public List<Test> selectTestsByCandidateId(int idCandidate) throws GloriaException {
@@ -204,10 +208,8 @@ public class TestDAO implements ICrud<Test>{
 			rqt.setInt(1, idCandidate);
 			ResultSet rs = rqt.executeQuery();
 			
-			while(rs.next()){
-				
-				result.add(itemBuilder(rs));
-				
+			while(rs.next()){				
+				result.add(itemBuilder(rs));			
 			}
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#selectTestsByCandidateId : "+e.getMessage());
@@ -215,6 +217,31 @@ public class TestDAO implements ICrud<Test>{
 		}
 		return result;
 	}
+
+	/**
+	 * Méthode en charge de fournir la liste des tests complétés et leurs resultats
+	 * pour un candidat dont l'identifiant est fourni en paramètre
+	 * @param id
+	 * @return Liste des tests complétés pour ce candidat
+	 * @throws GloriaException 
+	 */
+	public List<Test> selectResultTestsByCandidateId(int idCandidate) throws GloriaException {
+		List<Test> result = new ArrayList<Test>();
+		try(Connection cnx = AccessBase.getConnection()){
+			PreparedStatement rqt = cnx.prepareStatement(LIST_RESULT_TESTS_CANDIDATE);
+			rqt.setInt(1, idCandidate);
+			ResultSet rs = rqt.executeQuery();
+			
+			while(rs.next()){			
+				result.add(itemBuilder(rs));			
+			}
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#selectResultTestsByCandidateId : "+e.getMessage());
+			throw new GloriaException("Erreur lors de la récupération de tous les tests passés par le candidat dans la base de données.");
+		}
+		return result;
+	}
+
 
 	/**
 	 * Méthode en charge de calculer le total attendu pour un test donné
@@ -240,6 +267,4 @@ public class TestDAO implements ICrud<Test>{
 		}
 		return result;	
 	}
-
-
 }
