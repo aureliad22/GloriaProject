@@ -2,23 +2,46 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp"/>
 <h1>Récapitulatif du test : ${requestedTest.title}</h1>
-<div>
-   <c:forEach items="${questionList}" var="q">
-    <div class="ligne-recap">
-    <form action="<%=request.getContextPath()%>/Candidate/RunTest" method="POST">
-       Question ${q.key} 
-       <c:if test="${q.value.marked}"> - marked</c:if>
-       <c:if test="${!hasGivenAnswers.get(q.value.id)}"> - Aucune réponse donnée</c:if>
-        //Mettre ici des input hidden avec de quoi reconstruire l'acces à la question
-        <input type="submit" value="Revoir" class="btn btn-default btn-recap-test"/>
-       </form>
-    </div>
-   </c:forEach>
+
+        <c:set var="numSection" value="${0}"/>
+        <c:forEach items="${requestedTest.sections}" var="s">
+            <c:set var="numSection" value="${numSection+1}"/>
+            <h3 class="section-recap">Section ${numSection} : ${s.caption}</h3>
+             <c:set var="numQuestionSection" value="${0}"/>
+             <div class="row  ">
+                <div class="col-sm-6 col-sm-push-2">
+	              <div class="row ligne-recap">
+	                  <div class="col-sm-6"></div>
+	                  <div class="col-sm-2">Tags</div>
+	                  <div class="col-sm-2">Alert</div>
+	                  <div class="col-sm-2"></div>
+	              </div>
+	           </div>
+	        </div>
+	         <c:forEach items="${s.questions}" var="q">
+	         <c:set var="numQuestionSection" value="${numQuestionSection+1}"/>
+	         <div class="row ">
+	            <form action="<%=request.getContextPath()%>/Candidate/RunTest" method="POST">
+	                <div class="col-sm-6 col-sm-push-2">
+		              <input type="hidden" name="QuestionIndex" value="${numQuestionSection-1}"/>
+                      <input type="hidden" name="SectionIndex" value="${numSection-1}"/>
+                        <div class="row ligne-recap">
+		                  <div class="col-sm-6"> Question ${numQuestionSection}  </div>
+		                  <div class="col-sm-2"><c:if test="${q.marked}">&nbsp;<span class="glyphicon glyphicon-tag marquage"></span></c:if></div>
+		                  <div class="col-sm-2"><c:if test="${!givenAnswers.get(q.id)}"> <span class="glyphicon glyphicon-exclamation-sign sans-reponse"></span></c:if></div>
+		                  <div class="col-sm-2"> <input type="submit" value="Revoir" class="btn btn-default btn-recap-test"/> </div>
+                       </div>
+	               </div>
+                </form>
+	        </div> 
+	        </c:forEach>
+        
+        </c:forEach>
    
-</div>
+    
 
 <form action ="<%=request.getContextPath()%>/Candidate/Result" method="post" id="endOfTest">
 </form>
-<button class="btn btn-default" onclick="confirmEndOfTest()">Terminer le test</button>
+<button class="btn btn-default btn-validation" onclick="confirmEndOfTest()">Terminer le test</button>
 
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp"/>

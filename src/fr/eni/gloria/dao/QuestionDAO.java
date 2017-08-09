@@ -214,13 +214,14 @@ public class QuestionDAO implements ICrud<Question>{
 	 * @param idQuestion Identifiant de la section.
 	 * @throws GloriaException
 	 */
-	public void markQuestion(int idStagiaire, int idTest, int idSection, int idQuestion) throws GloriaException{
+	public void markQuestion(int idStagiaire, int idTest, int idSection, int idQuestion, boolean value) throws GloriaException{
 		try(Connection cnx = AccessBase.getConnection()){
-			CallableStatement rqt = cnx.prepareCall("{CALL MARK_QUESTION(?,?,?,?)}");
+			CallableStatement rqt = cnx.prepareCall("{CALL MARK_QUESTION(?,?,?,?,?)}");
 			rqt.setInt(1, idStagiaire);
 			rqt.setInt(2, idTest);
 			rqt.setInt(3, idSection);
 			rqt.setInt(4, idQuestion);
+			rqt.setBoolean(5, value);
 			rqt.executeUpdate();
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#getSelectedQuestions : "+e.getMessage());

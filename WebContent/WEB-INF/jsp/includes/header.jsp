@@ -5,8 +5,9 @@
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/styles/style.css" >
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/styles/bootstrap.css" >
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/styles/bootstrap-theme.css" >
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/bootstrap/css/bootstrap.css" >
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/bootstrap/css/bootstrap-theme.css" >
+	<script type="text/javascript" src="<%=request.getContextPath()%>/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/script.js"></script>
     <title>GloriaQCM</title>
 	</head>

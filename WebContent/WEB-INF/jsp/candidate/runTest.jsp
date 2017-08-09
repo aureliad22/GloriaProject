@@ -15,14 +15,19 @@
         </div>
         <div class="bloc-marquage">
             <div class="marque">
-                <input type="checkbox" name="marquer" value="1" > Marquer la question
+                <c:if test="${nextQuestion.marked}"><input type="checkbox" name="marquer" value="1" checked="checked">&nbsp;<span class="glyphicon glyphicon-tag marquage"></span> Marquer la question</c:if>
+                <c:if test="${!nextQuestion.marked}"><input type="checkbox" name="marquer" value="1">&nbsp;<span class="glyphicon glyphicon-tag marquage"></span> Marquer la question</c:if>
+                
             </div>
-            <div>
-                <input type="submit" name="chosenAnswer" class="validation-button btn btn-default" value="Valider et passer à la question suivante">
+            <c:if test="${!authorizeSummary}">
+                <div>
+                <input type="submit" name="nextQuestion" class="validation-button btn btn-default" value="Valider et passer à la question suivante">
             </div>
+            </c:if>
+            
             <c:if test="${authorizeSummary}">
                 <div>
-                    <input type="submit" name="chosenAnswer" class="validation-button btn btn-default" value="Valider et aller au récapitulatif">
+                    <input type="submit" name="goToRecap" class="validation-button btn btn-default" value="Valider et aller au récapitulatif">
                 </div>
             </c:if>
         </div>

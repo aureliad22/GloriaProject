@@ -44,44 +44,59 @@ public class CandidateRunTestServlet extends HttpServlet {
 		int currentSectionIndex =0;
 		int questionMaxIndex =0;
 		int sectionMaxIndex =0;
+		boolean authSum =false ;
+		if (session.getAttribute("authorizeSummary")!=null) {
+			authSum = (boolean)session.getAttribute("authorizeSummary");
+		}
 		
-		if (session.getAttribute("testBegun")==null) { 
-			initParameters(session);
-			currentQuestionIndex = (int) session.getAttribute("currentQuestionIndex");
-			currentSectionIndex = (int) session.getAttribute("currentSectionIndex");
+		if (authSum && request.getParameter("SectionIndex") != null && request.getParameter("QuestionIndex")!=null) {
+			currentSectionIndex = Integer.parseInt(request.getParameter("SectionIndex"));
+			currentQuestionIndex = Integer.parseInt(request.getParameter("QuestionIndex"));
+			session.setAttribute("currentSectionIndex",currentSectionIndex);
+			session.setAttribute("currentQuestionIndex", currentQuestionIndex);
 			getNextQuestion(session, currentTest, currentQuestionIndex, currentSectionIndex);
-			
-		//2. Si le test est déja commencé mais non terminé :	
-		}else if (!(boolean)session.getAttribute("currentTestDone")){ 
-			//Récupération des variables : 
-			currentQuestionIndex = (int) session.getAttribute("currentQuestionIndex");
-			currentSectionIndex = (int) session.getAttribute("currentSectionIndex");
-			questionMaxIndex = currentTest.getSections().get(currentSectionIndex).getQuestions().size()-1 ;
-			sectionMaxIndex = currentTest.getSections().size()-1;
-			
-			//2.1 Si on arrive à la fin de la liste de question de la section courante :
-			if (currentQuestionIndex == questionMaxIndex){
-				// 2.1.1 si la section courante est la dernière section du test courant mais que le candidat n'a pas cloturé le test :
-				if (currentSectionIndex == sectionMaxIndex) {
-					session.setAttribute("authorizeSummary", true); //Pour activer lun bouton qui permet d'arriver directement sur le recap du test
-					rd=request.getRequestDispatcher("/Candidate/TestSummary");
+			//rd= request.getRequestDispatcher("/Candidate/TestSummary");
+		}else{
+		
+			if (session.getAttribute("testBegun")==null) { 
+				initParameters(session);
+				currentQuestionIndex = (int) session.getAttribute("currentQuestionIndex");
+				currentSectionIndex = (int) session.getAttribute("currentSectionIndex");
+				getNextQuestion(session, currentTest, currentQuestionIndex, currentSectionIndex);
 				
-				//2.1.2. Passage à la section suivante. 
+			//2. Si le test est déja commencé mais non terminé :	
+			}else if (!(boolean)session.getAttribute("currentTestDone")){ 
+				//Récupération des variables : 
+				currentQuestionIndex = (int) session.getAttribute("currentQuestionIndex");
+				currentSectionIndex = (int) session.getAttribute("currentSectionIndex");
+				questionMaxIndex = currentTest.getSections().get(currentSectionIndex).getQuestions().size()-1 ;
+				sectionMaxIndex = currentTest.getSections().size()-1;
+				
+				//2.1 Si on arrive à la fin de la liste de question de la section courante :
+				if (currentQuestionIndex == questionMaxIndex){
+					// 2.1.1 si la section courante est la dernière section du test courant mais que le candidat n'a pas cloturé le test :
+					if (currentSectionIndex == sectionMaxIndex) {
+						session.setAttribute("authorizeSummary", true); //Pour activer lun bouton qui permet d'arriver directement sur le recap du test
+						rd=request.getRequestDispatcher("/Candidate/TestSummary");
+					
+					//2.1.2. Passage à la section suivante. 
+					}else{
+						currentQuestionIndex = 0 ;
+						session.setAttribute("currentSectionIndex",++currentSectionIndex);
+						session.setAttribute("currentQuestionIndex", currentQuestionIndex);
+						getNextQuestion(session, currentTest, currentQuestionIndex,	currentSectionIndex);
+					}
+				//2.2 Passage à la prochaine question de la section courante	
 				}else{
-					currentQuestionIndex = 0 ;
-					session.setAttribute("currentSectionIndex",++currentSectionIndex);
-					session.setAttribute("currentQuestionIndex", currentQuestionIndex);
+					//Incrément de l'index de question
+					session.setAttribute("currentQuestionIndex", ++currentQuestionIndex);
 					getNextQuestion(session, currentTest, currentQuestionIndex,	currentSectionIndex);
 				}
-			//2.2 Passage à la prochaine question de la section courante	
+			//3. Si le test est terminé et cloturé : 
+				//TODO si le temps est écoulé :
 			}else{
-				//Incrément de l'index de question
-				session.setAttribute("currentQuestionIndex", ++currentQuestionIndex);
-				getNextQuestion(session, currentTest, currentQuestionIndex,	currentSectionIndex);
+				rd=request.getRequestDispatcher("/Candidate/Result");
 			}
-		//3. Si le test est terminé et cloturé : 	
-		}else{
-			rd=request.getRequestDispatcher("/WEB-INF/jsp/candidate/testResult.jsp");
 		}
 		System.out.println("IndexSection  : "+currentSectionIndex  + " | SectionID  : "+currentTest.getSections().get(currentSectionIndex).getId());
 		System.out.println("QuestionIndex : "+currentQuestionIndex + " | QuestionID : "+currentTest.getSections().get(currentSectionIndex).getQuestions().get(currentQuestionIndex).getId());

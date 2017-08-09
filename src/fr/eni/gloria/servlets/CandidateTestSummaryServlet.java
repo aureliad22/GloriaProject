@@ -48,35 +48,38 @@ public class CandidateTestSummaryServlet extends HttpServlet {
 		//Récupérer la liste des questions
 		HttpSession session = request.getSession();
 		Map<Integer, Question> questions = new HashMap<Integer, Question>();
-		Map<Integer, Boolean> hasGivenAnswers = new HashMap<Integer, Boolean>();
+		Map<Integer, Integer> relSectionsQuestions = new HashMap<Integer, Integer>();
+		Map<Integer, Boolean> hasGivenAnswers = new HashMap<Integer, Boolean>(); //relation entre le numero local de la question
 		Test currentTest = (Test) session.getAttribute("requestedTest");
 		Candidate user = (Candidate)session.getAttribute("user");
 		List<Section> sections = currentTest.getSections();
+		int numSection = 1;
 		int numQuestion = 1 ;
 		for (Section section : sections) {
 			for (Question question : section.getQuestions()) {
-				questions.put(numQuestion++, question);
+				questions.put(numQuestion, question);
+				//relSectionsQuestions.put(numQuestion, numSection);
+				relSectionsQuestions.put(numSection, numQuestion );
 				List<Answer> givenAnswers;
 				try {
 					givenAnswers = ResultService.getGivenAnswers(user, currentTest, section, question);
+					System.out.println(givenAnswers);
 					if (givenAnswers.size()==0) {
-						hasGivenAnswers.put(question.getId(), false);
+						hasGivenAnswers.put(numQuestion, false);
+					}else{
+						hasGivenAnswers.put(numQuestion, true);
 					}
 				} catch (GloriaException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+				numQuestion++;
 			}
+			numSection++;
 		}
-		
+		System.out.println();
 		session.setAttribute("questionList", questions);
 		session.setAttribute("givenAnswers", hasGivenAnswers);
-		
-		//Récupération des réponses données : 
-		
-		
-		
 		
 		request.getRequestDispatcher("/WEB-INF/jsp/candidate/testSummary.jsp").forward(request, response);
 	}

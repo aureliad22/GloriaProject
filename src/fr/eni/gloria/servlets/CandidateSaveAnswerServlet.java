@@ -2,6 +2,7 @@ package fr.eni.gloria.servlets;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import fr.eni.gloria.beans.Candidate;
+import fr.eni.gloria.beans.Question;
+import fr.eni.gloria.beans.Section;
 import fr.eni.gloria.beans.Test;
 import fr.eni.gloria.services.QuestionService;
 import fr.eni.gloria.services.ResultService;
@@ -41,39 +44,47 @@ public class CandidateSaveAnswerServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Récupération des paramètres : 
 		HttpSession session = request.getSession();
+		RequestDispatcher rd = null ;
 		Test test = (Test)session.getAttribute("requestedTest");
-		int idTest = test.getId();
-		int idStagiaire = ((Candidate)session.getAttribute("user")).getId();
-		int idSection = test.getSections().get((int)session.getAttribute("currentSectionIndex")).getId();
-		int idQuestion = Integer.parseInt(request.getParameter("idQuestion"));
+		Candidate stagiaire = ((Candidate)session.getAttribute("user"));
+		Section section = test.getSections().get((int)session.getAttribute("currentSectionIndex"));
+		Question question= section.getQuestions().get((int) session.getAttribute("currentQuestionIndex"));
 		String[] reponses = request.getParameterValues("answer");
 		String isMarked = request.getParameter("marquer");
+		int[] tabReponses = null;
 		if (reponses != null) {
-			int[] tabReponses = new int[reponses.length];
+			tabReponses = new int[reponses.length];
 			for (int i = 0; i < reponses.length; i++) {
 				tabReponses[i] = Integer.parseInt(reponses[i]);
 			}
-			
-			//Suppression de la réponse donnée à cette question (cas de changement de réponse)
-			try {
-				ResultService.writeAnswer(idStagiaire, idTest, idSection, idQuestion, tabReponses);
-			} catch (GloriaException e) {
-				request.setAttribute("error", e.getMessage());
-			}
+		}else{
+			tabReponses = new int[0];
 		}
 		
+		try {
+			ResultService.writeAnswer(stagiaire, test, section, question, tabReponses);
+		} catch (GloriaException e) {
+			request.setAttribute("error", e.getMessage());
+		}
 		if (isMarked != null) {
 			System.out.println("Question marquée");
 			test.getSections().get((int)session.getAttribute("currentSectionIndex")).getQuestions().get((int) session.getAttribute("currentQuestionIndex")).setMarked(true);
-			try {
-				System.out.println("Ecriture du marquage dans la bdd");
-				QuestionService.markQuestion(idStagiaire, idTest, idSection, idQuestion);
-			} catch (GloriaException e) {
-				request.setAttribute("error", e.getMessage());
-			}
+		}else{
+			test.getSections().get((int)session.getAttribute("currentSectionIndex")).getQuestions().get((int) session.getAttribute("currentQuestionIndex")).setMarked(false);
 		}
-		
-		request.getRequestDispatcher("/Candidate/RunTest").forward(request, response);
+		try {
+			System.out.println("Ecriture du marquage dans la bdd");
+			QuestionService.markQuestion(stagiaire, test, section, question);
+		} catch (GloriaException e) {
+			request.setAttribute("error", e.getMessage());
+			e.printStackTrace();
+		}
+		if (request.getParameter("nextQuestion") != null) {
+			rd = request.getRequestDispatcher("/Candidate/RunTest");
+		}else{
+			rd = request.getRequestDispatcher("/Candidate/TestSummary");
+		}
+		rd.forward(request, response);
 	}
 
 }

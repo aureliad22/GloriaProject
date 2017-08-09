@@ -19,8 +19,29 @@ header{
 	min-height: 50px;
 }
 
+.marquage{
+	color : #ffa632;
+}
+
+.section-recap{
+	margin-top : 50px;
+}
+
+.sans-reponse{
+	color :#ff0000;
+}
+
+.tab-recap{
+    border : 1px solid teal;	
+}
+
+.btn-validation{
+	margin : 30px;
+	float : right;
+}
+
 .btn-recap-test{
-    float : right;	
+    
 }
 
 .bloc-error{
@@ -56,7 +77,8 @@ header{
 
 
 footer{
-	   display: inline-block;
+	margin-top : 40px;
+	display: inline-block;
     width : 100% ; 
     background-color: teal ;
     min-height: 50px ;
@@ -97,7 +119,7 @@ input.action-test{
 	display: block;
 }
 
-.marque{
+div.marque{
 	margin-bottom : 10px ;
 }
 
