@@ -7,8 +7,12 @@
 package fr.eni.gloria.services;
 
 import java.util.List;
+
 import fr.eni.gloria.beans.Answer;
+import fr.eni.gloria.beans.Candidate;
 import fr.eni.gloria.beans.Question;
+import fr.eni.gloria.beans.Section;
+import fr.eni.gloria.beans.Test;
 import fr.eni.gloria.dao.AnswerDAO;
 import fr.eni.gloria.dao.QuestionDAO;
 import fr.eni.gloria.utils.GloriaException;
@@ -98,8 +102,8 @@ public class QuestionService implements IService<Question> {
 	 * @param idQuestion
 	 * @throws GloriaException
 	 */
-	public static void markQuestion(int idStagiaire, int idTest, int idSection, int idQuestion) throws GloriaException{
-		new QuestionDAO().markQuestion(idStagiaire, idTest, idSection, idQuestion); 
+	public static void markQuestion(Candidate stagiaire, Test test, Section section, Question question) throws GloriaException{
+		new QuestionDAO().markQuestion(stagiaire.getId(), test.getId(), section.getId(), question.getId(),question.isMarked()); 
 	}
 }
 
