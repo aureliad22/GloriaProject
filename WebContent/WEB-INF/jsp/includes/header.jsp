@@ -27,11 +27,16 @@
      <nav class="navbar navbar-default navbar-static-top">
       <div class="container">
         <div class="navbar-header">
+         <c:if test="${!testBegun}">
           <a class="navbar-brand" href="<%=request.getContextPath()%>">Gloria Project</a>
+           </c:if>
+           <c:if test="${testBegun}">
+          <a class="navbar-brand" >Gloria Project</a>
+           </c:if>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-          <c:if test="${profileType == 'candidate'}">
+          <c:if test="${profileType == 'candidate' && !testBegun}">
             <li class="active"><a href="<%=request.getContextPath()%>/Candidate">Home</a></li>
           </c:if>
           
