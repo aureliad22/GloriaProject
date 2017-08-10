@@ -264,19 +264,30 @@ a{
 }
 
 ///////////////////////////////////////////////////////////
-div.stats ul { 
-	width: 400px;
-	list-style: none; 
+div.stats { 
+	font-weight: bold;
+	display: flex;
+	flex-flow:row wrap;
+	justify-content: center;
+	align-items: center;
 }
 
-div.stats .percent {
+
+.liste-sections{
+	margin-left : 30px ; 
+	padding : 2px ;
+	font-weight:bold; 
+}
+
+.percent {
     /* on passe l'élément span correspondant à la classe .percent
     en affichage en bloc pour pouvoir lui donner une dimension.
     Diverses autres choses sont modifiées ensuite à votre convenance. */
-    display: block;  /* on affiche le span sous forme de bloc pour lui affecter des dimensions */
+    display: inline-block;  /* on affiche le span sous forme de bloc pour lui affecter des dimensions */
     height: 1.5em;
     line-height: 1.5em;
     margin: 5px 10px;
+    margin-bottom : -3px;
     padding: 0 5px;
     text-align: right;
     color: #fff;
@@ -301,8 +312,8 @@ div.stats .percent {
 .v10 { width: 10%; }
 
 /* Image dégradée */
-.gradiant_pic li { width: 300px; padding: 0; }
-.gradiant_pic li .percent {
+.gradiant_pic div { width: 300px; padding: 0; }
+.gradiant_pic div .percent {
     height: 20px;
     line-height: 20px;
     padding: 0;

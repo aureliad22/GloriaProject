@@ -113,7 +113,8 @@ public class CandidateResultServlet extends HttpServlet {
 		int totalCandidat = 0;
 		List<Integer> rightQuestionsBySection = new ArrayList<Integer>();
 		List<Integer> scoresBySection = new ArrayList<Integer>();
-		
+		List<Integer> gradiantsBySection = new ArrayList<Integer>();
+
 			// 2.1. Parcours des sections
 			for (Section section : test.getSections()) {	
 				int totalSectionCandidat = 0;
@@ -147,6 +148,8 @@ public class CandidateResultServlet extends HttpServlet {
 				//2.1.4. Calcul du score obtenu pour cette section.
 				int scoreSection = (int)(totalSectionCandidat*100/totalSection);
 				scoresBySection.add(scoreSection);
+				int gradiant = ((scoreSection/10)+1)*10;
+				gradiantsBySection.add(gradiant);
 				System.out.println("score par section pour le test " +scoreSection);
 				
 				//2.1.5. Ajout du resultat section au résultat total
@@ -154,6 +157,8 @@ public class CandidateResultServlet extends HttpServlet {
 			}
 		session.setAttribute("totalSection", rightQuestionsBySection);
 		session.setAttribute("scoreSection", scoresBySection);
+		session.setAttribute("gradient", gradiantsBySection);
+
 		return totalCandidat;
 	}
 

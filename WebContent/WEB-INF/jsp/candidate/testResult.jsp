@@ -16,15 +16,20 @@
 		       <div class="ligne-score-section">
                     <h3 class="section-recap">${section.caption}</h3>
                     <div class="row">
-                        <div class="stats gradiant_pic">
-                            <ul>
-						        <li>${totalSection.get(numSection)} bonne(s) réponse(s)&nbsp;: <span class="percent v${scoreSection.get(numSection)}">${scoreSection.get(numSection)}</span></li>
-						    </ul>
+                        <div class="stats gradiant_pic">                           
+						        <div class="liste-sections">${totalSection.get(numSection)} bonne(s) réponse(s)&nbsp;: </div>
+						        <div class="liste-sections">
+						          <span class="percent v${gradient.get(numSection)}"></span>${scoreSection.get(numSection)}%
+						        </div>						    
 				        </div>
 				    </div>
 				</div>
 		      <c:set var="numSection" value="${numSection+1}"/>		     
 		   </c:forEach>	   
 	</div>
+</div>
+
+<div>
+    <a href="<%=request.getContextPath()%>/Candidate/EndTest" class="btn btn-default">Retour à l'accueil</a>
 </div>
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />
