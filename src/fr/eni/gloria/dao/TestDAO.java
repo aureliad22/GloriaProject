@@ -194,7 +194,6 @@ public class TestDAO implements ICrud<Test>{
 	 * @throws GloriaException 
 	 */
 	public List<Test> selectTestsByCandidateId(int idCandidate) throws GloriaException {
-		//TODO Appel de la procStock LIST_TESTS_CANDIDATE
 		List<Test> result = new ArrayList<Test>();
 		try(Connection cnx = AccessBase.getConnection()){
 			CallableStatement rqt = cnx.prepareCall("{CALL LIST_TESTS_CANDIDATE(?)}");

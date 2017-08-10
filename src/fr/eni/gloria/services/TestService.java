@@ -115,8 +115,6 @@ public class TestService implements IService<Test> {
 	 * @throws GloriaException
 	 */
 	public static Test fillTest(Test test, Candidate candidate) throws GloriaException{
-		//TODO Appeler les méthodes de Service pour compléter l'objet test avec sections / questions / reponses spécifiques au candidat
-
 		//Récupération des sections : 
 		test = getTestSections(test);
 		

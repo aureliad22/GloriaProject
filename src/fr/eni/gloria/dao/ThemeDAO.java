@@ -103,7 +103,6 @@ public class ThemeDAO implements ICrud<Theme> {
 			result.setId(rs.getInt("id"));
 			result.setLibelle(rs.getString("libelle"));
 			
-			// TODO ajout liste sections
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#itemBuilder : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la construction du test depuis la base de données.");

@@ -35,7 +35,6 @@ public class QuestionService implements IService<Question> {
 	 * @throws GloriaException 
 	 */
 	public static Question getAnswers(Question question) throws GloriaException {
-		// TODO appel de la DAO Answer pour récupérer la liste d'après l'id de la question
 		List<Answer> reponses = null ;
 		reponses = new AnswerDAO().getAllByQuestionId(question.getId());
 		question.setAnswers(reponses);

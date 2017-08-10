@@ -59,7 +59,6 @@ public class AnswerDAO {
 			rqt.setString(2, enonce);
 			rqt.setBoolean(3, correct);
 
-			// TODO gestion liste de reponses et des nullables
 			result = rqt.executeUpdate()==1;
 			
 		} catch (SQLException e) {

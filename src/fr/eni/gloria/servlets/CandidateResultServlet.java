@@ -59,7 +59,6 @@ public class CandidateResultServlet extends HttpServlet {
 		int totalTest = calculateTotalTest(request, candidate, test);
 		// 2. Calcul du résultat obtenu par le candidat pour le test courant:
 		int totalCandidat = calculateTotalCandidate(request, session, candidate, test);
-		System.out.println(totalTest + " points attendus, " + totalCandidat + " points obtenus");
 		
 		// 3. Calcul du pourcentage de réussite:
 		int score = (int)(totalCandidat*100/totalTest);

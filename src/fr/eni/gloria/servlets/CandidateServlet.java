@@ -181,10 +181,7 @@ public class CandidateServlet extends HttpServlet {
 			GloriaException {
 
 		try {
-
 			int identifiant = Integer.parseInt(request.getParameter("id"));
-			// TODO appel de la DAO pour remonter le candidat à partir de
-			// l'identifiant...
 			Candidate candidate = new CandidateService().getById(identifiant);
 			this.candidateService.remove(candidate);
 			request.setAttribute("message",
@@ -249,9 +246,9 @@ public class CandidateServlet extends HttpServlet {
 			this.candidateService.modify(candidate);
 			request.setAttribute("message",
 					"La modification s'est déroulée avec succès.");
-
-		} finally {
-			// TODO Pourquoi ????
+		} catch (Exception e) {
+			request.setAttribute("erreur","La demande de modification a échoué.");
+			e.printStackTrace();
 		}
 
 		this.listCandidates(request, response);
