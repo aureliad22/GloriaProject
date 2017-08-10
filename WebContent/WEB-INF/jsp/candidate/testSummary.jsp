@@ -28,7 +28,7 @@
                         <div class="row ligne-recap">
 		                  <div class="col-sm-6"> Question ${numQuestionSection}  </div>
 		                  <div class="col-sm-2"><c:if test="${q.marked}">&nbsp;<span class="glyphicon glyphicon-tag marquage"></span></c:if></div>
-		                  <div class="col-sm-2"><c:if test="${!givenAnswers.get(q.id)}"> <span class="glyphicon glyphicon-exclamation-sign sans-reponse"></span></c:if></div>
+		                  <div class="col-sm-2"><c:if test="${!q.hasGivenAnswers}"> <span class="glyphicon glyphicon-exclamation-sign sans-reponse"></span></c:if></div>
 		                  <div class="col-sm-2"> <input type="submit" value="Revoir" class="btn btn-default btn-recap-test"/> </div>
                        </div>
 	               </div>

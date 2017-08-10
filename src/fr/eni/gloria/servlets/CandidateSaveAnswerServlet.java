@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.gloria.beans.Answer;
 import fr.eni.gloria.beans.Candidate;
 import fr.eni.gloria.beans.Question;
 import fr.eni.gloria.beans.Section;
@@ -49,29 +50,52 @@ public class CandidateSaveAnswerServlet extends HttpServlet {
 		Candidate stagiaire = ((Candidate)session.getAttribute("user"));
 		Section section = test.getSections().get((int)session.getAttribute("currentSectionIndex"));
 		Question question= section.getQuestions().get((int) session.getAttribute("currentQuestionIndex"));
+		//Récupére les réponses données pour faire un setGiven(true)
+	
+		
 		String[] reponses = request.getParameterValues("answer");
 		String isMarked = request.getParameter("marquer");
-		int[] tabReponses = null;
+		
+		
+		int[] tabIdReponsesDonnees = null;
 		if (reponses != null) {
-			tabReponses = new int[reponses.length];
+			question.setHasGivenAnswers(true);
+			tabIdReponsesDonnees = new int[reponses.length];
 			for (int i = 0; i < reponses.length; i++) {
-				tabReponses[i] = Integer.parseInt(reponses[i]);
+				tabIdReponsesDonnees[i] = Integer.parseInt(reponses[i]);
 			}
 		}else{
-			tabReponses = new int[0];
+			question.setHasGivenAnswers(false);
+			tabIdReponsesDonnees = new int[0];
+			for (Answer a : question.getAnswers()){
+				a.setGiven(false);
+			}
+		}
+		
+		//iInitialise le paramètre Given de la réponse
+		for (Answer answer : question.getAnswers()) {
+			for (int answerId : tabIdReponsesDonnees) {
+				if (answer.getId()==answerId) {
+					answer.setGiven(true);
+				}
+			}
+			
 		}
 		
 		try {
-			ResultService.writeAnswer(stagiaire, test, section, question, tabReponses);
+			ResultService.writeAnswer(stagiaire, test, section, question, tabIdReponsesDonnees);
 		} catch (GloriaException e) {
 			request.setAttribute("error", e.getMessage());
 		}
+		
+		//Gestion du marque de la question
 		if (isMarked != null) {
 			System.out.println("Question marquée");
 			test.getSections().get((int)session.getAttribute("currentSectionIndex")).getQuestions().get((int) session.getAttribute("currentQuestionIndex")).setMarked(true);
 		}else{
 			test.getSections().get((int)session.getAttribute("currentSectionIndex")).getQuestions().get((int) session.getAttribute("currentQuestionIndex")).setMarked(false);
 		}
+		
 		try {
 			System.out.println("Ecriture du marquage dans la bdd");
 			QuestionService.markQuestion(stagiaire, test, section, question);
@@ -79,6 +103,8 @@ public class CandidateSaveAnswerServlet extends HttpServlet {
 			request.setAttribute("error", e.getMessage());
 			e.printStackTrace();
 		}
+		
+		//Routage en fonction du bouton cliqué
 		if (request.getParameter("nextQuestion") != null) {
 			rd = request.getRequestDispatcher("/Candidate/RunTest");
 		}else{

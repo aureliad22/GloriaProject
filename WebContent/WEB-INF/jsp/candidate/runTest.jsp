@@ -10,7 +10,9 @@
         <div class="bloc-reponses">
         <c:forEach items="${nextQuestion.answers}" var="a">
             <div class="ligne-reponse">
-            <input type="checkbox" id="${a.id}" value="${a.id}" name="answer" />&nbsp;${a.answer}
+            
+            <c:if test="${a.given}"><input type="checkbox" id="${a.id}" value="${a.id}" name="answer" checked="checked"/>&nbsp;${a.answer}</c:if>
+            <c:if test="${!a.given}"><input type="checkbox" id="${a.id}" value="${a.id}" name="answer" />&nbsp;${a.answer}</c:if>
             </div>
         </c:forEach>
         </div>
