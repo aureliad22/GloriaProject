@@ -78,27 +78,30 @@
 					 
 					  </br>
 	
-					<select multiple class="form-control" id="mySelect">					        
+					<select multiple class="form-control" id="mySelect" name="candidat">					        
 						<c:if test="${!empty listeCandidats}">
 							<c:forEach items="${listeCandidats}" var="candidat">
-								    <option>${candidat.firstName} ${candidat.lastName}</option>	
+								    <option value="${candidat.id}" > ${candidat.firstName} ${candidat.lastName} </option>	
 							</c:forEach>
         				</c:if>
         			
 					  </select>
-					    </br>
-					  
-					        <input type="submit" class="btn btn-default" name="modifier" value="Modifier"/>
-					     	<input type="submit" class="btn btn-default" name="supprimer" value="Supprimer"/> 
-					     	<input type="submit" class="btn btn-default" name="Inscrire" value="Inscrire"/> 
+					   
+					                    <input type="submit" class="btn btn-default" name="modifier" value="Modifier"/>
+					     				<input type="submit" class="btn btn-default" name="supprimer" value="Supprimer"/> 
+		   								<input type="submit" class="btn btn-default" name="inscrire" value="Inscrire"/> 
+					        
 	</form>      
-			</br>
-        					
+			
+        								
+		   			
+										
         						
 			   	</div> 
 
 
-	</div>		 			
+	</div>		 
+	                       				 
 			 			
 			 			
         <a href="<%=request.getContextPath()%>/TeacherGestionPage">Retour Menu Teacher</a> 

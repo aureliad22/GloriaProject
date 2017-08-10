@@ -50,6 +50,9 @@ public class QuestionService implements IService<Question> {
 	public void add(Question data) throws GloriaException {
 		
 		dao.insert(data);
+		for (Answer reponse : data.getAnswers()) {
+		new AnswerDAO().insert(data.getId(),reponse.getAnswer()	,reponse.isCorrect());
+		}
 		
 	}
 

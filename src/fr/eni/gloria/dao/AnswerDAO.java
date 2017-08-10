@@ -11,11 +11,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import fr.eni.gloria.beans.Answer;
+import fr.eni.gloria.beans.Question;
 import fr.eni.gloria.utils.AccessBase;
 import fr.eni.gloria.utils.GloriaException;
 import fr.eni.gloria.utils.GloriaLogger;
@@ -25,7 +27,7 @@ import fr.eni.gloria.utils.GloriaLogger;
  * @date 2 août 2017
  * @version GloriaProject V1.0
  */
-public class AnswerDAO implements ICrud<Answer>{
+public class AnswerDAO {
 	Logger logger = GloriaLogger.getLogger(this.getClass().getName());
 	private final static String LIST_RIGHT_ANSWERS = "SELECT * "
 													+ "FROM reponses "
@@ -46,17 +48,32 @@ public class AnswerDAO implements ICrud<Answer>{
 	 * {@inheritDoc}
 	 * @see fr.eni.gloria.dao.ICrud#insert(java.lang.Object)
 	 */
-	@Override
-	public boolean insert(Answer data) throws GloriaException {
-		// TODO Auto-generated method stub
-		return false;
+	
+	public boolean insert(int idQuestion, String enonce, boolean correct) throws GloriaException {
+      boolean result = false;
+      		
+		try(Connection cnx = AccessBase.getConnection()){
+			CallableStatement rqt = cnx.prepareCall("{CALL ADD_ANSWER(?,?,?)}");			
+			//rqt.registerOutParameter(1, Types.INTEGER);
+			rqt.setInt(1, idQuestion);
+			rqt.setString(2, enonce);
+			rqt.setBoolean(3, correct);
+
+			// TODO gestion liste de reponses et des nullables
+			result = rqt.executeUpdate()==1;
+			
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#insert : "+e.getMessage());
+			throw new GloriaException("Erreur lors de l'insertion de la réponse dans la base de données.");
+		}
+		return result;  
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * @see fr.eni.gloria.dao.ICrud#update(java.lang.Object)
 	 */
-	@Override
+	
 	public boolean update(Answer data) throws GloriaException {
 		// TODO Auto-generated method stub
 		return false;
@@ -66,7 +83,7 @@ public class AnswerDAO implements ICrud<Answer>{
 	 * {@inheritDoc}
 	 * @see fr.eni.gloria.dao.ICrud#delete(java.lang.Object)
 	 */
-	@Override
+	
 	public boolean delete(Answer data) throws GloriaException {
 		// TODO Auto-generated method stub
 		return false;
@@ -76,7 +93,7 @@ public class AnswerDAO implements ICrud<Answer>{
 	 * {@inheritDoc}
 	 * @see fr.eni.gloria.dao.ICrud#selectById(int)
 	 */
-	@Override
+	
 	public Answer selectById(int id) throws GloriaException {
 		// TODO Auto-generated method stub
 		return null;
@@ -86,7 +103,7 @@ public class AnswerDAO implements ICrud<Answer>{
 	 * {@inheritDoc}
 	 * @see fr.eni.gloria.dao.ICrud#selectAll()
 	 */
-	@Override
+	
 	public List<Answer> selectAll() throws GloriaException {
 		// TODO Auto-generated method stub
 		return null;
@@ -96,7 +113,7 @@ public class AnswerDAO implements ICrud<Answer>{
 	 * {@inheritDoc}
 	 * @see fr.eni.gloria.dao.ICrud#itemBuilder(java.sql.ResultSet)
 	 */
-	@Override
+	
 	public Answer itemBuilder(ResultSet rs) throws GloriaException {
 		Answer result = new Answer();
 		try {

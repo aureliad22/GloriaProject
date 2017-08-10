@@ -14,9 +14,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-
 import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
-
 import fr.eni.gloria.beans.Test;
 import fr.eni.gloria.dao.Teacher.TeacherDao;
 import fr.eni.gloria.utils.AccessBase;
@@ -268,4 +266,5 @@ public class TestDAO implements ICrud<Test>{
 		}
 		return result;	
 	}
+
 }
