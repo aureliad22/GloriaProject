@@ -33,6 +33,7 @@ public class CandidateEndTestServlet extends HttpServlet {
 		session.invalidate();
 		HttpSession newSession =  request.getSession(true);
 		newSession.setAttribute("user", user);
+		newSession.setAttribute("profileType", "candidate");
 		request.getRequestDispatcher("/Candidate").forward(request, response);
 	}
 

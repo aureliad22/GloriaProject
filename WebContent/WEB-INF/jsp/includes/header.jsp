@@ -9,14 +9,55 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/styles/bootstrap/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/styles/style.css" >
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/script.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    
+    
     <title>GloriaQCM</title>
 	</head>
 	
     <body>
-        <header><h1>GloriaProject</h1>
-        <c:if test="${user != null}">
-            <a href="<%=request.getContextPath()%>/Deconnexion">Deconnexion</a>
-        </c:if></header>
-        <div class="container">
+        <header>
+           
+    
+    
+     <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+         <c:if test="${!testBegun}">
+          <a class="navbar-brand" href="<%=request.getContextPath()%>">Gloria Project</a>
+           </c:if>
+           <c:if test="${testBegun}">
+          <a class="navbar-brand" >Gloria Project</a>
+           </c:if>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+          <c:if test="${profileType == 'candidate' && !testBegun}">
+            <li class="active"><a href="<%=request.getContextPath()%>/Candidate">Home</a></li>
+          </c:if>
+          
+          <c:if test="${profileType == 'teacher'}">
+            <li class="active"><a href="<%=request.getContextPath()%>/Teacher">Home</a></li>
+            <li class="active"><a href="<%=request.getContextPath()%>/Teacher/CandidateGestion">Gérer candidats</a></li>
+            <li class="active"><a href="<%=request.getContextPath()%>/Teacher/QuestionGestion">Gérer Questions</a></li>
+          </c:if>
+          
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+          <c:if test="${user !=  null}">
+            <li><a href="<%=request.getContextPath()%>/Deconnexion">Deconnexion</a></li>
+          </c:if>
+          
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+        </header>
         
-            <div class="col-sm-10 col-sm-push-1">
+        <div class="container">
+            <div class="wrapper col-sm-10 col-sm-push-1">

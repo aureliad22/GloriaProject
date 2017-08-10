@@ -217,4 +217,27 @@
     <url-pattern>/Candidate/EndTest</url-pattern>
 
   </servlet-mapping>
+  <filter>
+    <display-name>TeacherFilter</display-name>
+    <filter-name>TeacherFilter</filter-name>
+    <filter-class>fr.eni.gloria.filters.TeacherFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>TeacherFilter</filter-name>
+    <url-pattern>/Teacher/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+  </filter-mapping>
+  <servlet>
+    <description></description>
+    <display-name>TeacherLoginServlet</display-name>
+    <servlet-name>TeacherLoginServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.TeacherLoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TeacherLoginServlet</servlet-name>
+    <url-pattern>/LoginTeacher</url-pattern>
+  </servlet-mapping>
 </web-app>
