@@ -8,9 +8,6 @@ header{
 	margin-bottom : 30px;
 }
 
-.container{
-	min-height: 600px;
-}
 
 .ligne-recap{
 	padding : 10px ; 
@@ -22,6 +19,27 @@ header{
 .marquage{
 	color : #ffa632;
 }
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+  background-color: teal;
+  color : black;
+  font-weight: bold;
+}
+
 
 .section-recap{
 	margin-top : 50px;
@@ -76,13 +94,7 @@ header{
 }
 
 
-footer{
-	margin-top : 40px;
-	display: inline-block;
-    width : 100% ; 
-    background-color: teal ;
-    min-height: 50px ;
-}
+
 
 input.action{
 	display : block;
@@ -132,6 +144,12 @@ p{
 	text-align: justify;
 }
 
+div.menu{
+	width : 100px ;
+	min-height : 200px ;
+	background-color: #dae5e2;
+}
+
 div.head{
 	margin-bottom: 100px;
 }
@@ -140,6 +158,8 @@ p.accueil{
     margin-top: 20px; 
     text-align: justify;	
 }
+
+
 
 span.titre-accueil{
 	font-size: large;
