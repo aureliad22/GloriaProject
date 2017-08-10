@@ -112,12 +112,14 @@ public class CandidateResultServlet extends HttpServlet {
 	private int calculateTotalCandidate(HttpServletRequest request,	HttpSession session, Candidate candidate, Test test) {
 		int totalCandidat = 0;
 		List<Integer> rightQuestionsBySection = new ArrayList<Integer>();
+		List<Integer> nbQuestionsBySection = new ArrayList<Integer>();
 		List<Integer> scoresBySection = new ArrayList<Integer>();
 		List<Integer> gradiantsBySection = new ArrayList<Integer>();
 
 			// 2.1. Parcours des sections
 			for (Section section : test.getSections()) {	
 				int totalSectionCandidat = 0;
+				int compteurQuestion = 0;
 				int compteurRightQuestion = 0;
 				// 2.1.1. Parcours des questions
 				for (Question question : section.getQuestions()) {
@@ -135,26 +137,25 @@ public class CandidateResultServlet extends HttpServlet {
 					if(isRight){
 						totalSectionCandidat += question.getWeight();
 						compteurRightQuestion++;
-					}						
+					}
+					compteurQuestion++;
 				}
+				nbQuestionsBySection.add(compteurQuestion);
 				rightQuestionsBySection.add(compteurRightQuestion);
-				System.out.println(compteurRightQuestion + " bonnes réponses dans cette section");
-				System.out.println("total par section pour le candidat " +totalSectionCandidat);
 	
 				//2.1.3. Calcul du résultat attendu pour cette section.
 				int totalSection = calculateTotalSection(request, candidate, test, section);
-				System.out.println("total par section pour le test " +totalSection);
 				
 				//2.1.4. Calcul du score obtenu pour cette section.
 				int scoreSection = (int)(totalSectionCandidat*100/totalSection);
 				scoresBySection.add(scoreSection);
 				int gradiant = ((scoreSection/10)+1)*10;
 				gradiantsBySection.add(gradiant);
-				System.out.println("score par section pour le test " +scoreSection);
 				
 				//2.1.5. Ajout du resultat section au résultat total
 				totalCandidat += totalSectionCandidat; 
 			}
+		session.setAttribute("nbQuestionsSection", nbQuestionsBySection);
 		session.setAttribute("totalSection", rightQuestionsBySection);
 		session.setAttribute("scoreSection", scoresBySection);
 		session.setAttribute("gradient", gradiantsBySection);

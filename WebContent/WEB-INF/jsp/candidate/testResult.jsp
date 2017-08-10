@@ -17,7 +17,7 @@
                    <h3 class="section-recap">${section.caption}</h3>
                    <div class="row">
                        <div class="stats gradiant_pic">                           
-					        <div class="liste-sections">${totalSection.get(numSection)} bonne(s) réponse(s)&nbsp;: </div>
+					        <div class="liste-sections">${totalSection.get(numSection)} bonne(s) réponse(s) sur ${nbQuestionsSection.get(numSection)} questions. </div>
 					        <div class="liste-sections">
 					          <span class="percent v${gradient.get(numSection)}"></span>${scoreSection.get(numSection)}%
 					        </div>						    

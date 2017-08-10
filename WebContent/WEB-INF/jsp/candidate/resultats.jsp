@@ -6,9 +6,9 @@
 
 <div class="bloc-result">
 	<c:set var="numTest" value="${0}"/>
-	<c:forEach items="${resultats}" var="ligneResultat">
+	<c:forEach items="${resultats}" var="test">
 	    <div class="row">
-	        <h4>${ligneResultat.title} :</h4>
+	        <h4>${test.title} :</h4>
 	        <div class="status">${statusTest.get(numTest)}</div>
 	    </div>
 	    <c:set var="numTest" value="${numSection+1}"/>          
