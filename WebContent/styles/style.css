@@ -264,6 +264,10 @@ a{
 }
 
 ///////////////////////////////////////////////////////////
+div.stats ul { 
+	width: 400px;
+	list-style: none; 
+}
 
 div.stats .percent {
     /* on passe l'élément span correspondant à la classe .percent
@@ -284,14 +288,25 @@ div.stats .percent {
     cursor: default;
 }
 
-/* Barre Multicolore */
-.v100 { background: #970000; width: 100%; }
-.v90 { background: #ff0000; width: 90%; }
-.v80 { background: #ff6600; width: 80%; }
-multicolor .v70 { background: #ff9c00; width: 70%; }
-.v60 { background: #ffd800; width: 60%; }
-.v50 { background: #eaff00; width: 50%; }
-.v40 { background: #baff00; width: 40%; }
-.v30 { background: #78ff00; width: 30%; }
-.v20 { background: #12ff00; width: 20%; }
-.v10 { background: #00ff60; width: 10%; }
+/* Commun à tous les styles */
+.v100 { width: 100%; }
+.v90 { width: 90%; }
+.v80 { width: 80%; }
+.v70 { width: 70%; }
+.v60 { width: 60%; }
+.v50 { width: 50%; }
+.v40 { width: 40%; }
+.v30 { width: 30%; }
+.v20 { width: 20%; }
+.v10 { width: 10%; }
+
+/* Image dégradée */
+.gradiant_pic li { width: 300px; padding: 0; }
+.gradiant_pic li .percent {
+    height: 20px;
+    line-height: 20px;
+    padding: 0;
+    color: #000;
+    background: #fff url(img/gradiant.png) repeat-y 0 0;
+    -moz-border-radius: 0;
+}

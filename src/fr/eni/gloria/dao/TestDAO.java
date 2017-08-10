@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
+
 import fr.eni.gloria.beans.Test;
 import fr.eni.gloria.dao.Teacher.TeacherDao;
 import fr.eni.gloria.utils.AccessBase;
@@ -33,9 +35,9 @@ public class TestDAO implements ICrud<Test>{
 												+ "	JOIN questions_selectionnees qs ON qs.idQuestion = q.id "
 												+ " WHERE idStagiaire = ? "
 												+ " AND idTest = ?;";
-	private static final String LIST_RESULT_TESTS_CANDIDATE = "SELECT * " //, i.resultatCandidat
+	private static final String LIST_RESULT_TESTS_CANDIDATE = "SELECT id, libelle, resultatCandidat "
 															+ "FROM inscriptions "
-															+ "JOIN tests ON tests.id = inscriptions.idTest "
+															+ "JOIN tests ON id = idTest "
 															+ "WHERE idStagiaire = ? "
 															+ "AND resultatCandidat IS NOT NULL;";
 	/** 
@@ -57,14 +59,12 @@ public class TestDAO implements ICrud<Test>{
 			rqt.setInt(4, data.getSemiSuccessTreshold());
 			rqt.setInt(5, data.getDuration());
 			rqt.setInt(6, data.getCreator().getId());
-			// TODO gestion liste de questions et des nullables
 			result = rqt.executeUpdate()==1;
 			data.setId(rqt.getInt(1));
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#insert : "+e.getMessage());
 			throw new GloriaException("Erreur lors de l'insertion du test dans la base de données.");
-		}
-		
+		}		
 		return result;
 	}
 
@@ -85,13 +85,11 @@ public class TestDAO implements ICrud<Test>{
 			rqt.setInt(4, data.getSemiSuccessTreshold());
 			rqt.setInt(5, data.getDuration());
 			rqt.setInt(6, data.getCreator().getId());
-			// TODO gestion liste de questions et des nullables
 			result = rqt.executeUpdate()==1;
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#update : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la modification du test dans la base de données.");
-		}
-		
+		}		
 		return result;
 	}
 
@@ -113,8 +111,7 @@ public class TestDAO implements ICrud<Test>{
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#delete : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la suppression du test dans la base de données.");
-		}
-		
+		}		
 		return result;
 	}
 
@@ -139,8 +136,7 @@ public class TestDAO implements ICrud<Test>{
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#findById : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la recherche du test dans la base de données.");
-		}
-		
+		}		
 		return result;
 	}
 
@@ -162,8 +158,7 @@ public class TestDAO implements ICrud<Test>{
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#selectAll : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la récupération de tous les tests dans la base de données.");
-		}
-		
+		}		
 		return result;
 	}
 
@@ -183,7 +178,6 @@ public class TestDAO implements ICrud<Test>{
 			result.setSemiSuccessTreshold(rs.getInt("seuilEnCoursAcquisition"));
 			result.setDuration(rs.getInt("tempsPassage")); 
 			result.setCreator(new TeacherDao().selectById(rs.getInt("idFormateur")));
-			// TODO ajout liste sections
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#itemBuilder : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la construction du test depuis la base de données.");
@@ -233,7 +227,11 @@ public class TestDAO implements ICrud<Test>{
 			ResultSet rs = rqt.executeQuery();
 			
 			while(rs.next()){			
-				result.add(itemBuilder(rs));			
+				Test test = new Test();	
+				test.setId(rs.getInt("id"));
+				test.setTitle(rs.getString("libelle"));
+				test.setResult(rs.getInt("resultatCandidat"));
+				result.add(test);
 			}
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#selectResultTestsByCandidateId : "+e.getMessage());

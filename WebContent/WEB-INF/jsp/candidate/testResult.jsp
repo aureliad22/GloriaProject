@@ -16,9 +16,10 @@
 		       <div class="ligne-score-section">
                     <h3 class="section-recap">${section.caption}</h3>
                     <div class="row">
-                        <div class="stats multicolor">
-                            ${totalSection.get(numSection)} bonne(s) réponse(s).
-                            <span class="percent v70">${scoreSection.get(numSection)}.</span>
+                        <div class="stats gradiant_pic">
+                            <ul>
+						        <li>${totalSection.get(numSection)} bonne(s) réponse(s)&nbsp;: <span class="percent v${scoreSection.get(numSection)}">${scoreSection.get(numSection)}</span></li>
+						    </ul>
 				        </div>
 				    </div>
 				</div>

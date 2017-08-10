@@ -29,8 +29,7 @@ public class TestService implements IService<Test> {
 	 */
 	@Override
 	public void add(Test data) throws GloriaException {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 
 	/**
@@ -39,8 +38,7 @@ public class TestService implements IService<Test> {
 	 */
 	@Override
 	public void modify(Test data) throws GloriaException {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 
 	/**
@@ -49,8 +47,7 @@ public class TestService implements IService<Test> {
 	 */
 	@Override
 	public void remove(Test data) throws GloriaException {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 
 	/**
@@ -96,6 +93,7 @@ public class TestService implements IService<Test> {
 	public List<Test> getResultTests(Candidate candidate) throws GloriaException {
 		return new TestDAO().selectResultTestsByCandidateId(candidate.getId());
 	}
+	
 	/**
 	 *  Méthode en charge d'injecter les dépendances dans l'objet Test 
 	 *  fourni en paramètre
