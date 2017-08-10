@@ -45,16 +45,33 @@ public class CandidateResultsServlet extends HttpServlet {
 		logger.entering(this.getClass().getName(), "doPost");
 		HttpSession session = request.getSession(true);
 		Candidate candidate = (Candidate)session.getAttribute("user");
+		session.setAttribute("candidate", candidate);
 		List<Test> resultats = new ArrayList<Test>();
+		List<String> statusTest = new ArrayList<>();
 		try {
 			//Récupérer la liste des tests complétés
 			resultats = new TestService().getResultTests(candidate);
-			System.out.println(resultats);
+			for (Test test : resultats) {
+				int totalTest = TestService.getTotal(candidate, test);
+				int totalTestCandidat = test.getResult();
+				String bilan;
+				
+				if((int)(totalTestCandidat*100/totalTest) >= test.getSuccessTreshold()){
+					bilan = "Acquis";
+				} else if((int)(totalTestCandidat*100/totalTest)>= test.getSemiSuccessTreshold()){
+					bilan = "En cours d'acquisition";
+				} else {
+					bilan = "Non acquis";
+				}	
+				statusTest.add(bilan);
+			}			
 		} catch (GloriaException e) {
 			request.setAttribute("error", e.getMessage());
 		}
 		//Envoi de la liste à la jsp en charge de les afficher
-		request.setAttribute("resultats", resultats);
+		session.setAttribute("resultats", resultats);
+		session.setAttribute("statusTest", statusTest);
+
 		request.getRequestDispatcher("/WEB-INF/jsp/candidate/resultats.jsp").forward(request, response);
 		logger.exiting(this.getClass().getName(), "doPost");
 	}

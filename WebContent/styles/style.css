@@ -272,7 +272,6 @@ div.stats {
 	align-items: center;
 }
 
-
 .liste-sections{
 	margin-left : 30px ; 
 	padding : 2px ;
@@ -280,20 +279,17 @@ div.stats {
 }
 
 .percent {
-    /* on passe l'élément span correspondant à la classe .percent
-    en affichage en bloc pour pouvoir lui donner une dimension.
-    Diverses autres choses sont modifiées ensuite à votre convenance. */
-    display: inline-block;  /* on affiche le span sous forme de bloc pour lui affecter des dimensions */
+    display: inline-block;
     height: 1.5em;
     line-height: 1.5em;
     margin: 5px 10px;
-    margin-bottom : -3px;
+    margin-bottom : -5px;
     padding: 0 5px;
     text-align: right;
     color: #fff;
     font-weight: bold;
     font-family: monospace; 
-    -moz-border-radius: 5px;  /* un petit arrondi pour les navigateurs le supportant */
+    -moz-border-radius: 5px;
     border-bottom: 1px solid #aaa;
     border-right: 1px solid #aaa;
     cursor: default;

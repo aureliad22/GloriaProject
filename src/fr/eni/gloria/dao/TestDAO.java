@@ -35,7 +35,8 @@ public class TestDAO implements ICrud<Test>{
 												+ "	JOIN questions_selectionnees qs ON qs.idQuestion = q.id "
 												+ " WHERE idStagiaire = ? "
 												+ " AND idTest = ?;";
-	private static final String LIST_RESULT_TESTS_CANDIDATE = "SELECT id, libelle, resultatCandidat "
+	private static final String LIST_RESULT_TESTS_CANDIDATE = "SELECT id, libelle, seuilAcquisition, seuilEnCoursAcquisition, "
+															+ "resultatCandidat "
 															+ "FROM inscriptions "
 															+ "JOIN tests ON id = idTest "
 															+ "WHERE idStagiaire = ? "
@@ -230,6 +231,8 @@ public class TestDAO implements ICrud<Test>{
 				Test test = new Test();	
 				test.setId(rs.getInt("id"));
 				test.setTitle(rs.getString("libelle"));
+				test.setSuccessTreshold(rs.getInt("seuilAcquisition"));
+				test.setSemiSuccessTreshold(rs.getInt("seuilEnCoursAcquisition"));
 				test.setResult(rs.getInt("resultatCandidat"));
 				result.add(test);
 			}
