@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
+
 import fr.eni.gloria.beans.Test;
 import fr.eni.gloria.dao.Teacher.TeacherDao;
 import fr.eni.gloria.utils.AccessBase;
@@ -33,7 +35,11 @@ public class TestDAO implements ICrud<Test>{
 												+ "	JOIN questions_selectionnees qs ON qs.idQuestion = q.id "
 												+ " WHERE idStagiaire = ? "
 												+ " AND idTest = ?;";
-	
+	private static final String LIST_RESULT_TESTS_CANDIDATE = "SELECT id, libelle, resultatCandidat "
+															+ "FROM inscriptions "
+															+ "JOIN tests ON id = idTest "
+															+ "WHERE idStagiaire = ? "
+															+ "AND resultatCandidat IS NOT NULL;";
 	/** 
 	 * Méthode permettant d'insérer un nouveau test dans la BdD.
 	 * L'id du test sera mis à jour avec l'id autogénéré par la BdD.
@@ -53,14 +59,12 @@ public class TestDAO implements ICrud<Test>{
 			rqt.setInt(4, data.getSemiSuccessTreshold());
 			rqt.setInt(5, data.getDuration());
 			rqt.setInt(6, data.getCreator().getId());
-			// TODO gestion liste de questions et des nullables
 			result = rqt.executeUpdate()==1;
 			data.setId(rqt.getInt(1));
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#insert : "+e.getMessage());
 			throw new GloriaException("Erreur lors de l'insertion du test dans la base de données.");
-		}
-		
+		}		
 		return result;
 	}
 
@@ -81,13 +85,11 @@ public class TestDAO implements ICrud<Test>{
 			rqt.setInt(4, data.getSemiSuccessTreshold());
 			rqt.setInt(5, data.getDuration());
 			rqt.setInt(6, data.getCreator().getId());
-			// TODO gestion liste de questions et des nullables
 			result = rqt.executeUpdate()==1;
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#update : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la modification du test dans la base de données.");
-		}
-		
+		}		
 		return result;
 	}
 
@@ -109,8 +111,7 @@ public class TestDAO implements ICrud<Test>{
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#delete : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la suppression du test dans la base de données.");
-		}
-		
+		}		
 		return result;
 	}
 
@@ -135,8 +136,7 @@ public class TestDAO implements ICrud<Test>{
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#findById : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la recherche du test dans la base de données.");
-		}
-		
+		}		
 		return result;
 	}
 
@@ -158,8 +158,7 @@ public class TestDAO implements ICrud<Test>{
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#selectAll : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la récupération de tous les tests dans la base de données.");
-		}
-		
+		}		
 		return result;
 	}
 
@@ -179,7 +178,6 @@ public class TestDAO implements ICrud<Test>{
 			result.setSemiSuccessTreshold(rs.getInt("seuilEnCoursAcquisition"));
 			result.setDuration(rs.getInt("tempsPassage")); 
 			result.setCreator(new TeacherDao().selectById(rs.getInt("idFormateur")));
-			// TODO ajout liste sections
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#itemBuilder : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la construction du test depuis la base de données.");
@@ -193,7 +191,7 @@ public class TestDAO implements ICrud<Test>{
 	 * en paramètre, est inscrit.
 	 * 
 	 * @param idCandidate Identifiant du candidat.
-	 * @return Liste des en-têtes de tests pour ce candidat.
+	 * @return Liste des en-têtes de tests à passer pour ce candidat.
 	 * @throws GloriaException 
 	 */
 	public List<Test> selectTestsByCandidateId(int idCandidate) throws GloriaException {
@@ -204,10 +202,8 @@ public class TestDAO implements ICrud<Test>{
 			rqt.setInt(1, idCandidate);
 			ResultSet rs = rqt.executeQuery();
 			
-			while(rs.next()){
-				
-				result.add(itemBuilder(rs));
-				
+			while(rs.next()){				
+				result.add(itemBuilder(rs));			
 			}
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#selectTestsByCandidateId : "+e.getMessage());
@@ -215,6 +211,35 @@ public class TestDAO implements ICrud<Test>{
 		}
 		return result;
 	}
+
+	/**
+	 * Méthode en charge de fournir la liste des tests complétés et leurs resultats
+	 * pour un candidat dont l'identifiant est fourni en paramètre
+	 * @param id
+	 * @return Liste des tests complétés pour ce candidat
+	 * @throws GloriaException 
+	 */
+	public List<Test> selectResultTestsByCandidateId(int idCandidate) throws GloriaException {
+		List<Test> result = new ArrayList<Test>();
+		try(Connection cnx = AccessBase.getConnection()){
+			PreparedStatement rqt = cnx.prepareStatement(LIST_RESULT_TESTS_CANDIDATE);
+			rqt.setInt(1, idCandidate);
+			ResultSet rs = rqt.executeQuery();
+			
+			while(rs.next()){			
+				Test test = new Test();	
+				test.setId(rs.getInt("id"));
+				test.setTitle(rs.getString("libelle"));
+				test.setResult(rs.getInt("resultatCandidat"));
+				result.add(test);
+			}
+		} catch (SQLException e) {
+			logger.severe(this.getClass().getName()+"#selectResultTestsByCandidateId : "+e.getMessage());
+			throw new GloriaException("Erreur lors de la récupération de tous les tests passés par le candidat dans la base de données.");
+		}
+		return result;
+	}
+
 
 	/**
 	 * Méthode en charge de calculer le total attendu pour un test donné
@@ -240,6 +265,4 @@ public class TestDAO implements ICrud<Test>{
 		}
 		return result;	
 	}
-
-
 }

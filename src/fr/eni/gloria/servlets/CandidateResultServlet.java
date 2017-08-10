@@ -58,9 +58,9 @@ public class CandidateResultServlet extends HttpServlet {
 		
 		// 1. Calcul du total attendu pour le test courant:
 		int totalTest = calculateTotalTest(request, candidate, test);
-
 		// 2. Calcul du résultat obtenu par le candidat pour le test courant:
 		int totalCandidat = calculateTotalCandidate(request, session, candidate, test);
+		System.out.println(totalTest + " points attendus, " + totalCandidat + " points obtenus");
 		
 		// 3. Calcul du pourcentage de réussite:
 		int score = (int)(totalCandidat*100/totalTest);
@@ -111,59 +111,50 @@ public class CandidateResultServlet extends HttpServlet {
 	 */
 	private int calculateTotalCandidate(HttpServletRequest request,	HttpSession session, Candidate candidate, Test test) {
 		int totalCandidat = 0;
-		int totalSectionCandidat = 0;
+		List<Integer> rightQuestionsBySection = new ArrayList<Integer>();
 		List<Integer> scoresBySection = new ArrayList<Integer>();
 		
 			// 2.1. Parcours des sections
-			for (Section section : test.getSections()) {			
-				//2.1.2. Calcul du résultat obtenu pour cette section.
-				totalSectionCandidat = calculateTotalSectionCandidate(request, session, candidate, test, section);
-					
+			for (Section section : test.getSections()) {	
+				int totalSectionCandidat = 0;
+				int compteurRightQuestion = 0;
+				// 2.1.1. Parcours des questions
+				for (Question question : section.getQuestions()) {
+					boolean isRight = false;
+					// 2.1.1.1. Vérification de la véracité de la réponse
+					try {						
+						isRight = verifyGoodAnswer(test, candidate, section, question); 
+					} catch (GloriaException e) {
+						request.setAttribute("error", e.getMessage());
+					}
+					// 2.1.1.2. Si la réponse est bonne: 
+					// on ajoute au résultat total de la section le poids de la question
+					// on incremente de 1 le compteur de bonnes reponses, 
+					// on ajoute ce compteur à la liste de bonnes réponses par section
+					if(isRight){
+						totalSectionCandidat += question.getWeight();
+						compteurRightQuestion++;
+					}						
+				}
+				rightQuestionsBySection.add(compteurRightQuestion);
+				System.out.println(compteurRightQuestion + " bonnes réponses dans cette section");
+				System.out.println("total par section pour le candidat " +totalSectionCandidat);
+	
 				//2.1.3. Calcul du résultat attendu pour cette section.
 				int totalSection = calculateTotalSection(request, candidate, test, section);
+				System.out.println("total par section pour le test " +totalSection);
 				
 				//2.1.4. Calcul du score obtenu pour cette section.
 				int scoreSection = (int)(totalSectionCandidat*100/totalSection);
 				scoresBySection.add(scoreSection);
+				System.out.println("score par section pour le test " +scoreSection);
 				
 				//2.1.5. Ajout du resultat section au résultat total
 				totalCandidat += totalSectionCandidat; 
 			}
+		session.setAttribute("totalSection", rightQuestionsBySection);
 		session.setAttribute("scoreSection", scoresBySection);
 		return totalCandidat;
-	}
-
-	/**
-	 * Méthode en charge de calculer le total de points obtenus pour une section par un candidat 
-	 * @param request
-	 * @param candidate
-	 * @param test
-	 * @param section
-	 * @return totalSection
-	 */
-	private int calculateTotalSectionCandidate(HttpServletRequest request, HttpSession session, Candidate candidate, Test test, Section section) {
-		int totalSectionCandidat = 0;
-		int compteurRightQuestion = 0;
-		List<Integer> rightQuestionsBySection = new ArrayList<Integer>();
-
-		// 2.1.1. Parcours des questions
-		for (Question question : section.getQuestions()) {
-			boolean isRight = false;
-			// 2.1.1.1. Vérification de la véracité de la réponse
-			try {						
-				isRight = verifyGoodAnswer(test, candidate, section, question); 
-			} catch (GloriaException e) {
-				request.setAttribute("error", e.getMessage());
-			}
-			// 2.1.1.2. Si la réponse est bonne, on ajoute au résultat total de la section le poids de la question
-			if(isRight){
-				totalSectionCandidat += question.getWeight();
-				compteurRightQuestion++;
-				rightQuestionsBySection.add(compteurRightQuestion);
-			}						
-		}
-		session.setAttribute("totalSection", rightQuestionsBySection);
-		return totalSectionCandidat;
 	}
 
 	/**

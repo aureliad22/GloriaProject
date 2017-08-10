@@ -26,6 +26,7 @@ public class Test implements Serializable{
 	private int duration ;
 	private Teacher creator ;
 	private List<Section> sections ;
+	private int result;
 	/**
 	 * Constructeur.
 	 */
@@ -146,6 +147,21 @@ public class Test implements Serializable{
 				.append(creator).append(", sections=").append(sections)
 				.append("]");
 		return builder.toString();
+	}
+	
+	/**
+	 * Getter pour result.
+	 * @return the result
+	 */
+	public int getResult() {
+		return result;
+	}
+	/**
+	 * Setter pour result.
+	 * @param result the result to set
+	 */
+	public void setResult(int result) {
+		this.result = result;
 	}
 
 }

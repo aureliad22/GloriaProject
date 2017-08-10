@@ -5,7 +5,7 @@
 <h1>Résultats des tests : </h1>
 <c:forEach items="${resultats}" var="ligneResultat">
     <div class="ligne_resultat">
-        ${ligneResultat}
+        ${ligneResultat.libelle}
     </div>
 </c:forEach>
 

@@ -262,3 +262,51 @@ a{
   font-size: 12px;
 
 }
+
+///////////////////////////////////////////////////////////
+div.stats ul { 
+	width: 400px;
+	list-style: none; 
+}
+
+div.stats .percent {
+    /* on passe l'élément span correspondant à la classe .percent
+    en affichage en bloc pour pouvoir lui donner une dimension.
+    Diverses autres choses sont modifiées ensuite à votre convenance. */
+    display: block;  /* on affiche le span sous forme de bloc pour lui affecter des dimensions */
+    height: 1.5em;
+    line-height: 1.5em;
+    margin: 5px 10px;
+    padding: 0 5px;
+    text-align: right;
+    color: #fff;
+    font-weight: bold;
+    font-family: monospace; 
+    -moz-border-radius: 5px;  /* un petit arrondi pour les navigateurs le supportant */
+    border-bottom: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+    cursor: default;
+}
+
+/* Commun à tous les styles */
+.v100 { width: 100%; }
+.v90 { width: 90%; }
+.v80 { width: 80%; }
+.v70 { width: 70%; }
+.v60 { width: 60%; }
+.v50 { width: 50%; }
+.v40 { width: 40%; }
+.v30 { width: 30%; }
+.v20 { width: 20%; }
+.v10 { width: 10%; }
+
+/* Image dégradée */
+.gradiant_pic li { width: 300px; padding: 0; }
+.gradiant_pic li .percent {
+    height: 20px;
+    line-height: 20px;
+    padding: 0;
+    color: #000;
+    background: #fff url(img/gradiant.png) repeat-y 0 0;
+    -moz-border-radius: 0;
+}
