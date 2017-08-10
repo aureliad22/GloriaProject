@@ -57,6 +57,7 @@ public class CandidateLoginServlet extends HttpServlet {
 		if ( user != null) {
 
 			session.setAttribute("user", user);
+			session.setAttribute("profileType", "candidate");
 			request.getRequestDispatcher("/Candidate").forward(request, response);
 		}else{
 			request.setAttribute("error", "Login et/ou mot de passe incorrect(s)");
