@@ -23,6 +23,7 @@ public class Answer implements Serializable{
 	private int position ;
 	private String answer ;
 	private boolean correct ;
+	private boolean given ;
 	/**
 	 * Constructeur.
 	 */
@@ -84,6 +85,20 @@ public class Answer implements Serializable{
 	 */
 	public void setCorrect(boolean correct) {
 		this.correct = correct;
+	}
+	/**
+	 * Getter pour given.
+	 * @return the given
+	 */
+	public boolean isGiven() {
+		return given;
+	}
+	/**
+	 * Setter pour given.
+	 * @param given the given to set
+	 */
+	public void setGiven(boolean given) {
+		this.given = given;
 	}
 	/**
 	 * {@inheritDoc}

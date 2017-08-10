@@ -195,6 +195,7 @@
     <url-pattern>/Candidate/TestSummary</url-pattern>
   </servlet-mapping>
   <servlet>
+
     <description></description>
     <display-name>CandidateInscriptionServlet</display-name>
     <servlet-name>CandidateInscriptionServlet</servlet-name>
@@ -203,5 +204,17 @@
   <servlet-mapping>
     <servlet-name>CandidateInscriptionServlet</servlet-name>
     <url-pattern>/Teacher/CandidateInscription</url-pattern>
+  </servlet-mapping>
+
+<servlet>
+    <description>Servlet en charge de nettoyer la session à la fin d'un test puis de rediriger vers l'accueil de la section Candidate</description>
+    <display-name>CandidateEndTestServlet</display-name>
+    <servlet-name>CandidateEndTestServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.CandidateEndTestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CandidateEndTestServlet</servlet-name>
+    <url-pattern>/Candidate/EndTest</url-pattern>
+
   </servlet-mapping>
 </web-app>

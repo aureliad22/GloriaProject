@@ -10,6 +10,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import fr.eni.gloria.beans.Promotion;
+import fr.eni.gloria.dao.daoPourTests.CopyPromotionDAO;
 import fr.eni.gloria.utils.GloriaException;
 
 /**

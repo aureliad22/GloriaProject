@@ -37,11 +37,11 @@ public class ResultService {
 	 * @param tabReponses Tableau des réponses cochées pour la question en cours
 	 * @throws GloriaException 
 	 */
-	public static void writeAnswer(int idCandidate, int idTest, int idSection,	int idQuestion, int[] tabReponses) throws GloriaException {
-		new ResultDAO().cleanGivenAnswers(idCandidate, idTest, idSection, idQuestion);
+	public static void writeAnswer(Candidate candidate, Test test, Section section,	Question question, int[] tabReponses) throws GloriaException {
+		new ResultDAO().cleanGivenAnswers(candidate.getId(), test.getId(), section.getId(), question.getId());
 		
 		for (int i = 0; i < tabReponses.length; i++) {
-			new ResultDAO().addGivenAnswer(idCandidate, idTest, idSection, idQuestion, tabReponses[i]);
+			new ResultDAO().addGivenAnswer(candidate.getId(), test.getId(), section.getId(), question.getId(), tabReponses[i]);
 		}
 	}
 

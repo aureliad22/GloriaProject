@@ -466,7 +466,9 @@ BEGIN
             FROM
                 inscriptions
             WHERE
-                idStagiaire = @idStagiaire)
+                idStagiaire = @idStagiaire
+            AND
+                resultatCandidat IS NULL)   
 END
 
 -- =============================================

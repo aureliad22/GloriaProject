@@ -19,8 +19,29 @@ header{
 	min-height: 50px;
 }
 
+.marquage{
+	color : #ffa632;
+}
+
+.section-recap{
+	margin-top : 50px;
+}
+
+.sans-reponse{
+	color :#ff0000;
+}
+
+.tab-recap{
+    border : 1px solid teal;	
+}
+
+.btn-validation{
+	margin : 30px;
+	float : right;
+}
+
 .btn-recap-test{
-    float : right;	
+    
 }
 
 .bloc-error{
@@ -56,7 +77,8 @@ header{
 
 
 footer{
-	   display: inline-block;
+	margin-top : 40px;
+	display: inline-block;
     width : 100% ; 
     background-color: teal ;
     min-height: 50px ;
@@ -97,7 +119,7 @@ input.action-test{
 	display: block;
 }
 
-.marque{
+div.marque{
 	margin-bottom : 10px ;
 }
 
@@ -239,4 +261,59 @@ a{
 .login-help{
   font-size: 12px;
 
+}
+
+///////////////////////////////////////////////////////////
+div.stats { 
+	font-weight: bold;
+	display: flex;
+	flex-flow:row wrap;
+	justify-content: center;
+	align-items: center;
+}
+
+.liste-sections{
+	margin-left : 30px ; 
+	padding : 2px ;
+	font-weight:bold; 
+}
+
+.percent {
+    display: inline-block;
+    height: 1.5em;
+    line-height: 1.5em;
+    margin: 5px 10px;
+    margin-bottom : -5px;
+    padding: 0 5px;
+    text-align: right;
+    color: #fff;
+    font-weight: bold;
+    font-family: monospace; 
+    -moz-border-radius: 5px;
+    border-bottom: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+    cursor: default;
+}
+
+/* Commun à tous les styles */
+.v100 { width: 100%; }
+.v90 { width: 90%; }
+.v80 { width: 80%; }
+.v70 { width: 70%; }
+.v60 { width: 60%; }
+.v50 { width: 50%; }
+.v40 { width: 40%; }
+.v30 { width: 30%; }
+.v20 { width: 20%; }
+.v10 { width: 10%; }
+
+/* Image dégradée */
+.gradiant_pic div { width: 300px; padding: 0; }
+.gradiant_pic div .percent {
+    height: 20px;
+    line-height: 20px;
+    padding: 0;
+    color: #000;
+    background: #fff url(img/gradiant.png) repeat-y 0 0;
+    -moz-border-radius: 0;
 }

@@ -43,9 +43,7 @@ public class QuestionDAO implements ICrud<Question>{
 			rqt.registerOutParameter(1, Types.INTEGER);
 			rqt.setString(2, data.getQuestion());
 			rqt.setString(3, data.getImageURI());
-
 			rqt.setInt(4, data.getWeight());
-			// TODO gestion liste de reponses et des nullables
 			result = rqt.executeUpdate()==1;
 			data.setId(rqt.getInt(1));
 		} catch (SQLException e) {
@@ -71,7 +69,6 @@ public class QuestionDAO implements ICrud<Question>{
 			rqt.setString(3, data.getImageURI());
 			rqt.setInt(4, data.getWeight());
 
-			// TODO gestion liste de reponses et des nullables
 			result = rqt.executeUpdate()==1;
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#update : "+e.getMessage());
@@ -122,8 +119,7 @@ public class QuestionDAO implements ICrud<Question>{
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#findById : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la recherche de la question dans la base de données.");
-		}
-			
+		}			
 		return result;
 	}
 
@@ -169,8 +165,7 @@ public class QuestionDAO implements ICrud<Question>{
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#itemBuilder : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la construction de la question depuis la base de données.");
-		}
-		
+		}		
 		return result;
 	}
 
@@ -200,8 +195,7 @@ public class QuestionDAO implements ICrud<Question>{
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#getSelectedQuestions : "+e.getMessage());
 			throw new GloriaException("Erreur lors de la récupération de la liste de questions pour le candidat depuis la base de données.");
-		}
-		
+		}		
 		return result;
 	}
 
@@ -214,13 +208,14 @@ public class QuestionDAO implements ICrud<Question>{
 	 * @param idQuestion Identifiant de la section.
 	 * @throws GloriaException
 	 */
-	public void markQuestion(int idStagiaire, int idTest, int idSection, int idQuestion) throws GloriaException{
+	public void markQuestion(int idStagiaire, int idTest, int idSection, int idQuestion, boolean value) throws GloriaException{
 		try(Connection cnx = AccessBase.getConnection()){
-			CallableStatement rqt = cnx.prepareCall("{CALL MARK_QUESTION(?,?,?,?)}");
+			CallableStatement rqt = cnx.prepareCall("{CALL MARK_QUESTION(?,?,?,?,?)}");
 			rqt.setInt(1, idStagiaire);
 			rqt.setInt(2, idTest);
 			rqt.setInt(3, idSection);
 			rqt.setInt(4, idQuestion);
+			rqt.setBoolean(5, value);
 			rqt.executeUpdate();
 		} catch (SQLException e) {
 			logger.severe(this.getClass().getName()+"#getSelectedQuestions : "+e.getMessage());

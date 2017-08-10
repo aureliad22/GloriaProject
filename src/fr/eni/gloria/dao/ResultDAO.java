@@ -47,7 +47,7 @@ public class ResultDAO {
 	}
 
 	/**
-	 * Méthode en charge de faire l'insertion d'un réponse donnée à un test.
+	 * Méthode en charge de faire l'insertion d'une réponse donnée à un test.
 	 * 
 	 * @param idStagiaire Identifiant du stagiaire passant le test
 	 * @param idTest Identifiant du test passé. 

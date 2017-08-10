@@ -2,13 +2,17 @@ package fr.eni.gloria.servlets;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.gloria.beans.Answer;
 import fr.eni.gloria.beans.Candidate;
+import fr.eni.gloria.beans.Question;
+import fr.eni.gloria.beans.Section;
 import fr.eni.gloria.beans.Test;
 import fr.eni.gloria.services.QuestionService;
 import fr.eni.gloria.services.ResultService;
@@ -41,39 +45,72 @@ public class CandidateSaveAnswerServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Récupération des paramètres : 
 		HttpSession session = request.getSession();
+		RequestDispatcher rd = null ;
 		Test test = (Test)session.getAttribute("requestedTest");
-		int idTest = test.getId();
-		int idStagiaire = ((Candidate)session.getAttribute("user")).getId();
-		int idSection = test.getSections().get((int)session.getAttribute("currentSectionIndex")).getId();
-		int idQuestion = Integer.parseInt(request.getParameter("idQuestion"));
+		Candidate stagiaire = ((Candidate)session.getAttribute("user"));
+		Section section = test.getSections().get((int)session.getAttribute("currentSectionIndex"));
+		Question question= section.getQuestions().get((int) session.getAttribute("currentQuestionIndex"));
+		//Récupére les réponses données pour faire un setGiven(true)
+	
+		
 		String[] reponses = request.getParameterValues("answer");
 		String isMarked = request.getParameter("marquer");
+		
+		
+		int[] tabIdReponsesDonnees = null;
 		if (reponses != null) {
-			int[] tabReponses = new int[reponses.length];
+			question.setHasGivenAnswers(true);
+			tabIdReponsesDonnees = new int[reponses.length];
 			for (int i = 0; i < reponses.length; i++) {
-				tabReponses[i] = Integer.parseInt(reponses[i]);
+				tabIdReponsesDonnees[i] = Integer.parseInt(reponses[i]);
 			}
-			
-			//Suppression de la réponse donnée à cette question (cas de changement de réponse)
-			try {
-				ResultService.writeAnswer(idStagiaire, idTest, idSection, idQuestion, tabReponses);
-			} catch (GloriaException e) {
-				request.setAttribute("error", e.getMessage());
+		}else{
+			question.setHasGivenAnswers(false);
+			tabIdReponsesDonnees = new int[0];
+			for (Answer a : question.getAnswers()){
+				a.setGiven(false);
 			}
 		}
 		
+		//iInitialise le paramètre Given de la réponse
+		for (Answer answer : question.getAnswers()) {
+			for (int answerId : tabIdReponsesDonnees) {
+				if (answer.getId()==answerId) {
+					answer.setGiven(true);
+				}
+			}
+			
+		}
+		
+		try {
+			ResultService.writeAnswer(stagiaire, test, section, question, tabIdReponsesDonnees);
+		} catch (GloriaException e) {
+			request.setAttribute("error", e.getMessage());
+		}
+		
+		//Gestion du marque de la question
 		if (isMarked != null) {
 			System.out.println("Question marquée");
 			test.getSections().get((int)session.getAttribute("currentSectionIndex")).getQuestions().get((int) session.getAttribute("currentQuestionIndex")).setMarked(true);
-			try {
-				System.out.println("Ecriture du marquage dans la bdd");
-				QuestionService.markQuestion(idStagiaire, idTest, idSection, idQuestion);
-			} catch (GloriaException e) {
-				request.setAttribute("error", e.getMessage());
-			}
+		}else{
+			test.getSections().get((int)session.getAttribute("currentSectionIndex")).getQuestions().get((int) session.getAttribute("currentQuestionIndex")).setMarked(false);
 		}
 		
-		request.getRequestDispatcher("/Candidate/RunTest").forward(request, response);
+		try {
+			System.out.println("Ecriture du marquage dans la bdd");
+			QuestionService.markQuestion(stagiaire, test, section, question);
+		} catch (GloriaException e) {
+			request.setAttribute("error", e.getMessage());
+			e.printStackTrace();
+		}
+		
+		//Routage en fonction du bouton cliqué
+		if (request.getParameter("nextQuestion") != null) {
+			rd = request.getRequestDispatcher("/Candidate/RunTest");
+		}else{
+			rd = request.getRequestDispatcher("/Candidate/TestSummary");
+		}
+		rd.forward(request, response);
 	}
 
 }

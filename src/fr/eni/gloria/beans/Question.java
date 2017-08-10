@@ -25,6 +25,7 @@ public class Question implements Serializable{
 	private int weight ;
 	private List<Answer> answers ;
 	private boolean marked ;
+	private boolean hasGivenAnswers;
 	/**
 	 * Constructeur.
 	 */
@@ -114,6 +115,20 @@ public class Question implements Serializable{
 	 */
 	public void setMarked(boolean marked) {
 		this.marked = marked;
+	}
+	/**
+	 * Getter pour hasGivenAnswers.
+	 * @return the hasGivenAnswers
+	 */
+	public boolean isHasGivenAnswers() {
+		return hasGivenAnswers;
+	}
+	/**
+	 * Setter pour hasGivenAnswers.
+	 * @param hasGivenAnswers the hasGivenAnswers to set
+	 */
+	public void setHasGivenAnswers(boolean hasGivenAnswers) {
+		this.hasGivenAnswers = hasGivenAnswers;
 	}
 	/**
 	 * {@inheritDoc}
