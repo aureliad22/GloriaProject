@@ -2,6 +2,8 @@
 package fr.eni.gloria.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,8 +18,11 @@ import fr.eni.gloria.beans.Answer;
 import fr.eni.gloria.beans.Promotion;
 import fr.eni.gloria.beans.Question;
 import fr.eni.gloria.beans.Theme;
+import fr.eni.gloria.beans.ThemeQuestion;
+import fr.eni.gloria.services.AnswerService;
 import fr.eni.gloria.services.PromotionService;
 import fr.eni.gloria.services.QuestionService;
+import fr.eni.gloria.services.ThemeQuestionService;
 import fr.eni.gloria.services.ThemeService;
 import fr.eni.gloria.utils.GloriaException;
 
@@ -27,6 +32,8 @@ import fr.eni.gloria.utils.GloriaException;
 public class QuestionGestion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	QuestionService qService = new QuestionService();
+	ThemeQuestionService tqs = new ThemeQuestionService();
+	AnswerService rService = new AnswerService();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -74,40 +81,68 @@ public class QuestionGestion extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		listThemes(request, response);
-		
-		System.out.println("je suis dans le post de Question Gestion");
-		
-		Question question = new Question();
-		Theme themeLink = new Theme();
+				
+		Question question = new Question();		
+		ThemeQuestion tq = new ThemeQuestion();
 		
 		//HttpSession session = request.getSession();
-			
+		
+		// Enumeration pour tester la récupération des paramètres de la jsp !!!!!
+		
+		Enumeration<String> chaines = request.getParameterNames();
+		while(chaines.hasMoreElements()) {
+			String paramName = chaines.nextElement();
+			System.out.print("PAram: " + paramName + " : ");
+			String[] values = request.getParameterValues(paramName);
+			for(String val : values) {
+				System.out.print(val + " , ");
+			}
+			System.out.println("");
+		}
+		
 		String enonce = request.getParameter("enonce");
-		int poids = Integer.parseInt(request.getParameter("poids"));		
-		String theme = request.getParameter("theme");
-		String reponses = request.getParameter("reponses");
-		System.out.println(reponses);
-		
-		/*for (Answer element : ) {
+		int poids = Integer.parseInt(request.getParameter("poids"));	
+		question.setQuestion(enonce);
+		question.setWeight(poids);
 			
-		}*/
-		//List<Answer> reponses = request.getParameter("reponsesObligatoires");
-		int nombreReponse = Integer.parseInt(request.getParameter("compteurReponse"));	
+		int idTheme = Integer.parseInt(request.getParameter("theme"));
 		
+		
+		List<Answer> ListeRep = new ArrayList<Answer>();
+		List<String> enonceReponses = null ;
+		boolean[] checkbox = null;		
+		String[] Reps = request.getParameterValues("textReponse");
+		if(Reps != null) {
+			for(int i = 0 ; i < Reps.length ; i++) {				
+				Answer rep = new Answer();
+				boolean isCorrecte = request.getParameterValues("correct_" + i) !=null;
+				rep.setAnswer(Reps[i]);
+				rep.setCorrect(isCorrecte);					
+				ListeRep.add(rep);
+				question.setAnswers(ListeRep);				
+			}
+		}
+		try {
+			qService.add(question);
+			
+			int idQuestion = question.getId();
+			tq.setIdQuestion(idQuestion);
+			tq.setIdTheme(idTheme);
+			
+				tqs.add(tq);
+			
+		} catch (GloriaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//List<Answer> reponses = request.getParameter("reponsesObligatoires");
+		//int nombreReponse = Integer.parseInt(request.getParameter("compteurReponse"));
 		//List<Answer> reponses = (List<Answer>)session.getAttribute("reponsesObligatoires");
 		/*String theme = request.getParameter("ReponseAdd");
 		String theme = request.getParameter("checkBoxAdd");
 		String theme = request.getParameter("theme");
 		
-		question.setQuestion(enonce);
-		question.setWeight(poids);
-		themeLink.setLibelle(theme);
-		
-		
-		qService.add(question);*/
-		System.out.println(nombreReponse);
-		
-		
+		*/
 		request.getRequestDispatcher("/WEB-INF/jsp/candidate/question.jsp").forward(request, response);
 		
 		

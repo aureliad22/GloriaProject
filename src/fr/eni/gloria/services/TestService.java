@@ -6,6 +6,7 @@
  */
 package fr.eni.gloria.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.gloria.beans.Candidate;
@@ -59,8 +60,10 @@ public class TestService implements IService<Test> {
 	 */
 	@Override
 	public List<Test> getAll() throws GloriaException {
-		// TODO Auto-generated method stub
-		return null;
+		TestDAO dao = new TestDAO();
+		List<Test> liste = new ArrayList<Test>();
+		liste = dao.selectAll();
+		return liste;
 	}
 
 	/**
@@ -83,6 +86,14 @@ public class TestService implements IService<Test> {
 	 */
 	public List<Test> getTestHeads(int idCandidate) throws GloriaException{
 		return new TestDAO().selectTestsByCandidateId(idCandidate);
+	}
+	
+	public List<Test> getTestByIdCandidate(int id) throws GloriaException {
+		TestDAO dao = new TestDAO();
+		List<Test> test = new ArrayList<Test>();
+		
+		test=dao.selectTestsByCandidateId(id);
+		return test;
 	}
 	
 

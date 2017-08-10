@@ -194,4 +194,14 @@
     <servlet-name>CandidateTestSummaryServlet</servlet-name>
     <url-pattern>/Candidate/TestSummary</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CandidateInscriptionServlet</display-name>
+    <servlet-name>CandidateInscriptionServlet</servlet-name>
+    <servlet-class>fr.eni.gloria.servlets.CandidateInscriptionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CandidateInscriptionServlet</servlet-name>
+    <url-pattern>/Teacher/CandidateInscription</url-pattern>
+  </servlet-mapping>
 </web-app>

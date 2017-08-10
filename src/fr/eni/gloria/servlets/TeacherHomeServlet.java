@@ -56,6 +56,7 @@ public class TeacherHomeServlet extends HttpServlet {
 				
 				if (t !=null) {
 					session.setAttribute("user", t);
+					session.setAttribute("profileType", "teacher");
 					request.getRequestDispatcher("/WEB-INF/jsp/teacher/home.jsp").forward(request, response);
 					System.out.println("je suis à la servlet");
 				}else {
