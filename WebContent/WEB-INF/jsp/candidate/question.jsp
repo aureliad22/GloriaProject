@@ -15,8 +15,8 @@
 			  <p>Veuillez rentrer le texte de la questions:</p>
 			  
 			    <textarea class="form-control"  id="enonce" name="enonce"></textarea></br>
-			    <p>Veuillez rentrer le poids de la question :</p>
-			    <input type="number" name="poids" id="poids" value="1" /></br>	
+			    <p>Veuillez rentrer le poids de la question : (valeurs entre 1 et 5)</p>
+			    <input type="number" name="poids" id="poids" value="1"  min="1" max="5"/></br>	
 			    
 			    <p>Veuillez choisir un thème de la question :</p>
 			    

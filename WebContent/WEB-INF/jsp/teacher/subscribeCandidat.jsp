@@ -43,7 +43,8 @@
 			                var test = document.createElement("option")
 			                //test.id=idtestChoisi.value
 			                test.text=idtestChoisi.options[idtestChoisi.selectedIndex].text;
-				        	for ( var element in document.getElementsByTagName("optionCoisie")) {
+			                container.add(test);
+				        	/*for ( var element in document.getElementsByTagName("optionCoisie")) {
 				        		if (element == test)  {
 				        				container.add(test);
 									
@@ -52,7 +53,7 @@
 								}
 				        		console.log(element);
 				        	 
-							}
+							}*/
 				            
 				                
 				               //var listTestAvider = document.getElementsByName("testliste");	
