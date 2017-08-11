@@ -9,10 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import fr.eni.gloria.beans.Candidate;
 import fr.eni.gloria.beans.Teacher;
 import fr.eni.gloria.services.TeacherService;
-import fr.eni.gloria.utils.GloriaException;
 import fr.eni.gloria.utils.GloriaLogger;
 
 /**

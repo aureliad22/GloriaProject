@@ -11,17 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.jasper.tagplugins.jstl.core.ForEach;
 
 import fr.eni.gloria.beans.Answer;
-import fr.eni.gloria.beans.Promotion;
 import fr.eni.gloria.beans.Question;
 import fr.eni.gloria.beans.Theme;
 import fr.eni.gloria.beans.ThemeQuestion;
 import fr.eni.gloria.services.AnswerService;
-import fr.eni.gloria.services.PromotionService;
 import fr.eni.gloria.services.QuestionService;
 import fr.eni.gloria.services.ThemeQuestionService;
 import fr.eni.gloria.services.ThemeService;
@@ -48,11 +43,7 @@ public class QuestionGestion extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//request.getRequestDispatcher("/WEB-INF/jsp/candidate/question.jsp");
-		
-		listThemes(request, response);
-		
+		listThemes(request, response);		
 	}
 
 	/**
@@ -67,13 +58,10 @@ public class QuestionGestion extends HttpServlet {
 		List<Theme> listThemes = null;
 		try {
 			listThemes = new ThemeService().getAll();
-			request.setAttribute("listThemes", listThemes);
-						
-		} catch (GloriaException e) {
-		
+			request.setAttribute("listThemes", listThemes);						
+		} catch (GloriaException e) {		
 			request.setAttribute("error", e.getMessage());
-		}
-		
+		}		
 		request.getRequestDispatcher("/WEB-INF/jsp/candidate/question.jsp").forward(request, response);
 	}
 
@@ -85,11 +73,8 @@ public class QuestionGestion extends HttpServlet {
 				
 		Question question = new Question();		
 		ThemeQuestion tq = new ThemeQuestion();
-		
-		//HttpSession session = request.getSession();
-		
-		// Enumeration pour tester la récupération des paramètres de la jsp !!!!!
-		
+
+		// Enumeration pour tester la récupération des paramètres de la jsp !!!!!		
 		Enumeration<String> chaines = request.getParameterNames();
 		while(chaines.hasMoreElements()) {
 			String paramName = chaines.nextElement();
@@ -133,22 +118,11 @@ public class QuestionGestion extends HttpServlet {
 				tqs.add(tq);
 			
 		} catch (GloriaException e) {
-			// TODO Auto-generated catch block
+			request.setAttribute("error", e.getMessage());			
 			e.printStackTrace();
 		}
-		//List<Answer> reponses = request.getParameter("reponsesObligatoires");
-		//int nombreReponse = Integer.parseInt(request.getParameter("compteurReponse"));
-		//List<Answer> reponses = (List<Answer>)session.getAttribute("reponsesObligatoires");
-		/*String theme = request.getParameter("ReponseAdd");
-		String theme = request.getParameter("checkBoxAdd");
-		String theme = request.getParameter("theme");
-		
-		*/
-		request.getRequestDispatcher("/WEB-INF/jsp/candidate/question.jsp").forward(request, response);
-		
-		
+		request.getRequestDispatcher("/WEB-INF/jsp/candidate/question.jsp").forward(request, response);				
 	}
-
 }
 
 

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fr.eni.gloria.beans.Candidate;
 import fr.eni.gloria.beans.Test;
 import fr.eni.gloria.services.TestService;
 import fr.eni.gloria.utils.GloriaException;
@@ -41,28 +40,20 @@ public class CandidateInscriptionServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {ListeTestsLibelle(request);
-		
-		request.getRequestDispatcher("/WEB-INF/jsp/teacher/subscribeCandidat.jsp").forward(request, response);
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ListeTestsLibelle(request);		
+		request.getRequestDispatcher("/WEB-INF/jsp/teacher/subscribeCandidat.jsp").forward(request, response);		
 	}
-		
-	
-	
-	
-	private void ListeTestsLibelle(HttpServletRequest request) {
-		
+			
+	private void ListeTestsLibelle(HttpServletRequest request) {		
 		TestService ts = new TestService();
 		List<Test> listeTests = new ArrayList<Test>();		
 		 try {
-			listeTests = ts.getAll();
-			
+			listeTests = ts.getAll();			
 		} catch (GloriaException e) {
 			System.out.println("probleme de récupération servlet");
 			e.printStackTrace();
 		}
 		 request.setAttribute("listeTests", listeTests);
 	}
-	
-
 }

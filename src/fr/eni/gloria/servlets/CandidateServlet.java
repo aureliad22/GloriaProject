@@ -12,9 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.jasper.tagplugins.jstl.core.ForEach;
-import org.eclipse.jdt.internal.compiler.ast.ForeachStatement;
-
 import fr.eni.gloria.beans.Candidate;
 import fr.eni.gloria.beans.Test;
 import fr.eni.gloria.dao.PromotionDAO;
@@ -138,28 +135,7 @@ public class CandidateServlet extends HttpServlet {
 					.getRequestDispatcher("/WEB-INF/jsp/teacher/gestionCandidat.jsp");
 			rd.forward(request, response);
 
-		}
-		/*
-		 * } else for (Candidate item : liste) { if (((String)
-		 * item.getFirstName(
-		 * )).toLowerCase().contains(motClePourFiltre.toLowerCase()) ||
-		 * ((String)
-		 * item.getLastName()).toLowerCase().contains(motClePourFiltre.
-		 * toLowerCase()))
-		 * 
-		 * { listeFiltree.add(item);
-		 * 
-		 * }
-		 * 
-		 * 
-		 * } liste=listeFiltree; request.setAttribute("listeCandidats", liste);
-		 * RequestDispatcher rd =
-		 * request.getRequestDispatcher("/WEB-INF/jsp/teacher/gestionCandidat.jsp"
-		 * ); rd.forward(request, response);
-		 * 
-		 * }
-		 */
-		else {
+		} else {
 
 			request.setAttribute("erreur",
 					"Les candidats sont inaccessibles pour le moment");

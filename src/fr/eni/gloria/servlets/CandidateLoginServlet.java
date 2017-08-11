@@ -53,7 +53,6 @@ public class CandidateLoginServlet extends HttpServlet {
 			request.setAttribute("error", e.getMessage());
 			request.getRequestDispatcher("/WEB-INF/jsp/candidate/login.jsp").forward(request, response);;
 		}
-
 		if ( user != null) {
 
 			session.setAttribute("user", user);
