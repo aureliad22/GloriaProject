@@ -55,7 +55,6 @@ public class CandidateRunTestServlet extends HttpServlet {
 			session.setAttribute("currentSectionIndex",currentSectionIndex);
 			session.setAttribute("currentQuestionIndex", currentQuestionIndex);
 			getNextQuestion(session, currentTest, currentQuestionIndex, currentSectionIndex);
-			//rd= request.getRequestDispatcher("/Candidate/TestSummary");
 		}else{
 		
 			if (session.getAttribute("testBegun")==null) { 
@@ -98,9 +97,6 @@ public class CandidateRunTestServlet extends HttpServlet {
 				rd=request.getRequestDispatcher("/Candidate/Result");
 			}
 		}
-		System.out.println("IndexSection  : "+currentSectionIndex  + " | SectionID  : "+currentTest.getSections().get(currentSectionIndex).getId());
-		System.out.println("QuestionIndex : "+currentQuestionIndex + " | QuestionID : "+currentTest.getSections().get(currentSectionIndex).getQuestions().get(currentQuestionIndex).getId());
-		System.out.println("_____________________________________");
 		//Display next question
 		rd.forward(request, response);
 	}

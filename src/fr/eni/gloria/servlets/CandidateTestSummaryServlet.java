@@ -61,25 +61,21 @@ public class CandidateTestSummaryServlet extends HttpServlet {
 				List<Answer> givenAnswers;
 				try {
 					givenAnswers = ResultService.getGivenAnswers(user, currentTest, section, question);
-					System.out.println(givenAnswers);
 					if (givenAnswers.size()==0) {
 						hasGivenAnswers.put(numQuestion, false);
 					}else{
 						hasGivenAnswers.put(numQuestion, true);
 					}
 				} catch (GloriaException e) {
-					// TODO Auto-generated catch block
+					request.setAttribute("error", e.getMessage());
 					e.printStackTrace();
 				}
 				numQuestion++;
-			}
-			
+			}			
 		}
-		System.out.println();
 		session.setAttribute("questionList", questions);
 		session.setAttribute("givenAnswers", hasGivenAnswers);
 		
 		request.getRequestDispatcher("/WEB-INF/jsp/candidate/testSummary.jsp").forward(request, response);
 	}
-
 }

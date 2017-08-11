@@ -33,9 +33,7 @@ public class CandidateInscriptionServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ListeTestsLibelle(request);		
 		request.getRequestDispatcher("/WEB-INF/jsp/teacher/subscribeCandidat.jsp").forward(request, response);
-	}
-
-	
+	}	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

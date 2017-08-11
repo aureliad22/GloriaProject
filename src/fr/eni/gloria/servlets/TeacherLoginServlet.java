@@ -44,7 +44,6 @@ public class TeacherLoginServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		HttpSession session = request.getSession(true);
 		//Appel de la Service pour checker l'identification :
-
 		Teacher user = null;
 		user = new TeacherService().authenticate(login, password);
 
@@ -58,5 +57,4 @@ public class TeacherLoginServlet extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/jsp/teacher/login.jsp").forward(request, response);
 		}
 	}
-
 }

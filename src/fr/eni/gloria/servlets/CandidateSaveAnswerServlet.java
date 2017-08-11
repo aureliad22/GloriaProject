@@ -51,8 +51,6 @@ public class CandidateSaveAnswerServlet extends HttpServlet {
 		Section section = test.getSections().get((int)session.getAttribute("currentSectionIndex"));
 		Question question= section.getQuestions().get((int) session.getAttribute("currentQuestionIndex"));
 		//Récupére les réponses données pour faire un setGiven(true)
-	
-		
 		String[] reponses = request.getParameterValues("answer");
 		String isMarked = request.getParameter("marquer");
 		
@@ -72,14 +70,13 @@ public class CandidateSaveAnswerServlet extends HttpServlet {
 			}
 		}
 		
-		//iInitialise le paramètre Given de la réponse
+		//Initialise le paramètre Given de la réponse
 		for (Answer answer : question.getAnswers()) {
 			for (int answerId : tabIdReponsesDonnees) {
 				if (answer.getId()==answerId) {
 					answer.setGiven(true);
 				}
-			}
-			
+			}	
 		}
 		
 		try {
@@ -97,7 +94,6 @@ public class CandidateSaveAnswerServlet extends HttpServlet {
 		}
 		
 		try {
-			System.out.println("Ecriture du marquage dans la bdd");
 			QuestionService.markQuestion(stagiaire, test, section, question);
 		} catch (GloriaException e) {
 			request.setAttribute("error", e.getMessage());
@@ -112,5 +108,4 @@ public class CandidateSaveAnswerServlet extends HttpServlet {
 		}
 		rd.forward(request, response);
 	}
-
 }

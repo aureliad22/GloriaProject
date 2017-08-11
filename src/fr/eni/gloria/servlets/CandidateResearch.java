@@ -43,8 +43,6 @@ public class CandidateResearch extends HttpServlet {
 		}
 	}
 
-	
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -63,25 +61,19 @@ public class CandidateResearch extends HttpServlet {
 	 * @param response
 	 * @throws GloriaException 
 	 */
-	private void research(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException,IOException,GloriaException {
-		
+	private void research(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException,GloriaException {		
 		List<Candidate> liste ; 
 		liste = candidateService.getAll();
 
 		if(liste!=null)
 		{
-			System.out.println("Liste ok.");
 			request.setAttribute("listeCandidats", liste);
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/teacher/gestionCandidat.jsp");
 			rd.forward(request, response);
 		}
 		else
 		{
-			System.out.println("Liste !ok.");
 			request.setAttribute("erreur", "Les candidats sont inaccessibles pour le moment");
-
 		}
 	}
-
 }

@@ -46,23 +46,23 @@ public class CandidateResultsServlet extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		Candidate candidate = (Candidate)session.getAttribute("user");
 		session.setAttribute("candidate", candidate);
+		
 		List<Test> resultats = new ArrayList<Test>();
 		List<String> statusTest = new ArrayList<>();
 		try {
 			//Récupérer la liste des tests complétés
 			resultats = new TestService().getResultTests(candidate);
 			for (Test test : resultats) {
-				int totalTest = TestService.getTotal(candidate, test);
 				int totalTestCandidat = test.getResult();
 				String bilan;
 				
-				if((int)(totalTestCandidat*100/totalTest) >= test.getSuccessTreshold()){
+				if(totalTestCandidat >= test.getSuccessTreshold()){
 					bilan = "Acquis";
-				} else if((int)(totalTestCandidat*100/totalTest)>= test.getSemiSuccessTreshold()){
+				} else if(totalTestCandidat>= test.getSemiSuccessTreshold()){
 					bilan = "En cours d'acquisition";
 				} else {
 					bilan = "Non acquis";
-				}	
+				}
 				statusTest.add(bilan);
 			}			
 		} catch (GloriaException e) {

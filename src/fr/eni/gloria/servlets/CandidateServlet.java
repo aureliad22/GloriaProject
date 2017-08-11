@@ -131,15 +131,10 @@ public class CandidateServlet extends HttpServlet {
 			/* if (motClePourFiltre == null) { */
 
 			request.setAttribute("listeCandidats", liste);
-			RequestDispatcher rd = request
-					.getRequestDispatcher("/WEB-INF/jsp/teacher/gestionCandidat.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/teacher/gestionCandidat.jsp");
 			rd.forward(request, response);
-
 		} else {
-
-			request.setAttribute("erreur",
-					"Les candidats sont inaccessibles pour le moment");
-
+			request.setAttribute("erreur", "Les candidats sont inaccessibles pour le moment");
 		}
 	}
 

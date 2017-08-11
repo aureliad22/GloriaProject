@@ -78,12 +78,10 @@ public class QuestionGestion extends HttpServlet {
 		Enumeration<String> chaines = request.getParameterNames();
 		while(chaines.hasMoreElements()) {
 			String paramName = chaines.nextElement();
-			System.out.print("PAram: " + paramName + " : ");
 			String[] values = request.getParameterValues(paramName);
 			for(String val : values) {
 				System.out.print(val + " , ");
 			}
-			System.out.println("");
 		}
 		
 		String enonce = request.getParameter("enonce");
@@ -91,8 +89,7 @@ public class QuestionGestion extends HttpServlet {
 		question.setQuestion(enonce);
 		question.setWeight(poids);
 			
-		int idTheme = Integer.parseInt(request.getParameter("theme"));
-		
+		int idTheme = Integer.parseInt(request.getParameter("theme"));		
 		
 		List<Answer> ListeRep = new ArrayList<Answer>();
 		List<String> enonceReponses = null ;
@@ -109,14 +106,12 @@ public class QuestionGestion extends HttpServlet {
 			}
 		}
 		try {
-			qService.add(question);
-			
+			qService.add(question);			
 			int idQuestion = question.getId();
 			tq.setIdQuestion(idQuestion);
 			tq.setIdTheme(idTheme);
 			
-				tqs.add(tq);
-			
+			tqs.add(tq);			
 		} catch (GloriaException e) {
 			request.setAttribute("error", e.getMessage());			
 			e.printStackTrace();

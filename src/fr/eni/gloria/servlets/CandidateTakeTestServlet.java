@@ -74,10 +74,6 @@ public class CandidateTakeTestServlet extends HttpServlet {
 				result = test;
 			}
 		}
-		return result ;
-		
+		return result ;		
 	}
-
-
-
 }
