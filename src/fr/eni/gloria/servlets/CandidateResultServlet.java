@@ -148,6 +148,10 @@ public class CandidateResultServlet extends HttpServlet {
 				int scoreSection = (int)(totalSectionCandidat*100/totalSection);
 				scoresBySection.add(scoreSection);
 				int gradiant = ((scoreSection/10)+1)*10;
+				if (gradiant > 100) {
+					gradiant = 100;
+				}
+					
 				gradiantsBySection.add(gradiant);
 				
 				//2.1.5. Ajout du resultat section au résultat total

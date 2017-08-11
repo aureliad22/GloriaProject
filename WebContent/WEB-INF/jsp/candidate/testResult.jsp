@@ -19,7 +19,7 @@
                        <div class="stats gradiant_pic">                           
 					        <div class="liste-sections">${totalSection.get(numSection)} bonne(s) réponse(s) sur ${nbQuestionsSection.get(numSection)} questions. </div>
 					        <div class="liste-sections">
-					          <span class="percent v${gradient.get(numSection)}"></span>${scoreSection.get(numSection)}%
+					          <span class="percent v${gradient.get(numSection)}">${scoreSection.get(numSection)}%</span>
 					        </div>						    
 			        </div>
 			    </div>
